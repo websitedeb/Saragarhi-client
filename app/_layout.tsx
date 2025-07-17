@@ -32,6 +32,17 @@ export default function RootLayout() {
                   headerStyle: {backgroundColor: "#374151"},
                   headerShadowVisible: true
               }} />
+              <Stack.Screen name="signup" options={{
+                  headerTitle: "Sign-up",
+                  headerTitleAlign: "center",
+                  headerTintColor: "#ed1c24",
+                  headerTitleStyle: { fontFamily: Fonts.Shrikhand},
+                  headerStyle: {backgroundColor: "#374151"},
+                  headerShadowVisible: true,
+              }} />
+              <Stack.Screen name="+not-found" options={{
+                headerShown: false
+              }} />
         </Stack>
     );
 }
