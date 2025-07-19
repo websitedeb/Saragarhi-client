@@ -19,7 +19,8 @@
       "edgeToEdgeEnabled": true
     },
     "web": {
-      "bundler": "metro"
+      "bundler": "metro",
+      "favicon": "./assets/images/light_icon.png"
     },
     "plugins": [
       "expo-router",
