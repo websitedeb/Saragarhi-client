@@ -1,13 +1,16 @@
 import { Fonts, useFont } from "@/hooks/useFont";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Stack } from "expo-router";
 import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+
 import "../global.css";
 
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
     const {loaded, error} = useFont();
+    const [queryClient] = useState(() => new QueryClient());
     
     useEffect(() => {
         if (loaded || error) {
@@ -20,29 +23,31 @@ export default function RootLayout() {
       }
 
     return (
-        <Stack>
-              <Stack.Screen name="index" options={{
+        <QueryClientProvider client={queryClient}>
+          <Stack>
+                <Stack.Screen name="index" options={{
+                    headerShown: false
+                }} />
+                <Stack.Screen name="signin" options={{
+                    headerTitle: "Login",
+                    headerTitleAlign: "center",
+                    headerTintColor: "#ed1c24",
+                    headerTitleStyle: { fontFamily: Fonts.Shrikhand},
+                    headerStyle: {backgroundColor: "#374151"},
+                    headerShadowVisible: true
+                }} />
+                <Stack.Screen name="signup" options={{
+                    headerTitle: "Sign-up",
+                    headerTitleAlign: "center",
+                    headerTintColor: "#ed1c24",
+                    headerTitleStyle: { fontFamily: Fonts.Shrikhand},
+                    headerStyle: {backgroundColor: "#374151"},
+                    headerShadowVisible: true,
+                }} />
+                <Stack.Screen name="+not-found" options={{
                   headerShown: false
-              }} />
-              <Stack.Screen name="signin" options={{
-                  headerTitle: "Login",
-                  headerTitleAlign: "center",
-                  headerTintColor: "#ed1c24",
-                  headerTitleStyle: { fontFamily: Fonts.Shrikhand},
-                  headerStyle: {backgroundColor: "#374151"},
-                  headerShadowVisible: true
-              }} />
-              <Stack.Screen name="signup" options={{
-                  headerTitle: "Sign-up",
-                  headerTitleAlign: "center",
-                  headerTintColor: "#ed1c24",
-                  headerTitleStyle: { fontFamily: Fonts.Shrikhand},
-                  headerStyle: {backgroundColor: "#374151"},
-                  headerShadowVisible: true,
-              }} />
-              <Stack.Screen name="+not-found" options={{
-                headerShown: false
-              }} />
-        </Stack>
+                }} />
+          </Stack>
+        </QueryClientProvider>
     );
 }
