@@ -1,5 +1,6 @@
 import { Button } from "@/components/Forms/button";
 import { Frame } from "@/components/Forms/frame";
+import { PasswordInput } from "@/components/Forms/password";
 import { Input } from "@rneui/themed";
 import { useMutation } from "@tanstack/react-query";
 import { Link, router } from "expo-router";
@@ -13,19 +14,19 @@ export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const data = {  //fix
+  const data = {
     email: email,
-    Password: password,
+    Password: password
   }
 
   const loginMutation = useMutation({
     mutationFn: async () => {
-      const res = await fetch("https://saragarhi-api-database.sarthak22-ghoshal.workers.dev/", {
+      const res = await fetch("https://saragarhi-api-database-test.sarthak22-ghoshal.workers.dev/getUser", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(data)
       });
 
       if (!res.ok) {
@@ -47,7 +48,7 @@ export default function SignIn() {
       } else if (err.status === 400) {
         setEmailErr("Please fill in all fields");
       } else {
-        setEmailErr(err.message || "An unexpected error occurred");
+        setEmailErr("An unexpected error occurred: " + err.message);
       }
     },
   });
@@ -79,15 +80,12 @@ export default function SignIn() {
           errorStyle={{ color: "red" }}
           errorMessage={emailErr}
           style={{ fontFamily: "Inter", color: "white", fontWeight: "500" }}
+          autoCapitalize={"none"}
+          autoComplete="email"
         />
-        <Input
-          id="pass"
+        <PasswordInput
           value={password}
           onChangeText={setPassword}
-          textContentType="password"
-          placeholder="Password"
-          secureTextEntry
-          errorStyle={{ color: "red" }}
           errorMessage={passErr}
           style={{ fontFamily: "Inter", color: "white", fontWeight: "500" }}
         />
@@ -95,7 +93,7 @@ export default function SignIn() {
           title={loginMutation.isPending ? <ActivityIndicator size="small" color="#b91c1c"/> : "Login"}
           onClick={handleLogin}
         />
-        <Link href="/signup" className="mt-28 text-red-700 underline text-xl">
+        <Link href="/signup" className="mt-40 text-red-700 underline text-xl">
           Don't have an Account?
         </Link>
       </Frame>

@@ -24,12 +24,16 @@ export default function SignIn(){
                     errorStyle={{ color: 'red' }}
                     errorMessage={emailErr}
                     style={{ fontFamily: "Inter", color: "white", fontWeight: "medium" }}
+                    autoCapitalize={"none"}
+                    autoComplete="email"
                 />
                 <Input
                     id="name"
                     textContentType="username"
                     placeholder='Name (Yes, your real one)'
                     style={{ fontFamily: "Inter", color: "white", fontWeight: "medium" }}
+                    autoCapitalize="words"
+                    autoComplete="username"
                 />
                 <Input
                     id="code"
@@ -38,14 +42,8 @@ export default function SignIn(){
                     errorStyle={{ color: 'red' }}
                     errorMessage={codeErr}
                     style={{ fontFamily: "Inter", color: "white", fontWeight: "medium" }}
-                />
-                <Input
-                    id="pass"
-                    textContentType="password"
-                    placeholder='Password'
-                    errorStyle={{ color: 'red' }}
-                    errorMessage={passErr}
-                    style={{ fontFamily: "Inter", color: "white", fontWeight: "medium" }}
+                    autoCapitalize="none"
+                    autoComplete="off"
                 />
                 <Button title={"Sign-up"} onClick={() => {router.navigate("/dashboard")}} className="text-lg"/>
                 <Link href="/signin" className="mt-12 text-red-700 underline text-xl">Already have an Account?</Link>
