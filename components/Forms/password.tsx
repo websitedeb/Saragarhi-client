@@ -1,37 +1,42 @@
 import { InputProps } from "@rneui/base";
 import { Icon, Input } from "@rneui/themed";
-import { useState } from "react";
+import { useShowStore } from "../store";
 
 interface PasswordInputProps extends InputProps {
   value: string;
   onChangeText: (text: string) => void;
   errorMessage?: string;
+  placeholder?: string;
 }
 
 export function PasswordInput({
   value,
   onChangeText,
   errorMessage,
+  placeholder = "Password",
   ...props
 }: PasswordInputProps) {
-  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const { show, setShow } = useShowStore() as {
+    show: boolean;
+    setShow: (show: boolean) => void;
+  };
 
   return (
     <Input
       {...props}
       value={value}
       onChangeText={onChangeText}
-      placeholder="Password"
-      secureTextEntry={!showPassword}
+      placeholder={placeholder}
+      secureTextEntry={!show}
       autoCapitalize="none"
       textContentType="password"
       errorMessage={errorMessage}
       rightIcon={
         <Icon
-          name={showPassword ? "eye-off" : "eye"}
+          name={show ? "eye-off" : "eye"}
           type="feather"
           color="#aaa"
-          onPress={() => setShowPassword((prev) => !prev)}
+          onPress={() => setShow(!show)}
         />
       }
     />

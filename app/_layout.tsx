@@ -24,30 +24,30 @@ export default function RootLayout() {
 
     return (
         <QueryClientProvider client={queryClient}>
-          <Stack>
-                <Stack.Screen name="index" options={{
+            <Stack>
+                  <Stack.Screen name="index" options={{
+                      headerShown: false
+                  }} />
+                  <Stack.Screen name="signin" options={{
+                      headerTitle: "Login",
+                      headerTitleAlign: "center",
+                      headerTintColor: "#ed1c24",
+                      headerTitleStyle: { fontFamily: Fonts.Shrikhand},
+                      headerStyle: {backgroundColor: "#374151"},
+                      headerShadowVisible: true
+                  }} />
+                  <Stack.Screen name="signup" options={{
+                      headerTitle: "Sign-up",
+                      headerTitleAlign: "center",
+                      headerTintColor: "#ed1c24",
+                      headerTitleStyle: { fontFamily: Fonts.Shrikhand},
+                      headerStyle: {backgroundColor: "#374151"},
+                      headerShadowVisible: true,
+                  }} />
+                  <Stack.Screen name="+not-found" options={{
                     headerShown: false
-                }} />
-                <Stack.Screen name="signin" options={{
-                    headerTitle: "Login",
-                    headerTitleAlign: "center",
-                    headerTintColor: "#ed1c24",
-                    headerTitleStyle: { fontFamily: Fonts.Shrikhand},
-                    headerStyle: {backgroundColor: "#374151"},
-                    headerShadowVisible: true
-                }} />
-                <Stack.Screen name="signup" options={{
-                    headerTitle: "Sign-up",
-                    headerTitleAlign: "center",
-                    headerTintColor: "#ed1c24",
-                    headerTitleStyle: { fontFamily: Fonts.Shrikhand},
-                    headerStyle: {backgroundColor: "#374151"},
-                    headerShadowVisible: true,
-                }} />
-                <Stack.Screen name="+not-found" options={{
-                  headerShown: false
-                }} />
-          </Stack>
+                  }} />
+            </Stack>
         </QueryClientProvider>
     );
 }
