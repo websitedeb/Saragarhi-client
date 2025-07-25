@@ -1,10 +1,11 @@
 import { Button } from "@/components/Forms/button";
 import { Frame } from "@/components/Forms/frame";
 import { PasswordInput } from "@/components/Forms/password";
+import { getSession, saveSession } from "@/hooks/session";
 import { Input } from "@rneui/themed";
 import { useMutation } from "@tanstack/react-query";
 import { Link, router } from "expo-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ActivityIndicator, Image, Text, View } from "react-native";
 
 export default function SignIn() {
@@ -16,8 +17,17 @@ export default function SignIn() {
 
   const data = {
     email: email,
-    Password: password
-  }
+    Password: password,
+  };
+
+  useEffect(() => {
+  (async () => {
+      const token = await getSession();
+      if (token) {
+        router.push("/dashboard");
+      }
+    })();
+  }, []);
 
   const loginMutation = useMutation({
     mutationFn: async () => {
@@ -26,7 +36,7 @@ export default function SignIn() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(data)
+        body: JSON.stringify(data),
       });
 
       if (!res.ok) {
@@ -37,8 +47,10 @@ export default function SignIn() {
 
       return res.json();
     },
-    onSuccess: (data) => {
-      router.push("/");
+    onSuccess: async (output) => {
+      await saveSession(JSON.parse(output), 1440);
+      router.push(`/dashboard`);
+      setEmailErr("");
     },
     onError: (err: any) => {
       if (err.status === 404) {
@@ -90,7 +102,7 @@ export default function SignIn() {
           style={{ fontFamily: "Inter", color: "white", fontWeight: "500" }}
         />
         <Button
-          title={loginMutation.isPending ? <ActivityIndicator size="small" color="#b91c1c"/> : "Login"}
+          title={loginMutation.isPending ? <ActivityIndicator size="small" color="#b91c1c" /> : "Login"}
           onClick={handleLogin}
         />
         <Link href="/signup" className="mt-40 text-red-700 underline text-xl">

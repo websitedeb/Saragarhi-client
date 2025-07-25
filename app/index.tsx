@@ -4,6 +4,7 @@ import { router } from "expo-router";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 
 export default function SignIn() {
+
   return (
     <View className="flex-1 bg-gray-900 justify-center items-center">
       <Image 

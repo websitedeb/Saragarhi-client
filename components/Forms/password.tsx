@@ -1,6 +1,6 @@
+import { useShowStore } from "@/hooks/store";
 import { InputProps } from "@rneui/base";
 import { Icon, Input } from "@rneui/themed";
-import { useShowStore } from "../store";
 
 interface PasswordInputProps extends InputProps {
   value: string;
