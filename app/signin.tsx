@@ -48,7 +48,7 @@ export default function SignIn() {
       return res.json();
     },
     onSuccess: async (output) => {
-      await saveSession(JSON.parse(output), 1440);
+      await saveSession(output.data, 1440);
       router.push(`/dashboard`);
       setEmailErr("");
     },
