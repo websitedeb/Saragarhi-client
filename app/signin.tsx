@@ -17,7 +17,7 @@ export default function SignIn() {
 
   const data = {
     email: email,
-    Password: password,
+    Password: password.trim(),
   };
 
   useEffect(() => {

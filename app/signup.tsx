@@ -88,12 +88,17 @@ export default function SignIn() {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!emailRegex.test(email)) {
-      setEmailErr("Please enter a valid email address");
+      setEmailErr("Please enter a valid email address.");
       return;
     }
 
     if (pass !== passCheck) {
-      setPassCheckErr("Passwords do not match");
+      setPassCheckErr("Passwords do not match.");
+      return;
+    }
+
+    if (pass.includes(" ")){
+      setPassErr("Password should not contain any spaces.")
       return;
     }
 

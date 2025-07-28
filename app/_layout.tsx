@@ -49,6 +49,9 @@ export default function RootLayout() {
                   <Stack.Screen name="dashboard" options={{
                       headerShown: false
                   }} />
+                  <Stack.Screen name="planner" options={{
+                      headerShown:false
+                  }} />
             </Stack>
         </QueryClientProvider>
     );
