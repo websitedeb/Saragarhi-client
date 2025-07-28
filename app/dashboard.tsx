@@ -32,7 +32,8 @@ export default function Dashboard() {
         <ScrollView className="flex-1" contentContainerStyle={{ paddingBottom: 20 }}>
             <Text className="text-white text-4xl mt-16 pl-5 mb-16">
               Welcome,{"\n"}
-              <Text className="mainColor" style={{ fontFamily: Fonts.Shrikhand}}>{user?.Name || "User"}</Text>
+              <Text className="mainColor" style={{ fontFamily: Fonts.Shrikhand}}>{user?.Name || "User"}</Text>{"\n"}
+              <Text className="text-lg" style={{ fontFamily:Fonts.Inter }}>What are We Going to Do Today?</Text>
             </Text>
 
             <BentoGrid>
