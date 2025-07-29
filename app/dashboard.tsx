@@ -58,7 +58,7 @@ export default function Dashboard() {
                 </BentoBox>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => {}}>
+              <TouchableOpacity onPress={() => {router.push("/rank")}}>
                 <BentoBox size="small" className="border-purple-400 w-40 h-40 rounded-3xl" style={{ backgroundColor: "rgba(168, 85, 247, 0.3)", borderWidth: 1 }}>
                   <FontAwesome6 name="ranking-star" size={30} color="white" />
                   <Text className="text-white mt-2 text-3xl" style={{ fontFamily:Fonts.Inter }}>Ranks</Text>
