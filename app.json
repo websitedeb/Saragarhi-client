@@ -8,6 +8,9 @@
     "scheme": "proj",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
+    "extras":{
+      "TBA": "Cs7SlKYcjtXTJeGskesduTVc44ensMcSSKBMUNsaydPa6GATv1EGH8tiAzUlaV6x"
+    },
     "ios": {
       "supportsTablet": true
     },
