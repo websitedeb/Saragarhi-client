@@ -44,7 +44,7 @@ export default function Dashboard() {
                 </BentoBox>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => {}}>
+              <TouchableOpacity onPress={() => {router.push("/checklist")}}>
                 <BentoBox size="small" className="border-rose-400 w-40 h-40 rounded-3xl mb-5" style={{ backgroundColor: "rgba(244, 63, 94, 0.3)", borderWidth: 1 }}>
                   <MaterialIcons name="checklist-rtl" size={30} color="white" />
                   <Text className="text-white mt-2 text-3xl" style={{ fontFamily:Fonts.Inter }}>Checklist</Text>

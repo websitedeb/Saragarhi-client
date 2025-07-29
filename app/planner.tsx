@@ -1,23 +1,23 @@
 import { Entypo, FontAwesome6, Ionicons, MaterialIcons } from "@expo/vector-icons";
 import {
-    Canvas,
-    Path,
-    Skia,
-    Image as SkiaImage,
-    useCanvasRef,
-    useImage,
+  Canvas,
+  Path,
+  Skia,
+  Image as SkiaImage,
+  useCanvasRef,
+  useImage,
 } from "@shopify/react-native-skia";
 import * as FileSystem from "expo-file-system";
 import * as MediaLibrary from "expo-media-library";
 import { useRouter } from "expo-router";
 import React, { useMemo, useState } from "react";
 import {
-    Alert,
-    Dimensions,
-    PanResponder,
-    StyleSheet,
-    TouchableOpacity,
-    View,
+  Alert,
+  Dimensions,
+  PanResponder,
+  StyleSheet,
+  TouchableOpacity,
+  View,
 } from "react-native";
 
 const { width, height } = Dimensions.get("screen");
