@@ -37,17 +37,17 @@ export default function Dashboard() {
             </Text>
 
             <BentoGrid>
-              <TouchableOpacity onPress={() => {}}>
+              <TouchableOpacity onPress={() => {router.push("/scout")}}>
                 <BentoBox size="small" className="border-yellow-400 w-40 h-40 rounded-3xl mb-5" style={{ backgroundColor: "rgba(253, 224, 71, 0.3)", borderWidth: 1 }}>
                   <AntDesign name="form" size={30} color="white" />
                   <Text className="text-white mt-2 text-3xl" style={{ fontFamily:Fonts.Inter }}>Scout</Text>
                 </BentoBox>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => {router.push("/checklist")}}>
+              <TouchableOpacity onPress={() => {router.push("/picklist")}}>
                 <BentoBox size="small" className="border-rose-400 w-40 h-40 rounded-3xl mb-5" style={{ backgroundColor: "rgba(244, 63, 94, 0.3)", borderWidth: 1 }}>
                   <MaterialIcons name="checklist-rtl" size={30} color="white" />
-                  <Text className="text-white mt-2 text-3xl" style={{ fontFamily:Fonts.Inter }}>Checklist</Text>
+                  <Text className="text-white mt-2 text-3xl" style={{ fontFamily:Fonts.Inter }}>Picklist</Text>
                 </BentoBox>
               </TouchableOpacity>
 

@@ -11,6 +11,7 @@ type Props = {
 export default function Checklist({ id, label }: Props) {
   const { teamsSelected, updateTeamsSelected } = useTickedTeam();
   const checked = teamsSelected.includes(id);
+  const rank = checked ? teamsSelected.length - teamsSelected.indexOf(id) : null;
 
   return (
     <TouchableOpacity
@@ -21,7 +22,12 @@ export default function Checklist({ id, label }: Props) {
       <Text style={[styles.label, checked ? styles.labelChecked : styles.labelUnchecked]}>
         {label}
       </Text>
-      {checked && <View style={styles.checkmark} />}
+
+      {checked && (
+        <View style={styles.rankCircle}>
+          <Text style={styles.rankText}>{rank}</Text>
+        </View>
+      )}
     </TouchableOpacity>
   );
 }
@@ -61,10 +67,16 @@ const styles = StyleSheet.create({
     color: 'white',
     fontFamily: Fonts.Inter,
   },
-  checkmark: {
-    width: 20,
-    height: 20,
-    borderRadius: 10,
+  rankCircle: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
     backgroundColor: 'white',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  rankText: {
+    color: '#dc2626',
+    fontWeight: 'bold',
   },
 });

@@ -52,12 +52,20 @@ export default function RootLayout() {
                   <Stack.Screen name="planner" options={{
                       headerShown:false
                   }} />
-                  <Stack.Screen name="checklist" options={{
-                    headerTitle: "Checklist",
+                  <Stack.Screen name="picklist" options={{
+                    headerTitle: "Picklist",
                     headerTitleAlign: "center",
                     headerTintColor: "#ed1c24",
                     headerTitleStyle: { fontFamily: Fonts.Shrikhand},
                     headerStyle: {backgroundColor: "#111827"},
+                    headerShadowVisible: true,
+                  }} />
+                  <Stack.Screen name="scout" options={{
+                    headerTitle: "Scout",
+                    headerTitleAlign: "center",
+                    headerTintColor: "#ed1c24",
+                    headerTitleStyle: { fontFamily: Fonts.Shrikhand},
+                    headerStyle: {backgroundColor: "#374151"},
                     headerShadowVisible: true,
                   }} />
             </Stack>

@@ -20,7 +20,7 @@ export const useTickedTeam = create<TickedTeamStore>((set) => ({
       return {
         teamsSelected: isSelected
           ? state.teamsSelected.filter((id) => id !== teamId)
-          : [...state.teamsSelected, teamId],
+          : [teamId, ...state.teamsSelected],
       };
     }),
 }));
