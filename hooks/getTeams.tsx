@@ -1,13 +1,18 @@
+import { useEvent } from './store';
 
-const fetchAllTeams = async () => {
-  let allTeams : any[] = [];
+const fetchAllTeams = async (event: string) => {
+  let allTeams: any[] = [];
   let page = 0;
   const MAX_PAGES = 20;
 
+  const url = event === "" 
+    ? `https://www.thebluealliance.com/api/v3/teams/${page}/simple`
+    : `https://www.thebluealliance.com/api/v3/event/${event}/teams`;
+
   while (page < MAX_PAGES) {
-    const res = await fetch(`https://www.thebluealliance.com/api/v3/teams/${page}/simple`, {
+    const res = await fetch(url, {
       headers: {
-        'X-TBA-Auth-Key': 'Cs7SlKYcjtXTJeGskesduTVc44ensMcSSKBMUNsaydPa6GATv1EGH8tiAzUlaV6x'//`${Constants.expoConfig?.extra?.TBA}`,
+        'X-TBA-Auth-Key': 'Cs7SlKYcjtXTJeGskesduTVc44ensMcSSKBMUNsaydPa6GATv1EGH8tiAzUlaV6x',
       },
     });
 
@@ -29,9 +34,12 @@ const fetchAllTeams = async () => {
 
 import { useQuery } from '@tanstack/react-query';
 
-export const  useAllTeams = () =>
-  useQuery({
-    queryKey: ['all-teams'],
-    queryFn: fetchAllTeams,
+export const useAllTeams = () => {
+  const event = useEvent(state => state.event);
+
+  return useQuery({
+    queryKey: ['all-teams', event],
+    queryFn: () => fetchAllTeams(event),
     staleTime: 1000 * 60 * 60,
   });
+};

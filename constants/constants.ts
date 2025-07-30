@@ -1,0 +1,1 @@
+export const Year : number = 2025;

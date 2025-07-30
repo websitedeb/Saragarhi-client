@@ -1,19 +1,25 @@
 import Checklist from '@/components/Forms/checklist';
+import EventSelector from '@/components/Forms/eventSelector';
 import { useAllTeams } from '@/hooks/getTeams';
-import { useTickedTeam } from '@/hooks/store';
+import { useEvent, useTickedTeam } from '@/hooks/store';
 import { useMemo, useState } from 'react';
 import {
-    ActivityIndicator,
-    Button,
-    FlatList,
-    Text,
-    TextInput,
-    View,
+  ActivityIndicator,
+  Button,
+  FlatList,
+  Text,
+  TextInput,
+  View,
 } from 'react-native';
 
 const TEAMS_PER_PAGE = 100;
 
 export default function TeamList() {
+  const {event, setEvent} = useEvent() as unknown as {
+    event: String,
+    setEvent: (event: String) => void
+  }
+
   const { data: teams, isLoading, isError, error } = useAllTeams();
   const { teamsSelected } = useTickedTeam();
 
@@ -22,13 +28,19 @@ export default function TeamList() {
 
   const filteredTeams = useMemo(() => {
     if (!teams) return [];
+
+    const uniqueTeams = Array.from(
+      new Map(teams.map((team) => [team.team_number, team])).values()
+    );
+
     const lower = query.toLowerCase();
-    return teams.filter(
+    return uniqueTeams.filter(
       (team) =>
         team.nickname?.toLowerCase().includes(lower) ||
         team.team_number.toString().includes(lower)
     );
   }, [teams, query]);
+
 
   const { selected, unselected } = useMemo(() => {
     const selected = filteredTeams.filter((team) =>
@@ -70,6 +82,7 @@ export default function TeamList() {
         value={query}
         onChangeText={handleSearch}
       />
+      <EventSelector />
 
       {isLoading && <ActivityIndicator size="large" />}
       {isError && (
@@ -80,6 +93,7 @@ export default function TeamList() {
 
       {!isLoading && !isError && (
         <FlatList
+          className='mt-4'
           data={paginatedTeams}
           keyExtractor={(item) => item.key}
           renderItem={({ item }) => (

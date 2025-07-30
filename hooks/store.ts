@@ -24,3 +24,11 @@ export const useTickedTeam = create<TickedTeamStore>((set) => ({
       };
     }),
 }));
+
+export const useEvent = create<{
+  event: string;
+  setEvent: (event: string) => void;
+}>((set) => ({
+  event: "",
+  setEvent: (event: string) => set({ event }),
+}));
