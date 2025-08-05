@@ -82,12 +82,14 @@ export default function Dashboard() {
                 </BentoBox>
               </TouchableOpacity>
               
-              <TouchableOpacity onPress={() => {}}>
-                <BentoBox size="small" className="border-green-400 w-40 h-40 rounded-3xl mb-5" style={{ backgroundColor: "rgba(34, 197, 94, 0.3)", borderWidth: 1 }}>
-                  <AntDesign name="calendar" size={30} color="white" />
-                  <Text className="text-white mt-2 text-3xl" style={{ fontFamily:Fonts.Inter }}>Schedule</Text>
-                </BentoBox>
-              </TouchableOpacity>
+              {Platform.OS != "web" && (
+                <TouchableOpacity onPress={() => {}}>
+                  <BentoBox size="small" className="border-green-400 w-40 h-40 rounded-3xl mb-5" style={{ backgroundColor: "rgba(34, 197, 94, 0.3)", borderWidth: 1 }}>
+                    <AntDesign name="calendar" size={30} color="white" />
+                    <Text className="text-white mt-2 text-3xl" style={{ fontFamily:Fonts.Inter }}>Schedule</Text>
+                  </BentoBox>
+                </TouchableOpacity>
+              )}
 
               <TouchableOpacity onPress={() => {}}>
                 <BentoBox size="small" className="border-fuchsia-400 w-40 h-40 rounded-3xl mb-5" style={{ backgroundColor: "rgba(217, 70, 239, 0.3)", borderWidth: 1 }}>
@@ -96,14 +98,18 @@ export default function Dashboard() {
                 </BentoBox>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => {}}>
-                <BentoBox size="small" className="border-blue-400 w-40 h-40 rounded-3xl mb-5" style={{ backgroundColor: "rgba(59, 130, 246, 0.3)", borderWidth: 1 }}>
-                  <FontAwesome6 name="qrcode" size={30} color="white" />
-                  <Text className="text-white mt-2 text-3xl" style={{ fontFamily:Fonts.Inter }}>QR</Text>
-                </BentoBox>
-              </TouchableOpacity>
+              {Platform.OS != "web" && (
+                <TouchableOpacity onPress={() => {}}>
+                  <BentoBox size="small" className="border-blue-400 w-40 h-40 rounded-3xl mb-5" style={{ backgroundColor: "rgba(59, 130, 246, 0.3)", borderWidth: 1 }}>
+                    <FontAwesome6 name="qrcode" size={30} color="white" />
+                    <Text className="text-white mt-2 text-3xl" style={{ fontFamily:Fonts.Inter }}>QR</Text>
+                  </BentoBox>
+                </TouchableOpacity>
+              )}
             </BentoGrid>
             
+            {Platform.OS == "web" && (<Text className="text-red-600 text-center text-2xl mb-5" style={{ fontFamily: Fonts.Inter }}>Want more features? Get the App</Text>)}
+
             <Button onClick={deleteSession} title="Logout"/>
 
         </ScrollView>
