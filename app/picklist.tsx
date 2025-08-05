@@ -1,8 +1,9 @@
 import Checklist from '@/components/Forms/checklist';
 import EventSelector from '@/components/Forms/eventSelector';
 import { useAllTeams } from '@/hooks/getTeams';
+import { protectRoute } from '@/hooks/session';
 import { useEvent, useTickedTeam } from '@/hooks/store';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   ActivityIndicator,
   Button,
@@ -15,6 +16,11 @@ import {
 const TEAMS_PER_PAGE = 100;
 
 export default function TeamList() {
+
+  useEffect(() => {
+    protectRoute();
+  }, []);
+
   const {event, setEvent} = useEvent() as unknown as {
     event: String,
     setEvent: (event: String) => void

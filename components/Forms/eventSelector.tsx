@@ -39,14 +39,14 @@ export default function EventSelector() {
         onValueChange={setEvent}
         dropdownIconColor="white"
         style={{
-          color: 'white',
+          color: 'black',
           fontFamily: 'Inter',
         }}
         itemStyle={{ fontFamily: 'Inter' }}
       >
         {isLoading && <Picker.Item label="Loading..." value="" />}
         {evts?.map((e: any) => (
-          <Picker.Item label={e.name} value={e.key} key={e.name} />
+          <Picker.Item label={e.name} value={e.key} key={e.name}/>
         ))}
       </Picker>
     </View>

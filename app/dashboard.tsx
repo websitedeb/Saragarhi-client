@@ -1,11 +1,11 @@
 import { Button } from "@/components/Forms/button";
 import { BentoBox, BentoGrid } from "@/hooks/bento";
-import { clearSession, getSession } from "@/hooks/session";
+import { clearSession, getSession, protectRoute } from "@/hooks/session";
 import { Fonts } from "@/hooks/useFont";
 import { AntDesign, FontAwesome6, MaterialIcons } from '@expo/vector-icons';
 import { router } from "expo-router";
 import { useEffect, useState } from "react";
-import { ScrollView, Text, TouchableOpacity } from "react-native";
+import { Platform, ScrollView, Text, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Dashboard() {
@@ -17,6 +17,7 @@ export default function Dashboard() {
   }
 
   useEffect(() => {
+    protectRoute();
     (async () => {
       const session = await getSession();
       if (!session) {
@@ -51,12 +52,14 @@ export default function Dashboard() {
                 </BentoBox>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => {router.push("/planner")}}>
-                <BentoBox size="small" className="border-cyan-400 w-40 h-40 rounded-3xl mb-5" style={{ backgroundColor: "rgba(6, 182, 212, 0.3)", borderWidth: 1 }}>
-                  <MaterialIcons name="draw" size={30} color="white" />
-                  <Text className="text-white mt-2 text-3xl" style={{ fontFamily:Fonts.Inter }}>Planner</Text>
-                </BentoBox>
-              </TouchableOpacity>
+              {Platform.OS != "web" && (
+                <TouchableOpacity onPress={() => {router.push("/planner")}}>
+                  <BentoBox size="small" className="border-cyan-400 w-40 h-40 rounded-3xl mb-5" style={{ backgroundColor: "rgba(6, 182, 212, 0.3)", borderWidth: 1 }}>
+                    <MaterialIcons name="draw" size={30} color="white" />
+                    <Text className="text-white mt-2 text-3xl" style={{ fontFamily:Fonts.Inter }}>Planner</Text>
+                  </BentoBox>
+                </TouchableOpacity>
+              )}
 
               <TouchableOpacity onPress={() => {router.push("/rank")}}>
                 <BentoBox size="small" className="border-purple-400 w-40 h-40 rounded-3xl mb-5" style={{ backgroundColor: "rgba(168, 85, 247, 0.3)", borderWidth: 1 }}>
@@ -94,7 +97,7 @@ export default function Dashboard() {
               </TouchableOpacity>
 
               <TouchableOpacity onPress={() => {}}>
-                <BentoBox size="small" className="border-blue-400 w-40 h-40 rounded-3xl" style={{ backgroundColor: "rgba(59, 130, 246, 0.3)", borderWidth: 1 }}>
+                <BentoBox size="small" className="border-blue-400 w-40 h-40 rounded-3xl mb-5" style={{ backgroundColor: "rgba(59, 130, 246, 0.3)", borderWidth: 1 }}>
                   <FontAwesome6 name="qrcode" size={30} color="white" />
                   <Text className="text-white mt-2 text-3xl" style={{ fontFamily:Fonts.Inter }}>QR</Text>
                 </BentoBox>
