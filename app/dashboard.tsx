@@ -108,7 +108,7 @@ export default function Dashboard() {
               )}
             </BentoGrid>
             
-            {Platform.OS == "web" && (<Text className="text-red-600 text-center text-2xl mb-5" style={{ fontFamily: Fonts.Inter }}>Want more features? Get the App</Text>)}
+            {Platform.OS == "web" && (<Text className="text-red-600 text-center text-2xl mb-5" style={{ fontFamily: Fonts.Inter }}>Want more features? Get the iOS or Android App!</Text>)}
 
             <Button onClick={deleteSession} title="Logout"/>
 

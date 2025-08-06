@@ -117,7 +117,7 @@ export function FormFactory({ schema }: { schema: any }) {
                   selectedValue={formData[currentPageKey]?.dropdown}
                   onValueChange={(val) => handleChange("dropdown", val)}
                   dropdownIconColor="white"
-                  style={{ color: "white" }}
+                  style={{ color: "black" }}
                 >
                   {config.options.map((opt: any) => (
                     <Picker.Item key={opt} label={opt} value={opt} />
