@@ -1,24 +1,8 @@
-import { Frame } from "@/components/Forms/frame";
-import { ScrollView, StyleSheet } from "react-native";
+import { FormFactory } from "@/components/Factory/form";
+import formSchema from "@/constants/form_schema.json";
 
 export default function Scout() {
     return (
-        <ScrollView
-            contentContainerStyle={styles.container}
-            style={{ flex: 1, backgroundColor: '#374151' }}
-        >
-            <Frame>
-                
-            </Frame>
-        </ScrollView>
+        <FormFactory schema={formSchema} />
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        paddingBottom: 20,
-        alignItems: 'center',
-        justifyContent: 'center',
-        flexGrow: 1,
-    },
-});

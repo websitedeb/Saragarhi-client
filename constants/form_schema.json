@@ -1,5 +1,5 @@
 {
-    "meta": { // nessasary because it is good practice
+    "meta": {
         "version": "2025",
         "complete": true,
         "editor": "Sarthak Ghoshal" 
@@ -8,14 +8,13 @@
     "auto": {
         "map": {},
         "input": {
-            "name": "How many corals did the robot place during auto?",
-            "type": "number",
-            "style": "mt-32 w-2" //custom styling, will be there for all components
+            "name": "Number of Corals placed",
+            "type": "number"
         },
         "check": {
             "name": "what levels were they at?",
             "options": {
-                "L1": "1", // key: value
+                "L1": "1",
                 "L2": "2",
                 "L3": "3",
                 "L4": "4"
@@ -26,14 +25,13 @@
     "tele": {
         "check": {
             "name": "what levels are they hitting they at the most?",
-            "options": ["L1", "L2", "L3", "L4"] //ANOTHER WAY OF DOING IT
+            "options": ["L1", "L2", "L3", "L4"]
         },
-        "increment": "L4 Points", // name is the only reasonable thing
+        "increment": "L4 Points",
         "dropdown": {
             "name": "6",
             "type": "multi",
-            "options": ["6", "7"],
-            "image": ""// under image of a component, basically bg-image
+            "options": ["6", "7"]
         }
     },
 
@@ -43,8 +41,7 @@
             "options":{
                 "Park": "Park",
                 "Shallow": "Shallow",
-                "Deep": "Deep",
-                "None": ""
+                "Deep": "Deep"
             }
         },
         "input":{

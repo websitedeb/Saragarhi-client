@@ -71,7 +71,7 @@ export default function Dashboard() {
               <TouchableOpacity onPress={() => {}}>
                 <BentoBox size="small" className="border-lime-400 w-40 h-40 rounded-3xl mb-5" style={{ backgroundColor: "rgba(132, 204, 22, 0.3)", borderWidth: 1 }}>
                   <FontAwesome6 name="wand-magic-sparkles" size={30} color="white" />
-                  <Text className="text-white mt-2 text-3xl" style={{ fontFamily:Fonts.Inter }}>Predictor</Text>
+                  <Text className="text-white mt-2 text-3xl" style={{ fontFamily:Fonts.Inter }}>Predict</Text>
                 </BentoBox>
               </TouchableOpacity>
 
@@ -86,7 +86,7 @@ export default function Dashboard() {
                 <TouchableOpacity onPress={() => {}}>
                   <BentoBox size="small" className="border-green-400 w-40 h-40 rounded-3xl mb-5" style={{ backgroundColor: "rgba(34, 197, 94, 0.3)", borderWidth: 1 }}>
                     <AntDesign name="calendar" size={30} color="white" />
-                    <Text className="text-white mt-2 text-3xl" style={{ fontFamily:Fonts.Inter }}>Schedule</Text>
+                    <Text className="text-white mt-2 text-3xl" style={{ fontFamily:Fonts.Inter }}>Agenda</Text>
                   </BentoBox>
                 </TouchableOpacity>
               )}

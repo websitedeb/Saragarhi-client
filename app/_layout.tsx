@@ -65,7 +65,7 @@ export default function RootLayout() {
                     headerTitleAlign: "center",
                     headerTintColor: "#ed1c24",
                     headerTitleStyle: { fontFamily: Fonts.Shrikhand},
-                    headerStyle: {backgroundColor: "#374151"},
+                    headerStyle: {backgroundColor: "#111827"},
                     headerShadowVisible: true,
                   }} />
             </Stack>
