@@ -1,57 +1,56 @@
 {
-    "meta": {
-        "version": "2025",
-        "complete": true,
-        "editor": "Sarthak Ghoshal" 
-    },
-    
-    "auto": {
-        "map": {},
-        "input": {
-            "name": "Number of Corals placed",
-            "type": "number"
-        },
-        "check": {
-            "name": "what levels were they at?",
-            "options": {
-                "L1": "1",
-                "L2": "2",
-                "L3": "3",
-                "L4": "4"
-            }
-        }
-    },
+  "meta": {
+    "version": "2025",
+    "complete": true,
+    "editor": "Sarthak Ghoshal"
+  },
 
-    "tele": {
-        "check": {
-            "name": "what levels are they hitting they at the most?",
-            "options": ["L1", "L2", "L3", "L4"]
-        },
-        "increment": "L4 Points",
-        "dropdown": {
-            "name": "6",
-            "type": "multi",
-            "options": ["6", "7"]
-        }
+  "auto": {
+    "map": {},
+    "input": {
+      "name": "How many reef markers placed?",
+      "type": "number"
     },
-
-    "end": {
-        "radio": {
-            "name": "did park?",
-            "options":{
-                "Park": "Park",
-                "Shallow": "Shallow",
-                "Deep": "Deep"
-            }
-        },
-        "input":{
-            "name": "Notes?",
-            "type": "text"
-        },
-        "dropdown": {
-            "name": "6",
-            "type": "one",
-            "options": ["6", "7"]
-        }
+    "check": {
+      "name": "Where were they placed?",
+      "options": {
+        "Low Reef": "Low Reef",
+        "Mid Reef": "Mid Reef",
+        "High Reef": "High Reef"
+      }
     }
+  },
+
+  "tele": {
+    "check": {
+      "name": "What levels are they scoring on most frequently?",
+      "options": ["Low Reef", "Mid Reef", "High Reef"]
+    },
+    "increment": "High Reef Points",
+    "dropdown": {
+      "name": "Which reef zones did they use?",
+      "type": "multi",
+      "options": ["Zone A", "Zone B", "Zone C"]
+    }
+  },
+
+  "end": {
+    "radio": {
+      "name": "Where did they park?",
+      "options": {
+        "Shoreline": "Shoreline",
+        "Coral Cave": "Coral Cave",
+        "Did Not Park": "Did Not Park"
+      }
+    },
+    "input": {
+      "name": "Final Notes",
+      "type": "text"
+    },
+    "dropdown": {
+      "name": "Team Strategy Role",
+      "type": "one",
+      "options": ["Offense", "Defense", "Support"]
+    }
+  }
 }

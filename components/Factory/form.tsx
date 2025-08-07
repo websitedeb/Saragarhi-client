@@ -40,7 +40,7 @@ export function FormFactory({ schema }: { schema: any }) {
             placeholder={config.name}
             keyboardType={config.type === "number" ? "numeric" : "default"}
             onChangeText={(value) => handleChange("input", value)}
-            className="border border-red-500 rounded-md p-3 my-2 text-white bg-transparent"
+            className="border border-red-500 rounded-md p-3 my-2 text-white bg-transparent text-xl"
             placeholderTextColor={"#ef4444"}
           />
         );
@@ -48,14 +48,14 @@ export function FormFactory({ schema }: { schema: any }) {
       case "check":
         return (
           <View key={key} className="my-2">
-            <Text className="text-white text-base font-medium mb-1">{config.name}</Text>
+            <Text className="text-white text-2xl font-medium mb-1">{config.name}</Text>
             {(Array.isArray(config.options) ? config.options : Object.entries(config.options)).map(
               (entry: any) => {
                 const [label, value] = Array.isArray(config.options) ? [entry, entry] : entry;
                 return (
                   <CheckBox
                     key={label}
-                    title={<Text className="ml-2 text-red-500 font-bold">{label}</Text>}
+                    title={<Text className="ml-2 text-red-500 font-bold text-xl">{label}</Text>}
                     containerStyle={{ backgroundColor: "transparent", borderWidth: 0, padding: 0 }}
                     checked={formData[currentPageKey]?.check?.[value] ?? false}
                     onPress={() =>
@@ -74,7 +74,7 @@ export function FormFactory({ schema }: { schema: any }) {
       case "radio":
         return (
           <View key={key} className="my-2">
-            <Text className="text-white text-base font-medium mb-1">{config.name}</Text>
+            <Text className="text-white font-medium mb-1 text-2xl">{config.name}</Text>
             {Object.entries(config.options).map(([label, value]) => (
               <TouchableOpacity
                 key={label}
@@ -86,7 +86,7 @@ export function FormFactory({ schema }: { schema: any }) {
                     <View className="w-2.5 h-2.5 bg-rose-500 rounded-full" />
                   )}
                 </View>
-                <Text className="text-red-500 ml-2">{label}</Text>
+                <Text className="text-red-500 ml-2 text-xl">{label}</Text>
               </TouchableOpacity>
             ))}
           </View>
@@ -95,12 +95,12 @@ export function FormFactory({ schema }: { schema: any }) {
       case "dropdown":
         return (
           <View key={key} className="my-2">
-            <Text className="text-white text-base font-medium mb-1">{config.name}</Text>
+            <Text className="text-white text-2xl font-medium mb-1">{config.name}</Text>
             {config.type === "multi" ? (
               config.options.map((opt: any) => (
                 <CheckBox
                   key={opt}
-                  title={<Text className="ml-2 text-red-500 font-bold">{opt}</Text>}
+                  title={<Text className="ml-2 text-red-500 font-bold text-xl">{opt}</Text>}
                   containerStyle={{ backgroundColor: "transparent", borderWidth: 0, padding: 0 }}
                   checked={formData[currentPageKey]?.dropdown?.[opt] ?? false}
                   onPress={() =>
@@ -117,7 +117,7 @@ export function FormFactory({ schema }: { schema: any }) {
                   selectedValue={formData[currentPageKey]?.dropdown}
                   onValueChange={(val) => handleChange("dropdown", val)}
                   dropdownIconColor="white"
-                  style={{ color: "black" }}
+                  style={{ color: "#ef4444" }}
                 >
                   {config.options.map((opt: any) => (
                     <Picker.Item key={opt} label={opt} value={opt} />
@@ -131,8 +131,8 @@ export function FormFactory({ schema }: { schema: any }) {
       case "increment":
         return (
           <View key={key} className="flex-row items-center space-x-3 my-2">
-            <Text className="text-white font-medium mr-2">{config}</Text>
-            <Text className="text-red-500 font-extrabold text-2xl mr-2 border p-2 rounded-xl border-red-500">
+            <Text className="text-white font-medium mr-2 text-2xl">{config}</Text>
+            <Text className="text-red-500 font-extrabold text-3xl mr-2 border p-2 rounded-xl border-red-500">
               {formData[currentPageKey]?.increment || 0}
             </Text>
             <TouchableOpacity
@@ -144,7 +144,7 @@ export function FormFactory({ schema }: { schema: any }) {
               }
               className="bg-red-500 px-3 py-1 rounded"
             >
-              <Text className="text-white font-bold">-</Text>
+              <Text className="text-white font-bold text-2xl">-</Text>
             </TouchableOpacity>
             <Text className="mr-1 ml-1"></Text>
             <TouchableOpacity
@@ -156,7 +156,7 @@ export function FormFactory({ schema }: { schema: any }) {
               }
               className="bg-green-500 px-3 py-1 rounded"
             >
-              <Text className="text-white font-bold">+</Text>
+              <Text className="text-white font-bold text-2xl">+</Text>
             </TouchableOpacity>
           </View>
         );
