@@ -13,7 +13,7 @@ export default function Dashboard() {
 
   async function deleteSession() {
     await clearSession();
-    router.push("/signin");
+    router.push("/");
   }
 
   useEffect(() => {

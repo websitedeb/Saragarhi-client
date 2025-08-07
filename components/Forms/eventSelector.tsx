@@ -1,4 +1,4 @@
-import { Year } from '@/constants/constants';
+import { AT, Year } from '@/constants/constants';
 import { useEvent } from '@/hooks/store';
 import { Fonts } from '@/hooks/useFont';
 import { Picker } from '@react-native-picker/picker';
@@ -16,7 +16,7 @@ export default function EventSelector() {
     queryFn: async () => {
       const res = await fetch(`https://www.thebluealliance.com/api/v3/events/${Year}/simple`, {
         headers: {
-          'X-TBA-Auth-Key': 'Cs7SlKYcjtXTJeGskesduTVc44ensMcSSKBMUNsaydPa6GATv1EGH8tiAzUlaV6x',
+          'X-TBA-Auth-Key': AT,
         },
       });
 
