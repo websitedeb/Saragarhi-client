@@ -43,6 +43,8 @@ export function FormFactory({ schema }: { schema: any }) {
 
   function handleSubmit() {
     let dataset: DataSetsType & { [key: string]: any } = {
+      TeamNumber: 0,
+      NumberOfDataSets: 1,
       One: []
     }; 
 
@@ -71,15 +73,28 @@ export function FormFactory({ schema }: { schema: any }) {
       }
     }
 
+    let prev_connector = 0;
+
     binders.forEach(arrs => {
       const [path, name, connector, typ] = arrs;
       const value = getByPath(formData, path);
 
-      const key = convert(connector);
-      if (key !== undefined) {
-        dataset[key] = [typ, value];
+      if (prev_connector < connector){
+        prev_connector = connector
+      }
+
+      if (name != "TEAM_NUMBER"){
+        const key = convert(connector);
+        if (key !== undefined) {
+          dataset[key] = [typ, value];
+        }
+      }
+      else{
+        dataset["TeamNumber"] = value;
       }
     });
+
+    dataset["NumberOfDataSets"] = prev_connector;
 
     fetch("https://saragarhi-api-database-test.sarthak22-ghoshal.workers.dev/",
       {

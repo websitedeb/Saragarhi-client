@@ -38,7 +38,10 @@ export const useScoutData = create((set) => ({
   setScoutData: (scoutData: Record<string, any>) => set({ scoutData })
 }));
 
+//NumberOfDataSets, TeamNumber
 export type DataSetsType = {
+  NumberOfDataSets: number,
+  TeamNumber: number,
   One: Array<String | number | boolean>;
   Two?: Array<String | number | boolean>;
   Three?: Array<String | number | boolean>;
@@ -53,6 +56,8 @@ export type DataSetsType = {
 
 export const useDataSetStore = create<{ DataSets: DataSetsType }>((set) => ({
   DataSets: {
+    NumberOfDataSets: 1,
+    TeamNumber: 0,
     One: ["", ""]
   },
   setDataSets: (DataSets: DataSetsType) => set({ DataSets })

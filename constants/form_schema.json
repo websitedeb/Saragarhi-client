@@ -8,11 +8,20 @@
   "auto": {
     "input": {
       "name": "How many reef markers placed?",
-      "type": "number",
+      "type": "text",
       "binding": {
         "with": 4,
         "type": "text",
         "uuid": "val4"
+      }
+    },
+    "input": {
+      "name": "Team Number",
+      "type": "number",
+      "binding": {
+        "with": 0,
+        "type": "number",
+        "uuid": "TEAM_NUMBER"
       }
     },
     "check": {
