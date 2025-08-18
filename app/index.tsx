@@ -8,7 +8,7 @@ export default function SignIn() {
   return (
     <View className="flex-1 bg-gray-900 justify-center items-center">
       <Image 
-        source={require("../assets/images/light_icon.png")} 
+        source={require("../assets/images/icon.png")} 
         style={{ width: 200, height: 200, resizeMode: 'cover' }} 
       />
 
@@ -18,7 +18,7 @@ export default function SignIn() {
             style={{
               fontSize: 48,
               fontFamily: 'Shrikhand',
-              color: 'black',
+              color: 'white',
               textAlign: 'center'
             }}
           >

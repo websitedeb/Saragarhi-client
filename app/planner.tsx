@@ -23,7 +23,7 @@ import {
 const { width, height } = Dimensions.get("screen");
 
 export default function Planner() {
-  const image = useImage(require("../assets/MAP.png"));
+  const image = useImage(require("../assets/images/MAP.png"));
   const canvasRef = useCanvasRef();
   const router = useRouter();
 

@@ -6,10 +6,14 @@
   },
 
   "auto": {
-    "map": {},
     "input": {
       "name": "How many reef markers placed?",
-      "type": "number"
+      "type": "number",
+      "binding": {
+        "with": 4,
+        "type": "text",
+        "uuid": "val4"
+      }
     },
     "check": {
       "name": "Where were they placed?",
@@ -17,6 +21,16 @@
         "Low Reef": "Low Reef",
         "Mid Reef": "Mid Reef",
         "High Reef": "High Reef"
+      }
+    },
+    "dropdown": {
+      "name": "Which reef zones did they use?",
+      "type": "multi",
+      "options": ["Zone A", "Zone B", "Zone C"],
+      "binding": {
+        "with": 1,
+        "type": "text",
+        "uuid": "val2"
       }
     }
   },
@@ -31,6 +45,16 @@
       "name": "Which reef zones did they use?",
       "type": "multi",
       "options": ["Zone A", "Zone B", "Zone C"]
+    },
+    "dropdown": {
+      "name": "Team Strategy Role",
+      "type": "one",
+      "options": ["Offense", "Defense", "Support"],
+      "binding":{
+        "with": 2,
+        "uuid": "val3",
+        "type": "text"
+      }
     }
   },
 
@@ -41,6 +65,11 @@
         "Shoreline": "Shoreline",
         "Coral Cave": "Coral Cave",
         "Did Not Park": "Did Not Park"
+      },
+      "binding": {
+        "with": 3,
+        "type": "text",
+        "uuid": "val1"
       }
     },
     "input": {

@@ -4,7 +4,7 @@
     "slug": "proj",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/light_icon.png",
+    "icon": "./assets/images/icon.png",
     "scheme": "proj",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -16,21 +16,26 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/light_icon.png",
+        "foregroundImage": "./assets/images/icon.png",
         "backgroundColor": "#ed1c24"
       },
       "edgeToEdgeEnabled": true
     },
     "web": {
       "bundler": "metro",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/icon.png"
+    },
+    "splash": {
+      "image": "./assets/images/icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ed1c24"
     },
     "plugins": [
       "expo-router",
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/light_icon.png",
+          "image": "./assets/images/icon.png",
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#ed1c24"

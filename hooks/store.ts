@@ -32,3 +32,28 @@ export const useEvent = create<{
   event: "",
   setEvent: (event: string) => set({ event }),
 }));
+
+export const useScoutData = create((set) => ({
+  scoutData: {},
+  setScoutData: (scoutData: Record<string, any>) => set({ scoutData })
+}));
+
+export type DataSetsType = {
+  One: Array<String | number | boolean>;
+  Two?: Array<String | number | boolean>;
+  Three?: Array<String | number | boolean>;
+  Four?: Array<String | number | boolean>;
+  Five?: Array<String | number | boolean>;
+  Six?: Array<String | number | boolean>;
+  Seven?: Array<String | number | boolean>;
+  Eight?: Array<String | number | boolean>;
+  Nine?: Array<String | number | boolean>;
+  Ten?: Array<String | number | boolean>;
+};
+
+export const useDataSetStore = create<{ DataSets: DataSetsType }>((set) => ({
+  DataSets: {
+    One: ["", ""]
+  },
+  setDataSets: (DataSets: DataSetsType) => set({ DataSets })
+}))
