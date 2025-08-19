@@ -38,7 +38,6 @@ export const useScoutData = create((set) => ({
   setScoutData: (scoutData: Record<string, any>) => set({ scoutData })
 }));
 
-//NumberOfDataSets, TeamNumber
 export type DataSetsType = {
   NumberOfDataSets: number,
   TeamNumber: number,

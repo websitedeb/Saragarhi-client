@@ -129,7 +129,7 @@ export function FormFactory({ schema }: { schema: any }) {
   const renderField = (fieldType: string, config: any) => {
     const fieldKey = getFieldKey(config, fieldType);
 
-    switch (fieldType) {
+    switch (fieldType.replaceAll("$", "")) {
       case "input":
         return (
           <TextInput
