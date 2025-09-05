@@ -8,7 +8,7 @@
     "scheme": "proj",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
-    "extras":{
+    "extras": {
       "TBA": "Cs7SlKYcjtXTJeGskesduTVc44ensMcSSKBMUNsaydPa6GATv1EGH8tiAzUlaV6x"
     },
     "ios": {
@@ -41,7 +41,8 @@
           "backgroundColor": "#ed1c24"
         }
       ],
-      "expo-font"
+      "expo-font",
+      "expo-secure-store"
     ],
     "experiments": {
       "typedRoutes": true

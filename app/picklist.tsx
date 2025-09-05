@@ -2,7 +2,7 @@ import Checklist from '@/components/Forms/checklist';
 import EventSelector from '@/components/Forms/eventSelector';
 import { useAllTeams } from '@/hooks/getTeams';
 import { protectRoute } from '@/hooks/session';
-import { useEvent, useTickedTeam } from '@/hooks/store';
+import { useTickedTeam } from '@/hooks/store';
 import { useEffect, useMemo, useState } from 'react';
 import {
   ActivityIndicator,
@@ -20,11 +20,6 @@ export default function TeamList() {
   useEffect(() => {
     protectRoute();
   }, []);
-
-  const {event, setEvent} = useEvent() as unknown as {
-    event: String,
-    setEvent: (event: String) => void
-  }
 
   const { data: teams, isLoading, isError, error } = useAllTeams();
   const { teamsSelected } = useTickedTeam();
@@ -49,12 +44,15 @@ export default function TeamList() {
 
 
   const { selected, unselected } = useMemo(() => {
-    const selected = filteredTeams.filter((team) =>
-      teamsSelected.includes(team.team_number)
-    );
+    const selected = [...teamsSelected] // copy the array
+      .reverse() // flip order: last ticked → first
+      .map((id) => filteredTeams.find((team) => team.team_number === id))
+      .filter(Boolean);
+
     const unselected = filteredTeams.filter(
       (team) => !teamsSelected.includes(team.team_number)
     );
+
     return { selected, unselected };
   }, [filteredTeams, teamsSelected]);
 

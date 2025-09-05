@@ -1,5 +1,15 @@
 import { Inter_400Regular } from "@expo-google-fonts/inter";
+import { AntDesign, FontAwesome6, MaterialIcons } from "@expo/vector-icons";
+import * as Font from "expo-font";
 import { useFonts } from "expo-font";
+
+export async function preloadIconFonts() {
+  await Font.loadAsync({
+    ...AntDesign.font,
+    ...FontAwesome6.font,
+    ...MaterialIcons.font,
+  });
+}
 
 const path = `../assets/fonts`
 
@@ -18,3 +28,4 @@ export const Fonts = {
     Inter: "Inter",
     Fun: "Fun"
 }
+

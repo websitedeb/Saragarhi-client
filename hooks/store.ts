@@ -61,3 +61,8 @@ export const useDataSetStore = create<{ DataSets: DataSetsType }>((set) => ({
   },
   setDataSets: (DataSets: DataSetsType) => set({ DataSets })
 }))
+
+export const useTeamRankings = create<{ teamRankings: any[], setTeamRankings: (rankings: any[]) => void }>((set) => ({
+  teamRankings: [],
+  setTeamRankings: (rankings: any[]) => set({ teamRankings: rankings })
+}));

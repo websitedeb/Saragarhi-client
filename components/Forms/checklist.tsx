@@ -1,3 +1,4 @@
+import getBgColor, { getBorderColor } from '@/hooks/color';
 import { useTickedTeam } from '@/hooks/store';
 import { Fonts } from '@/hooks/useFont';
 import React from 'react';
@@ -13,11 +14,24 @@ export default function Checklist({ id, label }: Props) {
   const checked = teamsSelected.includes(id);
   const rank = checked ? teamsSelected.length - teamsSelected.indexOf(id) : null;
 
+  const backgroundColor = checked
+    ? getBgColor(rank as number, teamsSelected.length) || '#dc2626'
+    : '#1f2937';
+
+  const borderColor = checked
+    ? getBorderColor(rank as number, teamsSelected.length) || 'white'
+    : '#4b5563';
+
   return (
     <TouchableOpacity
       onPress={() => updateTeamsSelected(id)}
       activeOpacity={0.7}
-      style={[styles.container, checked && styles.containerChecked]}
+      style={[
+        styles.container,
+        checked && styles.containerChecked,
+        { backgroundColor },
+        { borderColor },
+      ]}
     >
       <Text style={[styles.label, checked ? styles.labelChecked : styles.labelUnchecked]}>
         {label}
@@ -34,13 +48,12 @@ export default function Checklist({ id, label }: Props) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#1f2937',
     paddingVertical: 14,
     paddingHorizontal: 20,
     marginVertical: 6,
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: '#4b5563',
+    /*borderColor: '#4b5563',*/
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -50,8 +63,7 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
   },
   containerChecked: {
-    backgroundColor: '#dc2626',
-    borderColor: '#b91c1c',
+    /*borderColor: 'white',*/
     shadowOpacity: 0.2,
     shadowRadius: 4,
   },

@@ -33,11 +33,6 @@ export const Schema : object =
       name: "Which reef zones did they use?",
       type: "multi",
       options: ["Zone A", "Zone B", "Zone C"],
-      binding: {
-        with: 1,
-        type: "text",
-        uuid: "val2"
-      }
     }
   },
 
@@ -80,7 +75,12 @@ export const Schema : object =
     },
     input: {
       name: "Final Notes",
-      type: "text"
+      type: "text",
+      binding: {
+        with: 1,
+        type: "text",
+        uuid: "val2"
+      }
     },
     dropdown: {
       name: "Team Strategy Role",

@@ -1,7 +1,7 @@
 import { Button } from "@/components/Forms/button";
 import { BentoBox, BentoGrid } from "@/hooks/bento";
 import { clearSession, getSession, protectRoute } from "@/hooks/session";
-import { Fonts } from "@/hooks/useFont";
+import { Fonts, preloadIconFonts } from "@/hooks/useFont";
 import { AntDesign, FontAwesome6, MaterialIcons } from '@expo/vector-icons';
 import { router } from "expo-router";
 import { useEffect, useState } from "react";
@@ -18,6 +18,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     protectRoute();
+    preloadIconFonts();
     (async () => {
       const session = await getSession();
       if (!session) {
@@ -106,6 +107,13 @@ export default function Dashboard() {
                   </BentoBox>
                 </TouchableOpacity>
               )}
+
+              <TouchableOpacity onPress={() => {}}>
+                <BentoBox size="small" className="border-indigo-400 w-40 h-40 rounded-3xl mb-5" style={{ backgroundColor: "rgba(129, 140, 248, 0.3)", borderWidth: 1 }}>
+                  <MaterialIcons name="tv" size={30} color="white" />
+                  <Text className="text-white mt-2 text-3xl" style={{ fontFamily:Fonts.Inter }}>TV</Text>
+                </BentoBox>
+              </TouchableOpacity>
             </BentoGrid>
             
             {Platform.OS == "web" && (<Text className="text-red-600 text-center text-2xl mb-5" style={{ fontFamily: Fonts.Inter }}>Want more features? Get the iOS or Android App!</Text>)}

@@ -96,7 +96,7 @@ export function FormFactory({ schema }: { schema: any }) {
 
     dataset["NumberOfDataSets"] = prev_connector;
 
-    fetch("https://saragarhi-api-database-test.sarthak22-ghoshal.workers.dev/",
+    fetch("https://saragarhi-api-database-test.sarthak22-ghoshal.workers.dev/addReport",
       {
         method: "POST",
         headers: {
@@ -104,15 +104,21 @@ export function FormFactory({ schema }: { schema: any }) {
         },
         body: JSON.stringify(dataset)
       }
-    ).then(res => {
-      if (res.ok){
-        router.push("/complete");
-      }
-      else{
+    ).then(async res => {
+      const text = await res.text();
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch (err) {
+        console.error("Not valid JSON:", err);
         return;
       }
+
+      if (data.success) {
+        router.push("/complete");
+      }
     }).catch(err => {
-      console.error(err);
+      console.error(err, dataset);
     })
   }
 
@@ -213,7 +219,7 @@ export function FormFactory({ schema }: { schema: any }) {
               <View className="border border-white rounded-md">
                 <Picker
                   selectedValue={formData[currentPageKey]?.[fieldKey]}
-                  onValueChange={(val) => handleChange(fieldKey, val)}
+                  onValueChange={(val) => handleChange(fieldKey, val || formData[currentPageKey]?.[fieldKey])}
                   dropdownIconColor="white"
                   style={{ color: "#ef4444" }}
                 >

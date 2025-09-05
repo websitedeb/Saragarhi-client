@@ -52,6 +52,9 @@ export default function RootLayout() {
                   <Stack.Screen name="planner" options={{
                       headerShown:false
                   }} />
+                  <Stack.Screen name="complete" options={{
+                      headerShown:false
+                  }} />
                   <Stack.Screen name="picklist" options={{
                     headerTitle: "Picklist",
                     headerTitleAlign: "center",
@@ -62,6 +65,14 @@ export default function RootLayout() {
                   }} />
                   <Stack.Screen name="scout" options={{
                     headerTitle: "Scout",
+                    headerTitleAlign: "center",
+                    headerTintColor: "#ed1c24",
+                    headerTitleStyle: { fontFamily: Fonts.Shrikhand},
+                    headerStyle: {backgroundColor: "#111827"},
+                    headerShadowVisible: true,
+                  }} />
+                  <Stack.Screen name="rank" options={{
+                    headerTitle: "Rank",
                     headerTitleAlign: "center",
                     headerTintColor: "#ed1c24",
                     headerTitleStyle: { fontFamily: Fonts.Shrikhand},
