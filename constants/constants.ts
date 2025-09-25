@@ -1,6 +1,11 @@
 export const Year : number = 2025;
 export const AT: string = "Cs7SlKYcjtXTJeGskesduTVc44ensMcSSKBMUNsaydPa6GATv1EGH8tiAzUlaV6x";
-export const Schema : object = 
+
+export default function PredictionEquation(data: Object, datasetsToUse : any = [1]) {
+  //fix this
+}
+
+export const FormSchema : object = 
 {
   auto: {
     input: {
@@ -89,3 +94,22 @@ export const Schema : object =
     }
   }
 };
+
+export const DisplaySchema : Object = {
+  One: {
+    name: "Best Brainrot",
+    type: "Bento"
+  },
+  Two: {
+    name: "Best Robot",
+    type: "Ratio",
+    addons: {
+      left: "Type",
+      right: "$data"
+    }
+  },
+  Three: {
+    name: "Place",
+    type: "line"
+  }
+}

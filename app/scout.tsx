@@ -1,5 +1,5 @@
 import { FormFactory } from "@/components/Factory/form";
-import { Schema } from "@/constants/constants";
+import { FormSchema } from "@/constants/constants";
 import { protectRoute } from "@/hooks/session";
 import { useEffect } from "react";
 
@@ -10,6 +10,6 @@ export default function Scout() {
     }, []);
 
     return (
-        <FormFactory schema={Schema} />
+        <FormFactory schema={FormSchema} />
     );
 }

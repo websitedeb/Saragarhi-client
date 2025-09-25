@@ -1,5 +1,6 @@
 import { Button } from "@/components/Forms/button";
 import { BentoBox, BentoGrid } from "@/hooks/bento";
+import getRole from "@/hooks/getRole";
 import { clearSession, getSession, protectRoute } from "@/hooks/session";
 import { Fonts, preloadIconFonts } from "@/hooks/useFont";
 import { AntDesign, FontAwesome6, MaterialIcons } from '@expo/vector-icons';
@@ -10,6 +11,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Dashboard() {
   const [user, setUser] = useState<Record<string, any> | null>(null);
+  const [role, setRole] = useState<string | null>(null);
 
   async function deleteSession() {
     await clearSession();
@@ -26,15 +28,21 @@ export default function Dashboard() {
         return;
       }
       setUser(session);
+      const role = await getRole();
+      if (!role) {
+        router.push("/signin");
+        return;
+      }
+      setRole(role);
     })();
   }, []);
 
   return (
     <SafeAreaView style={{ flex: 1 }} className="bg-gray-900">
         <ScrollView className="flex-1" contentContainerStyle={{ paddingBottom: 20 }}>
-            <Text className="text-white text-4xl mt-16 pl-5 mb-16">
+            <Text className="text-white text-4xl mt-16 pl-5 mb-10">
               Welcome,{"\n"}
-              <Text className="mainColor" style={{ fontFamily: Fonts.Shrikhand}}>{user?.Name || "User"}</Text>{"\n"}
+              <Text className="mainColor" style={{ fontFamily: Fonts.Shrikhand}}>{user?.Name || "User"} / {role}</Text>{"\n"}
               <Text className="text-lg" style={{ fontFamily:Fonts.Inter }}>What are We Going to Do Today?</Text>
             </Text>
 
@@ -69,14 +77,14 @@ export default function Dashboard() {
                 </BentoBox>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => {}}>
+              <TouchableOpacity onPress={() => {router.push("/predict")}}>
                 <BentoBox size="small" className="border-lime-400 w-40 h-40 rounded-3xl mb-5" style={{ backgroundColor: "rgba(132, 204, 22, 0.3)", borderWidth: 1 }}>
                   <FontAwesome6 name="wand-magic-sparkles" size={30} color="white" />
                   <Text className="text-white mt-2 text-3xl" style={{ fontFamily:Fonts.Inter }}>Predict</Text>
                 </BentoBox>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => {}}>
+              <TouchableOpacity onPress={() => {router.push("/lookup")}}>
                 <BentoBox size="small" className="border-orange-400 w-40 h-40 rounded-3xl mb-5" style={{ backgroundColor: "rgba(249, 115, 22, 0.3)", borderWidth: 1 }}>
                   <FontAwesome6 name="magnifying-glass" size={30} color="white" />
                   <Text className="text-white mt-2 text-3xl" style={{ fontFamily:Fonts.Inter }}>Lookup</Text>
@@ -92,16 +100,9 @@ export default function Dashboard() {
                 </TouchableOpacity>
               )}
 
-              <TouchableOpacity onPress={() => {}}>
-                <BentoBox size="small" className="border-fuchsia-400 w-40 h-40 rounded-3xl mb-5" style={{ backgroundColor: "rgba(217, 70, 239, 0.3)", borderWidth: 1 }}>
-                  <FontAwesome6 name="flag" size={30} color="white" />
-                  <Text className="text-white mt-2 text-3xl" style={{ fontFamily:Fonts.Inter }}>Alliance</Text>
-                </BentoBox>
-              </TouchableOpacity>
-
               {Platform.OS != "web" && (
                 <TouchableOpacity onPress={() => {}}>
-                  <BentoBox size="small" className="border-blue-400 w-40 h-40 rounded-3xl mb-5" style={{ backgroundColor: "rgba(59, 130, 246, 0.3)", borderWidth: 1 }}>
+                  <BentoBox size="small" className="border-fuchsia-400 w-40 h-40 rounded-3xl mb-5" style={{ backgroundColor: "rgba(217, 70, 239, 0.3)", borderWidth: 1 }}>
                     <FontAwesome6 name="qrcode" size={30} color="white" />
                     <Text className="text-white mt-2 text-3xl" style={{ fontFamily:Fonts.Inter }}>QR</Text>
                   </BentoBox>
@@ -109,7 +110,7 @@ export default function Dashboard() {
               )}
 
               <TouchableOpacity onPress={() => {}}>
-                <BentoBox size="small" className="border-indigo-400 w-40 h-40 rounded-3xl mb-5" style={{ backgroundColor: "rgba(129, 140, 248, 0.3)", borderWidth: 1 }}>
+                <BentoBox size="small" className="border-blue-400 w-40 h-40 rounded-3xl mb-5" style={{ backgroundColor: "rgba(59, 130, 246, 0.3)", borderWidth: 1 }}>
                   <MaterialIcons name="tv" size={30} color="white" />
                   <Text className="text-white mt-2 text-3xl" style={{ fontFamily:Fonts.Inter }}>TV</Text>
                 </BentoBox>
@@ -118,7 +119,7 @@ export default function Dashboard() {
             
             {Platform.OS == "web" && (<Text className="text-red-600 text-center text-2xl mb-5" style={{ fontFamily: Fonts.Inter }}>Want more features? Get the iOS or Android App!</Text>)}
 
-            <Button onClick={deleteSession} title="Logout"/>
+            <Button onClick={deleteSession} title="Logout" style={{ backgroundColor: "rgba(239, 68, 68, 0.45)" }}/>
 
         </ScrollView>
     </SafeAreaView>

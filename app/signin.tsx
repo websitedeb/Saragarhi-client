@@ -94,6 +94,7 @@ export default function SignIn() {
           style={{ fontFamily: "Inter", color: "white", fontWeight: "500" }}
           autoCapitalize={"none"}
           autoComplete="email"
+          keyboardType="email-address"
         />
         <PasswordInput
           value={password}

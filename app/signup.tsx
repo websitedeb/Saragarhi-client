@@ -15,7 +15,7 @@ import {
   View,
 } from "react-native";
 
-export default function SignIn() {
+export default function SignUn() {
   const [emailErr, setEmailErr] = useState("");
   const [passErr, setPassErr] = useState("");
   const [codeErr, setCodeErr] = useState("");
@@ -33,6 +33,7 @@ export default function SignIn() {
     name,
     teamCode: code,
     Password: pass,
+    Role: "Scouter"
   };
 
   const signupMutation = useMutation({
@@ -150,6 +151,7 @@ export default function SignIn() {
             autoCapitalize="none"
             autoComplete="email"
             onChangeText={setEmail}
+            keyboardType="email-address"
           />
           <Input
             id="name"
@@ -180,6 +182,7 @@ export default function SignIn() {
             autoCapitalize="none"
             autoComplete="off"
             onChangeText={setCode}
+            keyboardType="numeric"
           />
           <PasswordInput
             value={pass}
@@ -218,6 +221,12 @@ export default function SignIn() {
             className="mt-12 text-red-700 underline text-xl"
           >
             Already have an Account?
+          </Link>
+          <Link
+            href="/teams"
+            className="mt-12 text-red-700 underline text-xl"
+          >
+            Sign up a Team?
           </Link>
         </Frame>
       </ScrollView>

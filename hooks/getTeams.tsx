@@ -82,3 +82,42 @@ export const useDistrictRankings = () => {
     staleTime: 1000 * 60 * 60,
   });
 };
+
+const fetchTeamData = async (teamKey: string) => {
+  if (!teamKey) return null;
+
+  try {
+    const url = `https://saragarhi-api-database-test.sarthak22-ghoshal.workers.dev/getStatsOfTeam`;
+
+    const res = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ teamNum: teamKey.replace("frc", "") }),
+    });
+
+    if (!res.ok) {
+      throw new Error(`HTTP error ${res.status}`);
+    }
+
+    const data = await res.json();
+
+    if (!data?.success) {
+      throw new Error("API returned unsuccessful response");
+    }
+
+    return data;
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const useTeamData = (teamKey: string) => {
+  return useQuery({
+    queryKey: ['team-data', teamKey],
+    queryFn: () => fetchTeamData(teamKey),
+    enabled: !!teamKey,
+    staleTime: 0,
+  });
+}

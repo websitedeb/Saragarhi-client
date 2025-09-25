@@ -79,6 +79,17 @@ export default function RootLayout() {
                     headerStyle: {backgroundColor: "#111827"},
                     headerShadowVisible: true,
                   }} />
+                  <Stack.Screen name="lookup" options={{
+                    headerTitle: "Lookup",
+                    headerTitleAlign: "center",
+                    headerTintColor: "#ed1c24",
+                    headerTitleStyle: { fontFamily: Fonts.Shrikhand},
+                    headerStyle: {backgroundColor: "#111827"},
+                    headerShadowVisible: true,
+                  }} />
+                  <Stack.Screen name="teams" options={{
+                    headerShown: false
+                  }} />
             </Stack>
         </QueryClientProvider>
     );
