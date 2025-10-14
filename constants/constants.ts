@@ -1,10 +1,6 @@
 export const Year : number = 2025;
 export const AT: string = "Cs7SlKYcjtXTJeGskesduTVc44ensMcSSKBMUNsaydPa6GATv1EGH8tiAzUlaV6x";
 
-export default function PredictionEquation(data: Object, datasetsToUse : any = [1]) {
-  //fix this
-}
-
 export const FormSchema : object = 
 {
   auto: {

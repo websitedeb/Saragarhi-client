@@ -30,7 +30,7 @@ export default function Dashboard() {
       setUser(session);
       const role = await getRole();
       if (!role) {
-        router.push("/signin");
+        router.push("/signup");
         return;
       }
       setRole(role);
@@ -77,28 +77,12 @@ export default function Dashboard() {
                 </BentoBox>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => {router.push("/predict")}}>
-                <BentoBox size="small" className="border-lime-400 w-40 h-40 rounded-3xl mb-5" style={{ backgroundColor: "rgba(132, 204, 22, 0.3)", borderWidth: 1 }}>
-                  <FontAwesome6 name="wand-magic-sparkles" size={30} color="white" />
-                  <Text className="text-white mt-2 text-3xl" style={{ fontFamily:Fonts.Inter }}>Predict</Text>
-                </BentoBox>
-              </TouchableOpacity>
-
               <TouchableOpacity onPress={() => {router.push("/lookup")}}>
                 <BentoBox size="small" className="border-orange-400 w-40 h-40 rounded-3xl mb-5" style={{ backgroundColor: "rgba(249, 115, 22, 0.3)", borderWidth: 1 }}>
                   <FontAwesome6 name="magnifying-glass" size={30} color="white" />
                   <Text className="text-white mt-2 text-3xl" style={{ fontFamily:Fonts.Inter }}>Lookup</Text>
                 </BentoBox>
               </TouchableOpacity>
-              
-              {Platform.OS != "web" && (
-                <TouchableOpacity onPress={() => {}}>
-                  <BentoBox size="small" className="border-green-400 w-40 h-40 rounded-3xl mb-5" style={{ backgroundColor: "rgba(34, 197, 94, 0.3)", borderWidth: 1 }}>
-                    <AntDesign name="calendar" size={30} color="white" />
-                    <Text className="text-white mt-2 text-3xl" style={{ fontFamily:Fonts.Inter }}>Agenda</Text>
-                  </BentoBox>
-                </TouchableOpacity>
-              )}
 
               {Platform.OS != "web" && (
                 <TouchableOpacity onPress={() => {}}>
@@ -108,13 +92,6 @@ export default function Dashboard() {
                   </BentoBox>
                 </TouchableOpacity>
               )}
-
-              <TouchableOpacity onPress={() => {}}>
-                <BentoBox size="small" className="border-blue-400 w-40 h-40 rounded-3xl mb-5" style={{ backgroundColor: "rgba(59, 130, 246, 0.3)", borderWidth: 1 }}>
-                  <MaterialIcons name="tv" size={30} color="white" />
-                  <Text className="text-white mt-2 text-3xl" style={{ fontFamily:Fonts.Inter }}>TV</Text>
-                </BentoBox>
-              </TouchableOpacity>
             </BentoGrid>
             
             {Platform.OS == "web" && (<Text className="text-red-600 text-center text-2xl mb-5" style={{ fontFamily: Fonts.Inter }}>Want more features? Get the iOS or Android App!</Text>)}
