@@ -1,8 +1,20 @@
+import { getSession } from "@/hooks/session";
 import { Fonts } from "@/hooks/useFont";
 import { Ionicons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
+import { useEffect, useState } from "react";
 
 export default function TabsLayout() {
+  const [session, setSession] = useState<Record<string, any> | null>(null);
+
+  useEffect(() => {
+    (async () => {
+      const sess = await getSession();
+      setSession(sess);
+    }
+    )();
+  }, []);
+
   return (
     <Tabs
       screenOptions={{
@@ -25,16 +37,29 @@ export default function TabsLayout() {
         },
       }}
     >
-      <Tabs.Screen
-        name="team"
-        options={{
-          title: "Team",
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="people" color={color} size={size} />
-          ),
-          headerShown: false
-        }}
-      />
+      {/*{session && session.Role === "Captain" || session?.Role === "Organizer" && (*/}
+        <Tabs.Screen
+          name="team"
+          options={{
+            title: "Team",
+            tabBarIcon: ({ color, size }) => (
+              <Ionicons name="people" color={color} size={size} />
+            ),
+            headerShown: false
+          }}
+        />
+      {/*)} : (
+        <Tabs.Screen
+          name="team"
+          options={{
+            tabBarShowLabel: false,
+            headerShown: false,
+            tabBarButton: () => null,
+            tabBarStyle: { display: "none" },
+          }}
+        />
+      )*/}
+
       <Tabs.Screen
         name="dashboard"
         options={{

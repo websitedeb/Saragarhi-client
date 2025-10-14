@@ -30,7 +30,7 @@ export default function Dashboard() {
       setUser(session);
       const role = await getRole();
       if (!role) {
-        router.push("/signup");
+        router.push("/signin");
         return;
       }
       setRole(role);
