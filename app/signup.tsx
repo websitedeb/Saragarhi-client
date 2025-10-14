@@ -58,7 +58,7 @@ export default function SignUn() {
       return res.json();
     },
     onSuccess: () => {
-      router.push("/");
+      router.push("/signin");
     },
     onError: (err: any) => {
       if (err.status === 400) {

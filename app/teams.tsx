@@ -85,7 +85,7 @@ export default function TeamSignUp() {
       return userRes.json();
     },
     onSuccess: () => {
-      router.push("/");
+      router.push("/signin");
     },
     onError: (err: any) => {
       if (err.status === 400) {
