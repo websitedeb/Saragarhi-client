@@ -1,9 +1,20 @@
+import { getSession } from '@/hooks/session';
 import MaskedView from '@react-native-masked-view/masked-view';
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
+import { useEffect } from 'react';
 import { Image, Text, TouchableOpacity, View } from "react-native";
 
 export default function SignIn() {
+
+  useEffect(() => {
+    (async () => {
+      const token = await getSession();
+      if (token) {
+        router.push("/dashboard");
+      }
+    })();
+  }, []);
 
   return (
     <View className="flex-1 bg-gray-900 justify-center items-center">

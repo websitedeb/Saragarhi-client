@@ -14,6 +14,7 @@ import {
   Text,
   View,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function TeamSignUp() {
   const [teamCodeErr, setTeamCodeErr] = useState("");
@@ -46,12 +47,15 @@ export default function TeamSignUp() {
         throw { status: 409, message: "Team already exists" };
       }
 
+      const parsedTC = parseInt(teamCode, 10);
+      const parsedTN = parseInt(teamNum, 10);
+
       const teamRes = await fetch(
         "https://saragarhi-api-database-test.sarthak22-ghoshal.workers.dev/addTeam",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ teamCode, teamNum, teamName }),
+          body: JSON.stringify({ teamCode: parsedTC, teamNum: parsedTN, teamName }),
         }
       );
 
@@ -59,7 +63,7 @@ export default function TeamSignUp() {
         const status = teamRes.status;
         const json = await teamRes.json();
         throw { status, message: json.error || "Failed to create team" };
-      }
+      } 
 
       const userRes = await fetch(
         "https://saragarhi-api-database-test.sarthak22-ghoshal.workers.dev/addUser",
@@ -69,7 +73,7 @@ export default function TeamSignUp() {
           body: JSON.stringify({
             email,
             name,
-            teamCode,
+            teamCode: parsedTC,
             Password: pass,
             Role: "Organizer"
           }),
@@ -84,7 +88,7 @@ export default function TeamSignUp() {
 
       return userRes.json();
     },
-    onSuccess: () => {
+    onSuccess: ($) => {
       router.push("/signin");
     },
     onError: (err: any) => {
@@ -102,6 +106,7 @@ export default function TeamSignUp() {
         setTeamCodeErr("Server error, try again later");
       } else {
         setTeamCodeErr("Unexpected error: " + err.message);
+        console.log(teamCodeErr)
       }
     },
   });
@@ -150,7 +155,7 @@ export default function TeamSignUp() {
         contentContainerStyle={{ padding: 20, alignItems: "center" }}
         keyboardShouldPersistTaps="handled"
       >
-        <View id="image" style={{ height: 240, marginTop: -96 }}>
+        <View id="image" style={{ height: 240, marginTop: -60 }}>
           <Image
             source={require("../assets/images/red_alert.png")}
             style={{
@@ -178,6 +183,7 @@ export default function TeamSignUp() {
             errorMessage={teamCodeErr}
             errorStyle={{ color: "red" }}
             style={{ fontFamily: "Inter", color: "white", fontWeight: "500" }}
+            keyboardType="numeric"
           />
           <Input
             placeholder="Team Number"
@@ -243,9 +249,14 @@ export default function TeamSignUp() {
             className="text-lg"
           />
 
-          <Link href="/signin" className="mt-12 text-red-700 underline text-xl">
-            Already have an Account?
-          </Link>
+          <SafeAreaView className="items-center">
+            <Link href="/signup" className="text-red-700 underline text-xl">
+              Don't have an Account?
+            </Link>
+            <Link href="/signin" className="mt-4 text-red-700 underline text-xl">
+              Already have an Account?
+            </Link>
+          </SafeAreaView>
         </Frame>
       </ScrollView>
     </KeyboardAvoidingView>

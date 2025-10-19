@@ -14,6 +14,7 @@ import {
   Text,
   View,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function SignUn() {
   const [emailErr, setEmailErr] = useState("");
@@ -216,18 +217,20 @@ export default function SignUn() {
             onClick={handleSignIn}
             className="text-lg"
           />
-          <Link
-            href="/signin"
-            className="mt-12 text-red-700 underline text-xl"
-          >
-            Already have an Account?
-          </Link>
-          <Link
-            href="/teams"
-            className="mt-12 text-red-700 underline text-xl"
-          >
-            Sign up a Team?
-          </Link>
+          <SafeAreaView className="items-center">
+            <Link
+              href="/teams"
+              className="text-red-700 underline text-xl"
+            >
+              Sign up a Team?
+            </Link>
+            <Link
+              href="/signin"
+              className="mt-4 text-red-700 underline text-xl"
+            >
+              Already have an Account?
+            </Link>
+          </SafeAreaView>
         </Frame>
       </ScrollView>
     </KeyboardAvoidingView>

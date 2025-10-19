@@ -6,12 +6,12 @@ import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 import { useEffect, useMemo, useState } from "react";
 import {
-    FlatList,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  FlatList,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -46,8 +46,8 @@ export default function Teams() {
   return (
     <SafeAreaView style={{ flex: 1 }} className="bg-gray-900">
       <View style={styles.headerContainer}>
-        <MaterialIcons name="people-alt" size={30} color="white" />
-        <Text style={styles.headerText}>Team Members</Text>
+        <MaterialIcons name="people-alt" size={30} color="red" />
+        <Text style={styles.headerText}>Your Team</Text>
       </View>
 
       <View style={styles.searchContainer}>
@@ -65,7 +65,12 @@ export default function Teams() {
         data={filteredMembers}
         keyExtractor={(item, index) => `${item.Name}-${index}`}
         renderItem={({ item }) => (
-          <TouchableOpacity onPress={() => {router.push(`/memberlookup/${item.Name}` as any);}}>
+          <TouchableOpacity onPress={() => {router.push({
+            pathname: "/memberlookup/[name]",
+            params: {
+              name: encodeURIComponent(JSON.stringify(item))
+            }
+          });}}>
             <LinearGradient
               colors={["#ed1c24", "#000000"]}
               start={{ x: 0, y: 0 }}
@@ -112,7 +117,7 @@ const styles = StyleSheet.create({
     borderBottomColor: "#4b5563",
   },
   headerText: {
-    color: "white",
+    color: "red",
     fontFamily: Fonts.Shrikhand,
     fontSize: 26,
   },
