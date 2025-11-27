@@ -1,23 +1,17 @@
-import getImageIcon from '@/hooks/useIconImage';
-import { useQuery } from '@tanstack/react-query';
+import EditableList from '@/components/Forms/spreadsheet';
 import { Stack, useLocalSearchParams } from 'expo-router';
 import React from 'react';
-import { Image, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function MemberPage() {
   const { name } = useLocalSearchParams();
   const item = name ? JSON.parse(decodeURIComponent(name as string)) : null;
+  
+  const initialData = JSON.parse(item["Time Table"] || "[]").length > 0
+    ? JSON.parse(item["Time Table"])
+    : [{ id: "1", Team: 0, Time: "00:00", Date: new Date().toISOString().slice(0, 10) }];
 
-  const { data: imageUri, isLoading, error } = useQuery({
-    queryKey: ['member-image', item?.Name],
-    queryFn: async () => {
-      if (!item?.Name) return undefined;
-      return await getImageIcon(item.Name);
-    },
-    enabled: !!item?.Name,
-    staleTime: 1000 * 60 * 60 * 24,
-  });
 
   return (
     <>
@@ -32,28 +26,8 @@ export default function MemberPage() {
         }}
       />
 
-      <SafeAreaView className="bg-gray-900 w-screen h-screen">
-        {isLoading && (
-          <Text style={{ color: 'white', fontSize: 16 }}>Loading image...</Text>
-        )}
-
-        {error && (
-          <Text style={{ color: 'red', fontSize: 16 }}>Failed to load image</Text>
-        )}
-
-        <View className="bg-gray-700 items-center w-screen p-4 rounded-b-3xl" style={{ alignSelf: 'flex-start' }}>
-            {imageUri && (
-                <Image
-                    source={{ uri: imageUri }}
-                    style={{
-                    width: 180,
-                    height: 180,
-                    borderRadius: 90,
-                    marginBottom: 8,
-                    }}
-                />
-            )}
-
+      <SafeAreaView className="bg-gray-900 w-screen h-screen gap-7">
+        <View className="bg-gray-800 items-center w-screen p-4 rounded-b-3xl" style={{ alignSelf: 'flex-start' }}>  
             <View style={{ alignItems: 'center' }}>
                 <Text
                     style={{
@@ -86,6 +60,15 @@ export default function MemberPage() {
                 </Text>
             </View>
         </View>
+        <SafeAreaView className='h-96'>
+          <EditableList
+            data={initialData}
+            onSave={(updated) => {
+              console.log(updated)
+            }}
+            targetName={item?.Name}
+          />
+        </ SafeAreaView>
       </SafeAreaView>
     </>
   );

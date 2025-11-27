@@ -5,6 +5,7 @@ import { CheckBox } from "@rneui/base";
 import { router } from "expo-router";
 import React, { useMemo, useState } from "react";
 import {
+  ScrollView,
   Text,
   TextInput,
   TouchableOpacity,
@@ -265,7 +266,7 @@ export function FormFactory({ schema }: { schema: any }) {
   };
 
   return (
-    <View className="p-4 space-y-4 bg-gray-900 min-h-screen">
+    <ScrollView className="p-4 space-y-4 bg-gray-900">
       <Text
         className="text-center text-3xl text-red-600 border-b-2 border-b-red-600"
         style={{ fontFamily: Fonts.Shrikhand }}
@@ -301,6 +302,6 @@ export function FormFactory({ schema }: { schema: any }) {
           </TouchableOpacity>
         )}
       </View>
-    </View>
+    </ScrollView>
   );
 }

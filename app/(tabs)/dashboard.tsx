@@ -1,7 +1,6 @@
-import { Button } from "@/components/Forms/button";
 import { BentoBox, BentoGrid } from "@/hooks/bento";
 import getRole from "@/hooks/getRole";
-import { clearSession, getSession, protectRoute } from "@/hooks/session";
+import { getSession, protectRoute } from "@/hooks/session";
 import { Fonts, preloadIconFonts } from "@/hooks/useFont";
 import { AntDesign, FontAwesome6, MaterialIcons } from '@expo/vector-icons';
 import { router } from "expo-router";
@@ -12,11 +11,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 export default function Dashboard() {
   const [user, setUser] = useState<Record<string, any> | null>(null);
   const [role, setRole] = useState<string | null>(null);
-
-  async function deleteSession() {
-    await clearSession();
-    router.push("/");
-  }
 
   useEffect(() => {
     protectRoute();
@@ -48,14 +42,14 @@ export default function Dashboard() {
 
             <BentoGrid>
               <TouchableOpacity onPress={() => {router.push("/scout")}}>
-                <BentoBox size="small" className="border-yellow-400 w-40 h-40 rounded-3xl mb-5" style={{ backgroundColor: "rgba(253, 224, 71, 0.3)", borderWidth: 1 }}>
+                <BentoBox size="small" className="border-yellow-400 w-48 h-40 rounded-3xl mb-5" style={{ backgroundColor: "rgba(253, 224, 71, 0.3)", borderWidth: 1 }}>
                   <AntDesign name="form" size={30} color="white" />
                   <Text className="text-white mt-2 text-3xl" style={{ fontFamily:Fonts.Inter }}>Scout</Text>
                 </BentoBox>
               </TouchableOpacity>
 
               <TouchableOpacity onPress={() => {router.push("/picklist")}}>
-                <BentoBox size="small" className="border-rose-400 w-40 h-40 rounded-3xl mb-5" style={{ backgroundColor: "rgba(244, 63, 94, 0.3)", borderWidth: 1 }}>
+                <BentoBox size="small" className="border-rose-400 w-48 h-40 rounded-3xl mb-5" style={{ backgroundColor: "rgba(244, 63, 94, 0.3)", borderWidth: 1 }}>
                   <MaterialIcons name="checklist-rtl" size={30} color="white" />
                   <Text className="text-white mt-2 text-3xl" style={{ fontFamily:Fonts.Inter }}>Picklist</Text>
                 </BentoBox>
@@ -63,7 +57,7 @@ export default function Dashboard() {
 
               {Platform.OS != "web" && (
                 <TouchableOpacity onPress={() => {router.push("/planner")}}>
-                  <BentoBox size="small" className="border-cyan-400 w-40 h-40 rounded-3xl mb-5" style={{ backgroundColor: "rgba(6, 182, 212, 0.3)", borderWidth: 1 }}>
+                  <BentoBox size="small" className="border-cyan-400 w-48 h-40 rounded-3xl mb-5" style={{ backgroundColor: "rgba(6, 182, 212, 0.3)", borderWidth: 1 }}>
                     <MaterialIcons name="draw" size={30} color="white" />
                     <Text className="text-white mt-2 text-3xl" style={{ fontFamily:Fonts.Inter }}>Planner</Text>
                   </BentoBox>
@@ -71,14 +65,14 @@ export default function Dashboard() {
               )}
 
               <TouchableOpacity onPress={() => {router.push("/rank")}}>
-                <BentoBox size="small" className="border-purple-400 w-40 h-40 rounded-3xl mb-5" style={{ backgroundColor: "rgba(168, 85, 247, 0.3)", borderWidth: 1 }}>
+                <BentoBox size="small" className="border-purple-400 w-48 h-40 rounded-3xl mb-5" style={{ backgroundColor: "rgba(168, 85, 247, 0.3)", borderWidth: 1 }}>
                   <FontAwesome6 name="ranking-star" size={30} color="white" />
                   <Text className="text-white mt-2 text-3xl" style={{ fontFamily:Fonts.Inter }}>Ranks</Text>
                 </BentoBox>
               </TouchableOpacity>
 
               <TouchableOpacity onPress={() => {router.push("/lookup")}}>
-                <BentoBox size="small" className="border-orange-400 w-40 h-40 rounded-3xl mb-5" style={{ backgroundColor: "rgba(249, 115, 22, 0.3)", borderWidth: 1 }}>
+                <BentoBox size="small" className="border-orange-400 w-48 h-40 rounded-3xl mb-5" style={{ backgroundColor: "rgba(249, 115, 22, 0.3)", borderWidth: 1 }}>
                   <FontAwesome6 name="magnifying-glass" size={30} color="white" />
                   <Text className="text-white mt-2 text-3xl" style={{ fontFamily:Fonts.Inter }}>Lookup</Text>
                 </BentoBox>
@@ -86,7 +80,7 @@ export default function Dashboard() {
 
               {Platform.OS != "web" && (
                 <TouchableOpacity onPress={() => {}}>
-                  <BentoBox size="small" className="border-fuchsia-400 w-40 h-40 rounded-3xl mb-5" style={{ backgroundColor: "rgba(217, 70, 239, 0.3)", borderWidth: 1 }}>
+                  <BentoBox size="small" className="border-fuchsia-400 w-48 h-40 rounded-3xl mb-5" style={{ backgroundColor: "rgba(217, 70, 239, 0.3)", borderWidth: 1 }}>
                     <FontAwesome6 name="qrcode" size={30} color="white" />
                     <Text className="text-white mt-2 text-3xl" style={{ fontFamily:Fonts.Inter }}>QR</Text>
                   </BentoBox>
@@ -95,8 +89,6 @@ export default function Dashboard() {
             </BentoGrid>
             
             {Platform.OS == "web" && (<Text className="text-red-600 text-center text-2xl mb-5" style={{ fontFamily: Fonts.Inter }}>Want more features? Get the iOS or Android App!</Text>)}
-
-            <Button onClick={deleteSession} title="Logout" style={{ backgroundColor: "rgba(239, 68, 68, 0.45)" }}/>
 
         </ScrollView>
     </SafeAreaView>
