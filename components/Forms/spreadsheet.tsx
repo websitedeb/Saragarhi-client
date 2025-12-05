@@ -65,7 +65,11 @@ export default function EditableList({ data, onSave, targetName }: EditableListP
 
   function handleSave() {
     onSave?.(items);
-    Alert.alert("Saved!", children.toString());
+    if (Platform.OS === "web") {
+      alert("Saved! " + children.toString());
+    } else {
+      Alert.alert("Saved!", `You have ${children} times saved. This may take a hot minute to reflect on the profile.`);
+    }
     (async () => {
       const res = await fetch(
         "https://saragarhi-api-database-test.sarthak22-ghoshal.workers.dev/updateTimeTable",
@@ -126,8 +130,6 @@ export default function EditableList({ data, onSave, targetName }: EditableListP
     date = selectedDate;
   }
 
-  console.log("Selected time:", date);
-
   if (date && currentPickerId) {
     const hours = date.getHours().toString().padStart(2, "0");
     const minutes = date.getMinutes().toString().padStart(2, "0");
@@ -159,7 +161,7 @@ export default function EditableList({ data, onSave, targetName }: EditableListP
   }
 
   return (
-    <View style={styles.container} className="w-96 h-96 self-center rounded-2xl">
+    <View style={styles.container} className="w-96 h-96 self-center rounded-2xl min-h-96">
       <FlatList
         data={items}
         keyExtractor={(item) => item.id}
@@ -203,7 +205,7 @@ export default function EditableList({ data, onSave, targetName }: EditableListP
 
             {/* DELETE */}
             <TouchableOpacity style={styles.deleteBtn} onPress={() => removeItem(item.id)}>
-              <Ionicons name="trash-outline" size={20} color="#ef4444" className="!font-bold hover:!text-red-950 transition"/>
+              <Ionicons name="trash-outline" size={20} color="#ef4444"/>
             </TouchableOpacity>
           </View>
         )}
@@ -294,37 +296,41 @@ const styles = StyleSheet.create({
   },
 
   row: {
-    flexDirection: "row",
-    backgroundColor: "#374151",
-    borderWidth: 1,
-    borderColor: "red",
-    borderRadius: 8,
-    padding: 8,
-    marginBottom: 8,
-    alignItems: "center",
-    gap: 10,
-  },
+  flexDirection: "row",
+  backgroundColor: "#374151",
+  borderWidth: 1,
+  borderColor: "red",
+  borderRadius: 8,
+  padding: 8,
+  marginBottom: 8,
+  alignItems: "center",
+  gap: 4,              
+},
+
 
   cell: {
-    borderColor: "#030712",
-    borderWidth: 1,
-    borderRadius: 6,
-    paddingHorizontal: 8,
-    paddingVertical: 10,
-    fontSize: 16,
-    backgroundColor: "#230001",
-    color: "white",
-    fontFamily: Fonts.Inter,
-    minWidth: 80,
-    maxWidth: 80,
-    minHeight: 40,
-    maxHeight: 40
-  },
+  borderColor: "#030712",
+  borderWidth: 1,
+  borderRadius: 6,
+  paddingHorizontal: 8,
+  paddingVertical: 10,
+  fontSize: 16,
+  backgroundColor: "#230001",
+  color: "white",
+  fontFamily: Fonts.Inter,
+  width: 60,          
+  minHeight: 40,
+  maxHeight: 40,
+},
 
   deleteBtn: {
-    marginLeft: 6,
-    padding: 4,
-  },
+  marginLeft: 4,
+  padding: 4,
+  width: 32,          
+  alignItems: "center",
+  justifyContent: "center",
+},
+
 
   footer: {
     flexDirection: "row",

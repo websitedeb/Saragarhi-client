@@ -5,3 +5,15 @@
 .mainColor {
     color: #ed1c24;
 }
+
+::-webkit-scrollbar {
+    background-color: #111827;
+    width: 8px;
+  }
+
+::-webkit-scrollbar-thumb {
+    background-color: #ed1c24;
+    border-radius: 10px;
+    width: 5px;
+    height: 5px;
+  }
