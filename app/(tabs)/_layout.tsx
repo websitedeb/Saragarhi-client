@@ -11,9 +11,15 @@ export default function TabsLayout() {
     (async () => {
       const sess = await getSession();
       setSession(sess);
-    }
-    )();
+    })();
   }, []);
+
+  const canViewTeam =
+    session?.Role === "Captain" || session?.Role === "Organizer";
+
+  if (session === null) {
+    return null;
+  }
 
   return (
     <Tabs
@@ -37,7 +43,7 @@ export default function TabsLayout() {
         },
       }}
     >
-      {/*{session && session.Role === "Captain" || session?.Role === "Organizer" && (*/}
+      {canViewTeam ? (
         <Tabs.Screen
           name="team"
           options={{
@@ -45,20 +51,18 @@ export default function TabsLayout() {
             tabBarIcon: ({ color, size }) => (
               <Ionicons name="people" color={color} size={size} />
             ),
-            headerShown: false
+            headerShown: false,
           }}
         />
-      {/*)} : (
+      ) : (
         <Tabs.Screen
           name="team"
           options={{
-            tabBarShowLabel: false,
             headerShown: false,
             tabBarButton: () => null,
-            tabBarStyle: { display: "none" },
           }}
         />
-      )*/}
+      )}
 
       <Tabs.Screen
         name="dashboard"
@@ -67,9 +71,10 @@ export default function TabsLayout() {
           tabBarIcon: ({ color, size }) => (
             <FontAwesome name="dashboard" color={color} size={size} />
           ),
-          headerShown: false
+          headerShown: false,
         }}
       />
+
       <Tabs.Screen
         name="settings"
         options={{
@@ -77,7 +82,7 @@ export default function TabsLayout() {
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="cog" color={color} size={size} />
           ),
-          headerShown: false
+          headerShown: false,
         }}
       />
     </Tabs>

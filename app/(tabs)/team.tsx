@@ -38,9 +38,9 @@ export default function Teams() {
 
   const filteredMembers = useMemo(() => {
     if (!members) return [];
-    return members.filter((m: any) =>
-      m.Name.toLowerCase().includes(search.toLowerCase())
-    );
+    return members.filter((m: any) => 
+      m.Name.toLowerCase().includes(search.toLowerCase()) && m.Role !== session.Role
+    ); 
   }, [members, search]);
 
   return (

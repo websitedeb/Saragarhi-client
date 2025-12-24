@@ -1,7 +1,8 @@
 import EditableList from '@/components/Forms/spreadsheet';
+import { getSession } from '@/hooks/session';
 import { Picker } from "@react-native-picker/picker";
 import { Stack, useLocalSearchParams } from 'expo-router';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Alert, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -16,6 +17,15 @@ export default function MemberPage() {
   const [username, setUsername] = useState(item?.Name || "");
   const [email, setEmail] = useState(item?.Email || "");
   const [role, setRole] = useState(item?.Role || "Member");
+  const [session, setSession] = useState<any>(null);
+
+  useEffect(() => {
+    const fetchSession = async () => {
+      const sessionData = await getSession();
+      setSession(sessionData);
+    };
+    fetchSession();
+  }, []);
 
   const handleSaveField = async (key: string, value: any) => {
     switch (key) {
@@ -27,7 +37,7 @@ export default function MemberPage() {
         }).then((res) => Alert.alert("Success", "Username updated successfully!"));
         break;
       case "Email":
-        await fetch(`https://saragarhi-api-database-test.sarthak22-ghoshal.workers.dev/updateMemberEmail`, {    // add he new body points to all of these, open the backend to figure it out
+        await fetch(`https://saragarhi-api-database-test.sarthak22-ghoshal.workers.dev/updateMemberEmail`, { 
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ oldEmail: item?.Email, new: value, name: item?.Name  }),
@@ -119,7 +129,7 @@ export default function MemberPage() {
               >
                 <Picker.Item label="Scouter" value="Scouter" />
                 <Picker.Item label="Captain" value="Captain" />
-                <Picker.Item label="Organizer" value="Organizer" />
+                {session?.Role === "Organizer" && <Picker.Item label="Organizer" value="Organizer" />}
               </Picker>
               <TouchableOpacity
                 onPress={() => handleSaveField("Role", role)}

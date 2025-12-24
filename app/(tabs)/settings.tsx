@@ -1,64 +1,304 @@
 import { Button } from "@/components/Forms/button";
-import { clearSession, getSession, protectRoute } from "@/hooks/session";
+import { clearSession, getSession, protectRoute, saveSession } from "@/hooks/session";
 import { Fonts, preloadIconFonts } from "@/hooks/useFont";
 import { MaterialIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
-import { useEffect } from "react";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { useEffect, useState } from "react";
+import {
+  Alert,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-export default function Workspace() {
-    useEffect(() => {
-        protectRoute();
-        preloadIconFonts();
-        (async () => {
-        const session = await getSession();
-        if (!session) {
-            router.push("/signin");
-            return;
-        }
-        })();
-    }, []);
+const Colors = {
+  primary: "#ed1c24", 
+  background: "#111827", 
+  card: "#141A23",
+  border: "rgba(239, 68, 68, 0.45)",
+  text: "#ffffff",
+  placeholder: "#ef4444",
+};
 
-    async function deleteSession() {
-        await clearSession();
-        router.push("/");
+export default function Settings() {
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [pass, setPass] = useState("");
+
+  const [origUsername, setOrigUsername] = useState("");
+  const [origEmail, setOrigEmail] = useState("");
+
+  const [session, setSession] = useState<any>(null);
+
+  useEffect(() => {
+    protectRoute();
+    preloadIconFonts();
+
+    (async () => {
+      const session = await getSession();
+      if (!session) {
+        router.replace("/signin");
+        return;
+      }
+
+      setSession(session);
+      setUsername(session.Name);
+      setEmail(session.Email);
+      setOrigUsername(session.Name);
+      setOrigEmail(session.Email);
+    })();
+  }, []);
+
+  const handleSaveField = async (
+    key: "Name" | "Email" | "Password",
+    value: string
+  ) => {
+    try {
+      let res: Response;
+
+      switch (key) {
+        case "Name":
+          res = await fetch(
+            "https://saragarhi-api-database-test.sarthak22-ghoshal.workers.dev/updateMemberName",
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                old: origUsername,
+                new: value,
+                email: origEmail,
+              }),
+            }
+          );
+
+          if (!res.ok) throw new Error(await res.text());
+
+          setOrigUsername(value);
+          await saveSession({ ...session, Name: value });
+          setSession({ ...session, Name: value });
+          Alert.alert("Success", "Username updated!");
+          router.replace("/settings");
+          break;
+
+        case "Email":
+          res = await fetch(
+            "https://saragarhi-api-database-test.sarthak22-ghoshal.workers.dev/updateMemberEmail",
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                oldEmail: origEmail,
+                new: value,
+                name: origUsername,
+              }),
+            }
+          );
+
+          if (!res.ok) throw new Error(await res.text());
+
+          setOrigEmail(value);
+          await saveSession({ ...session, Email: value });
+          setSession({ ...session, Email: value });
+          Alert.alert("Success", "Email updated!");
+          router.replace("/settings");
+          break;
+
+        case "Password":
+          res = await fetch(
+            "https://saragarhi-api-database-test.sarthak22-ghoshal.workers.dev/updateMemberPass",
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                email: origEmail,
+                password: value,
+              }),
+            }
+          );
+
+          if (!res.ok) throw new Error(await res.text());
+
+          setPass("");
+          await saveSession({ ...session, Password: value });
+          setSession({ ...session, Password: value });
+          Alert.alert("Success", "Password updated!");
+          router.replace("/settings");
+          break;
+      }
+    } catch (err: any) {
+      Alert.alert("Error", err.message || "Update failed");
     }
+  };
 
-    return (
-        <SafeAreaView className="bg-gray-900 w-screen h-screen">
-            <View style={styles.headerContainer} className="mb-10">
-                <MaterialIcons name="settings" size={30} color="red" />
-                <Text style={styles.headerText}>Your Settings</Text>
-            </View>
-            <ScrollView>
-                <View className="m-10 border-red-600 border-xl p-2" style={{ borderColor: "rgba(239, 68, 68, 0.45)", borderWidth: 2, borderRadius: 12 }}>
-                    <View className="flex-row items-center mb-5" style={{ gap: 8 }}>
-                        <MaterialIcons name="dangerous" size={24} color="red" />
-                        <Text className="text-red-600 text-2xl mb-5 pt-5" style={styles.headerText}>Danger Zone</Text>
-                    </View>
-                    <Button onClick={deleteSession} title="Logout" style={{ backgroundColor: "rgba(239, 68, 68, 0.45)" }} className="text-xl"/>
-                    <Text className="mt-1"></Text>
-                </View>
-            </ScrollView>
-        </SafeAreaView>
-    );
+  async function deleteSession() {
+    await clearSession();
+    router.replace("/");
+  }
+
+  return (
+    <SafeAreaView style={styles.container}>
+      {/* Header */}
+      <View style={styles.headerContainer}>
+        <MaterialIcons name="settings" size={30} color={Colors.primary} />
+        <Text style={styles.headerText}>Your Settings</Text>
+      </View>
+
+      <ScrollView contentContainerStyle={{ paddingBottom: 40 }}>
+        {/* Account Card */}
+        <View style={styles.card}>
+          {/* Username */}
+          <View style={styles.inputGroup}>
+            <TextInput
+              placeholder="Username"
+              value={username}
+              onChangeText={setUsername}
+              style={styles.input}
+              placeholderTextColor={Colors.placeholder}
+            />
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => handleSaveField("Name", username)}
+            >
+              <Text style={styles.buttonText}>Save Username</Text>
+            </TouchableOpacity>
+          </View>
+
+          {/* Email */}
+          <View style={styles.inputGroup}>
+            <TextInput
+              placeholder="Email"
+              value={email}
+              onChangeText={setEmail}
+              style={styles.input}
+              placeholderTextColor={Colors.placeholder}
+            />
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => handleSaveField("Email", email)}
+            >
+              <Text style={styles.buttonText}>Save Email</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        {/* Danger Zone */}
+        <View style={styles.dangerCard}>
+          <View style={styles.dangerHeader}>
+            <MaterialIcons name="dangerous" size={24} color={Colors.primary} />
+            <Text style={styles.dangerHeaderText}>Danger Zone</Text>
+          </View>
+
+          <Button
+            onClick={deleteSession}
+            title={<Text style={styles.buttonText}>Exit</Text>}
+            style={styles.dangerButton}
+          />
+
+          {/* Password */}
+          <View style={styles.inputGroup}>
+            <TextInput
+              placeholder="New Password"
+              value={pass}
+              onChangeText={setPass}
+              secureTextEntry
+              style={styles.input}
+              placeholderTextColor={Colors.placeholder}
+            />
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => handleSaveField("Password", pass)}
+            >
+              <Text style={styles.buttonText}>Change Password</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
+  );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: Colors.background,
+  },
   headerContainer: {
     flexDirection: "row",
     alignItems: "center",
     gap: 8,
     paddingHorizontal: 20,
-    paddingTop: 12,
-    paddingBottom: 8,
+    paddingVertical: 12,
     borderBottomWidth: 2,
-    borderBottomColor: "#4b5563",
+    borderBottomColor: Colors.card,
   },
   headerText: {
-    color: "red",
+    color: Colors.primary,
     fontFamily: Fonts.Shrikhand,
     fontSize: 26,
-  }
+  },
+  card: {
+    backgroundColor: Colors.card,
+    marginHorizontal: 20,
+    marginVertical: 10,
+    padding: 20,
+    borderRadius: 12,
+    borderWidth: 2,
+    borderColor: Colors.border,
+  },
+  inputGroup: {
+    marginBottom: 15,
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: Colors.primary,
+    borderRadius: 8,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    color: Colors.text,
+    fontSize: 18,
+    marginBottom: 8,
+  },
+  button: {
+    backgroundColor: Colors.primary,
+    paddingVertical: 10,
+    borderRadius: 8,
+    alignItems: "center",
+  },
+  buttonText: {
+    color: Colors.text,
+    fontWeight: "bold",
+    fontSize: 16,
+  },
+  dangerCard: {
+    backgroundColor: Colors.card,
+    marginHorizontal: 20,
+    marginVertical: 10,
+    padding: 20,
+    borderRadius: 12,
+    borderWidth: 2,
+    borderColor: Colors.border,
+    gap: 15,
+  },
+  dangerHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    marginBottom: 10,
+  },
+  dangerHeaderText: {
+    color: Colors.primary,
+    fontFamily: Fonts.Shrikhand,
+    fontSize: 24,
+  },
+  dangerButton: {
+    backgroundColor: Colors.border,
+    paddingVertical: 10,
+    borderRadius: 8,
+    alignItems: "center",
+    marginBottom: 15,
+  },
 });
