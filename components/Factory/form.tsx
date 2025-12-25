@@ -17,7 +17,20 @@ const pageOrder = ["auto", "tele", "end"];
 
 function isWithinFiveMinutesBefore(date: string, time: string) {
   const now = new Date();
-  const match = new Date(`${date}T${time}:00`);
+
+  const [year, month, day] = date.split("-").map(Number);
+  const [hours, minutes] = time.split(":").map(Number);
+
+  const match = new Date(
+    year,
+    month - 1,
+    day,
+    hours,
+    minutes,
+    0,
+    0
+  );
+
   const fiveMinutesBefore = new Date(match.getTime() - 5 * 60 * 1000);
 
   return now >= fiveMinutesBefore && now <= match;
@@ -288,12 +301,13 @@ export function FormFactory({ schema }: { schema: any }) {
             ) : (
               <View className="border border-white rounded-md">
                 <Picker
-                  selectedValue={formData[pageKey]?.[fieldKey]}
+                  selectedValue={"def"}
                   onValueChange={(val) => handleChange(pageKey, fieldKey, val)}
                   dropdownIconColor="white"
                   style={{ color: "#ef4444" }}
                   className="font-bold bg-gray-800 text-xl"
                 >
+                  <Picker.Item label="Select an option..." value="N/A" key="def"/>
                   {config.options.map((opt: any) => (
                     <Picker.Item key={opt} label={opt} value={opt} />
                   ))}
