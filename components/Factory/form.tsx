@@ -1,9 +1,10 @@
+import { getSession } from "@/hooks/session";
 import { DataSetsType } from "@/hooks/store";
 import { Fonts } from "@/hooks/useFont";
 import { Picker } from "@react-native-picker/picker";
 import { CheckBox } from "@rneui/base";
 import { router } from "expo-router";
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   ScrollView,
   Text,
@@ -14,6 +15,14 @@ import {
 
 const pageOrder = ["auto", "tele", "end"];
 
+function isWithinFiveMinutesBefore(date: string, time: string) {
+  const now = new Date();
+  const match = new Date(`${date}T${time}:00`);
+  const fiveMinutesBefore = new Date(match.getTime() - 5 * 60 * 1000);
+
+  return now >= fiveMinutesBefore && now <= match;
+}
+
 export function FormFactory({ schema }: { schema: any }) {
   const [pageIndex, setPageIndex] = useState(0);
   const [formData, setFormData] = useState<Record<string, any>>({});
@@ -21,6 +30,40 @@ export function FormFactory({ schema }: { schema: any }) {
 
   const currentPageKey = pageOrder[pageIndex];
   const currentPage = schema[currentPageKey];
+
+  useEffect(() => {(async () => {
+    const session = await getSession();
+    if (!session?.TimeTable) return;
+
+    if (formData?.auto?.TEAM_NUMBER) return;
+
+    let timetable;
+    try {
+      timetable =
+        typeof session.TimeTable === "string"
+          ? JSON.parse(session.TimeTable)
+          : session.TimeTable;
+    } catch {
+      return;
+    }
+
+    const today = new Date().toISOString().split("T")[0];
+
+    const upcoming = timetable.find((entry: any) =>
+      entry.Date === today &&
+      isWithinFiveMinutesBefore(entry.Date, entry.Time)
+    );
+
+    if (!upcoming) return;
+
+    setFormData((prev) => ({
+      ...prev,
+      auto: {
+        ...prev.auto,
+        TEAM_NUMBER: upcoming.Team,
+      },
+    }));
+  })()}, []);
 
   const binders = useMemo(() => {
     const list: Array<[string, string, number, string]> = [];

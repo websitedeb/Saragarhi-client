@@ -27,8 +27,8 @@ export default function Planner() {
   const canvasRef = useCanvasRef();
   const router = useRouter();
 
-  const [paths, setPaths] = useState<{ path: Skia.Path; color: string }[]>([]);
-  const [currentPath, setCurrentPath] = useState<Skia.Path | null>(null);
+  const [paths, setPaths] = useState<{ path: any; color: string }[]>([]);
+  const [currentPath, setCurrentPath] = useState<any | null>(null);
   const [currentColor, setCurrentColor] = useState<string>("red");
 
   const panResponder = useMemo(

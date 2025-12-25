@@ -3,6 +3,7 @@ import getRole from "@/hooks/getRole";
 import { getSession, protectRoute } from "@/hooks/session";
 import { Fonts, preloadIconFonts } from "@/hooks/useFont";
 import { AntDesign, FontAwesome6, MaterialIcons } from '@expo/vector-icons';
+import { useCameraPermissions } from "expo-camera";
 import { router } from "expo-router";
 import { useEffect, useState } from "react";
 import { Platform, ScrollView, Text, TouchableOpacity } from "react-native";
@@ -11,6 +12,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 export default function Dashboard() {
   const [user, setUser] = useState<Record<string, any> | null>(null);
   const [role, setRole] = useState<string | null>(null);
+  const [permission, requestPermission] = useCameraPermissions();
+  const hasPerms = Boolean(permission?.granted);
 
   useEffect(() => {
     protectRoute();
@@ -30,6 +33,11 @@ export default function Dashboard() {
       setRole(role);
     })();
   }, []);
+
+  function qrcodefunc() {
+    requestPermission();
+    if (hasPerms) router.push("/qrcode" as any);
+  }
 
   return (
     <SafeAreaView style={{ flex: 1 }} className="bg-gray-900">
@@ -79,7 +87,7 @@ export default function Dashboard() {
               </TouchableOpacity>
 
               {Platform.OS != "web" && (
-                <TouchableOpacity onPress={() => {}}>
+                <TouchableOpacity onPress={() => {qrcodefunc()}}>
                   <BentoBox size="small" className="border-fuchsia-400 w-48 h-40 rounded-3xl mb-5 web:!w-screen web:!h-28" style={{ backgroundColor: "rgba(217, 70, 239, 0.3)", borderWidth: 1 }}>
                     <FontAwesome6 name="qrcode" size={30} color="white" />
                     <Text className="text-white mt-2 text-3xl" style={{ fontFamily:Fonts.Inter }}>QR</Text>

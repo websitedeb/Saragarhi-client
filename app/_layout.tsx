@@ -93,6 +93,9 @@ export default function RootLayout() {
                   <Stack.Screen name="teams" options={{
                     headerShown: false
                   }} />
+                  <Stack.Screen name="qrcode" options={{
+                    headerShown: false
+                  }} />
             </Stack>
         </QueryClientProvider>
     );
