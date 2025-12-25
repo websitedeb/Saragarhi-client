@@ -29,5 +29,3 @@
                 </BentoBox>   
               </TouchableOpacity>
 ```
-
-add settings screen

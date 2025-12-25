@@ -80,7 +80,7 @@ export const FormSchema : object =
       binding: {
         with: 1,
         type: "text",
-        uuid: "val2"
+        uuid: "FINAL_NOTES"
       }
     },
     dropdown: {
@@ -107,5 +107,8 @@ export const DisplaySchema : Object = {
   Three: {
     name: "Place",
     type: "line"
+  },
+  FinalNotes: {
+    type: "$FinalNotes"
   }
 }

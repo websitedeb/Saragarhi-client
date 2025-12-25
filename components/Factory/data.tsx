@@ -51,6 +51,24 @@ export function DataFactory({ schema, dataset }: DataFactoryProps) {
           </View>
         );
 
+      case "$FinalNotes":
+        let notesObj = {};
+        notesObj = JSON.parse(String(dataset["FinalNotes"] || "{}"));
+
+        return (
+          <View key={key} className="p-4 bg-gray-800 rounded-2xl shadow-md my-2">
+            <Text className="text-white text-lg font-bold mb-2">Final Notes:</Text>
+            {Object.entries(notesObj).map(([noteKey, noteValue]) => (
+              <View key={noteKey} className="flex-row items-start mb-1">
+                <Text className="text-red-500 mr-2" style={{ fontFamily: Fonts.Shrikhand }}>
+                  {noteKey}.
+                </Text>
+                <Text className="text-white text-base">{String(noteValue)}</Text>
+              </View>
+            ))}
+          </View>
+        );
+
       default:
         return (
           <View key={key} className="my-2 p-3 bg-gray-800 rounded-lg">
