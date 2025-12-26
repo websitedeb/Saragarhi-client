@@ -1,14 +1,12 @@
 import { Button } from "@/components/Forms/button";
 import { protectRoute } from "@/hooks/session";
-import { router, useLocalSearchParams } from "expo-router";
+import { router } from "expo-router";
 import { useEffect } from "react";
 import { Text } from "react-native";
-import QRCode from "react-native-qrcode-svg";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 
-export default function Complete(){
-    const { dataset } = useLocalSearchParams();
+export default function Complete2(){
 
     useEffect(() => {
         protectRoute();
@@ -16,15 +14,8 @@ export default function Complete(){
 
     return (
         <SafeAreaView className="bg-gray-900 w-screen h-screen items-center justify-center">
-            <Text className="text-white font-['Shrikhand'] text-4xl text-center mt-10 mainColor">Scouting Form Completed!</Text>
+            <Text className="text-white font-['Shrikhand'] text-4xl text-center mt-10 mainColor">Scan Completed!</Text>
             <Text className="text-white font-['Fun'] text-3xl text-center mt-5 px-5 mb-5">Good Work!</Text>
-            <QRCode
-                value={dataset as string}
-                size={150}
-                color="black"
-                backgroundColor="white"
-            />
-            <Text className="pb-10"></Text>
             <Button onClick={() => {router.navigate("/dashboard")}} title={"Dashboard"} />
         </SafeAreaView>
     );

@@ -96,6 +96,9 @@ export default function RootLayout() {
                   <Stack.Screen name="qrcode" options={{
                     headerShown: false
                   }} />
+                  <Stack.Screen name="complete2" options={{
+                    headerShown: false
+                  }} />
             </Stack>
         </QueryClientProvider>
     );

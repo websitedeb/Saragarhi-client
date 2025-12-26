@@ -202,7 +202,7 @@ export function FormFactory({ schema }: { schema: any }) {
         console.error("Not valid JSON:", err);
         return;
       }
-      if (data.success) router.push("/complete");
+      if (data.success) router.push({ pathname: "/complete", params: { dataset: `${JSON.stringify(dataset)}` } });
     })
     .catch(err => console.error(err, dataset));
   }
@@ -301,7 +301,7 @@ export function FormFactory({ schema }: { schema: any }) {
             ) : (
               <View className="border border-white rounded-md">
                 <Picker
-                  selectedValue={"def"}
+                  selectedValue={formData[currentPageKey]?.[fieldKey]}
                   onValueChange={(val) => handleChange(pageKey, fieldKey, val)}
                   dropdownIconColor="white"
                   style={{ color: "#ef4444" }}
