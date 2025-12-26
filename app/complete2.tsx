@@ -14,7 +14,7 @@ export default function Complete2(){
 
     return (
         <SafeAreaView className="bg-gray-900 w-screen h-screen items-center justify-center">
-            <Text className="text-white font-['Shrikhand'] text-4xl text-center mt-10 mainColor">Scan Completed!</Text>
+            <Text className="text-white font-['Shrikhand'] text-4xl text-center mt-10 mainColor">Scanned!</Text>
             <Text className="text-white font-['Fun'] text-3xl text-center mt-5 px-5 mb-5">Good Work!</Text>
             <Button onClick={() => {router.navigate("/dashboard")}} title={"Dashboard"} />
         </SafeAreaView>

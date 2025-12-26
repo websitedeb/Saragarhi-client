@@ -187,24 +187,7 @@ export function FormFactory({ schema }: { schema: any }) {
     });
 
     dataset["NumberOfDataSets"] = prev_connector;
-
-    fetch("https://saragarhi-api-database-test.sarthak22-ghoshal.workers.dev/addReport", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(dataset),
-    })
-    .then(async res => {
-      const text = await res.text();
-      let data;
-      try {
-        data = JSON.parse(text);
-      } catch (err) {
-        console.error("Not valid JSON:", err);
-        return;
-      }
-      if (data.success) router.push({ pathname: "/complete", params: { dataset: `${JSON.stringify(dataset)}` } });
-    })
-    .catch(err => console.error(err, dataset));
+    router.push({ pathname: "/complete", params: { dataset: `${JSON.stringify(dataset)}` } });
   }
 
   const renderField = (pageKey: string, fieldType: string, config: any) => {

@@ -43,7 +43,8 @@ export default function TeamSignUp() {
           body: JSON.stringify({ teamNum }),
         }
       );
-      if (checkRes.ok) {
+      const checkData = await checkRes.json();
+      if (checkRes.ok && checkData.unNamed == false && checkData.success) {
         throw { status: 409, message: "Team already exists" };
       }
 

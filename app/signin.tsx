@@ -109,6 +109,12 @@ export default function SignIn() {
         <Link href="/signup" className="mt-40 text-red-700 underline text-xl">
           Don't have an Account?
         </Link>
+        <Link
+            href="/teams"
+            className="text-red-700 underline text-xl"
+        >
+          Sign up a Team?
+        </Link>
       </Frame>
     </View>
   );
