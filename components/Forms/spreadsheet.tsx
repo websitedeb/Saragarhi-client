@@ -13,8 +13,8 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-
 import { DatePickerModal, TimePickerModal } from 'react-native-paper-dates';
+import { DB_URL } from "../../constants/constants";
 
 interface Item {
   id: string;
@@ -72,7 +72,7 @@ export default function EditableList({ data, onSave, targetName }: EditableListP
     }
     (async () => {
       const res = await fetch(
-        "https://saragarhi-api-database-test.sarthak22-ghoshal.workers.dev/updateTimeTable",
+        `${DB_URL}/updateTimeTable`,
         {
           method: "POST",
           headers: {

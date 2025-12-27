@@ -3,6 +3,7 @@ import { router } from "expo-router";
 import { useEffect, useState } from "react";
 import { Platform, StatusBar, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { DB_URL } from "../constants/constants";
 
 export default function QR() {
   const [CameraView, setCameraView] = useState<any>(null);
@@ -42,7 +43,7 @@ export default function QR() {
         onBarcodeScanned={({ data }: { data: string }) => {
           console.log("Scanned QR Code:", data);
           fetch(
-            "https://saragarhi-api-database-test.sarthak22-ghoshal.workers.dev/addReport",
+            `${DB_URL}/addReport`,
             {
               method: "POST",
               headers: { "Content-Type": "application/json" },

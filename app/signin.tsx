@@ -7,6 +7,7 @@ import { useMutation } from "@tanstack/react-query";
 import { Link, router } from "expo-router";
 import { useEffect, useState } from "react";
 import { ActivityIndicator, Image, Text, View } from "react-native";
+import { DB_URL } from "../constants/constants";
 
 export default function SignIn() {
   const [emailErr, setEmailErr] = useState("");
@@ -31,7 +32,7 @@ export default function SignIn() {
 
   const loginMutation = useMutation({
     mutationFn: async () => {
-      const res = await fetch("https://saragarhi-api-database-test.sarthak22-ghoshal.workers.dev/getUser", {
+      const res = await fetch(`${DB_URL}/getUser`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -1,4 +1,5 @@
 import { Button } from "@/components/Forms/button";
+import { DB_URL } from "@/constants/constants";
 import { clearSession, getSession, protectRoute, saveSession } from "@/hooks/session";
 import { Fonts, preloadIconFonts } from "@/hooks/useFont";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -63,7 +64,7 @@ export default function Settings() {
       switch (key) {
         case "Name":
           res = await fetch(
-            "https://saragarhi-api-database-test.sarthak22-ghoshal.workers.dev/updateMemberName",
+            `${DB_URL}/updateMemberName`,
             {
               method: "POST",
               headers: { "Content-Type": "application/json" },
@@ -86,7 +87,7 @@ export default function Settings() {
 
         case "Email":
           res = await fetch(
-            "https://saragarhi-api-database-test.sarthak22-ghoshal.workers.dev/updateMemberEmail",
+            `${DB_URL}/updateMemberEmail`,
             {
               method: "POST",
               headers: { "Content-Type": "application/json" },
@@ -109,7 +110,7 @@ export default function Settings() {
 
         case "Password":
           res = await fetch(
-            "https://saragarhi-api-database-test.sarthak22-ghoshal.workers.dev/updateMemberPass",
+            `${DB_URL}/updateMemberPass`,
             {
               method: "POST",
               headers: { "Content-Type": "application/json" },

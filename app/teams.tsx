@@ -15,6 +15,7 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { DB_URL } from "../constants/constants";
 
 export default function TeamSignUp() {
   const [teamCodeErr, setTeamCodeErr] = useState("");
@@ -36,7 +37,7 @@ export default function TeamSignUp() {
   const createTeamMutation = useMutation({
     mutationFn: async () => {
       const checkRes = await fetch(
-        "https://saragarhi-api-database-test.sarthak22-ghoshal.workers.dev/getTeam",
+        `${DB_URL}/getTeam`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -52,7 +53,7 @@ export default function TeamSignUp() {
       const parsedTN = parseInt(teamNum, 10);
 
       const teamRes = await fetch(
-        "https://saragarhi-api-database-test.sarthak22-ghoshal.workers.dev/addTeam",
+        `${DB_URL}/addTeam`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -67,7 +68,7 @@ export default function TeamSignUp() {
       } 
 
       const userRes = await fetch(
-        "https://saragarhi-api-database-test.sarthak22-ghoshal.workers.dev/addUser",
+        `${DB_URL}/addUser`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },

@@ -1,5 +1,6 @@
 export const Year : number = 2025;
 export const AT: string = "Cs7SlKYcjtXTJeGskesduTVc44ensMcSSKBMUNsaydPa6GATv1EGH8tiAzUlaV6x";
+export const DB_URL: string = "https://saragarhi-api-database-test.sarthak22-ghoshal.workers.dev";
 
 export const FormSchema : object = 
 {

@@ -15,6 +15,7 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { DB_URL } from "../constants/constants";
 
 export default function SignUn() {
   const [emailErr, setEmailErr] = useState("");
@@ -40,7 +41,7 @@ export default function SignUn() {
   const signupMutation = useMutation({
     mutationFn: async () => {
       const res = await fetch(
-        "https://saragarhi-api-database-test.sarthak22-ghoshal.workers.dev/addUser",
+        `${DB_URL}/addUser`,
         {
           method: "PUT",
           headers: {

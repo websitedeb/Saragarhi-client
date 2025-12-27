@@ -1,4 +1,4 @@
-import { AT } from '@/constants/constants';
+import { AT, DB_URL } from '@/constants/constants';
 import { useQuery } from '@tanstack/react-query';
 import { useEvent } from './store';
 
@@ -87,7 +87,7 @@ const fetchTeamData = async (teamKey: string) => {
   if (!teamKey) return null;
 
   try {
-    const url = `https://saragarhi-api-database-test.sarthak22-ghoshal.workers.dev/getStatsOfTeam`;
+    const url = `${DB_URL}/getStatsOfTeam`;
 
     const res = await fetch(url, {
       method: "POST",

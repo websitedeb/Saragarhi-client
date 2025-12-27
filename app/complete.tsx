@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { Text, View } from "react-native";
 import QRCode from "react-native-qrcode-svg";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { DB_URL } from "../constants/constants";
 
 export default function Complete(){
     const { dataset } = useLocalSearchParams();
@@ -20,7 +21,7 @@ export default function Complete(){
         protectRoute();
 
         if (isOnline) {
-            fetch("https://saragarhi-api-database-test.sarthak22-ghoshal.workers.dev/addReport", {
+            fetch(`${DB_URL}/addReport`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(dataset),
