@@ -2,6 +2,7 @@ import { BentoBox, BentoGrid } from "@/hooks/bento";
 import getRole from "@/hooks/getRole";
 import { getSession, protectRoute } from "@/hooks/session";
 import { Fonts, preloadIconFonts } from "@/hooks/useFont";
+import { requestNotificationPermission, useNotifs } from "@/hooks/useNotifs";
 import { AntDesign, FontAwesome6, MaterialIcons } from '@expo/vector-icons';
 import { useCameraPermissions } from "expo-camera";
 import { router } from "expo-router";
@@ -19,7 +20,9 @@ export default function Dashboard() {
     protectRoute();
     preloadIconFonts();
     (async () => {
+      const n = await requestNotificationPermission();
       const session = await getSession();
+      if (n) await useNotifs("Scouting in 5 MINUTES!", "Don't forget to fill out your scouting form for {team}'s match.");
       if (!session) {
         router.push("/signin");
         return;

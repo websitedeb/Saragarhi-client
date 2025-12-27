@@ -19,7 +19,11 @@
         "foregroundImage": "./assets/images/icon.png",
         "backgroundColor": "#ed1c24"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "notification": {
+        "icon": "./assets/images/icon.png",
+        "color": "#dc2626"
+      }
     },
     "web": {
       "bundler": "metro",
@@ -43,6 +47,7 @@
       ],
       "expo-font",
       "expo-secure-store",
+      "expo-notifications",
        [
         "expo-camera",
         {
