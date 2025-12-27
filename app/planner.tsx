@@ -59,38 +59,41 @@ export default function Planner() {
   );
 
   const handleUndo = () => {
-    setPaths((prev) => prev.slice(0, -1));
-  };
+      setPaths((prev) => prev.slice(0, -1));
+    };
 
-  const handleSave = async () => {
-    try {
-      const permission = await MediaLibrary.requestPermissionsAsync();
-      if (!permission.granted) {
-        Alert.alert("Permission required", "Camera roll access is needed to save.");
-        return;
+    const handleSave = async () => {
+      try {
+        const permission = await MediaLibrary.requestPermissionsAsync();
+        if (!permission.granted) {
+          Alert.alert(
+            "Permission required",
+            "Camera roll access is needed to save."
+          );
+          return;
+        }
+
+        const snapshot = canvasRef.current?.makeImageSnapshot();
+        if (!snapshot) {
+          Alert.alert("Error", "Failed to capture canvas.");
+          return;
+        }
+
+        const base64 = snapshot.encodeToBase64();
+        const filePath = `${FileSystem.cacheDirectory}canvas.png`;
+        await FileSystem.writeAsStringAsync(filePath, base64, {
+          encoding: FileSystem.EncodingType.Base64,
+        });
+
+        const asset = await MediaLibrary.createAssetAsync(filePath);
+        await MediaLibrary.createAlbumAsync("PlannerDrawings", asset, false);
+
+        Alert.alert("Saved!", "Drawing saved to your camera roll.");
+      } catch (err) {
+        console.error(err);
+        Alert.alert("Error", "Failed to save the drawing.");
       }
-
-      const snapshot = canvasRef.current?.makeImageSnapshot();
-      if (!snapshot) {
-        Alert.alert("Error", "Failed to capture canvas.");
-        return;
-      }
-
-      const imageData = snapshot.encodeToBytes();
-      const filePath = `${FileSystem.cacheDirectory}canvas.png`;
-      await FileSystem.writeAsStringAsync(filePath, imageData.toString(), {
-        encoding: FileSystem.EncodingType.Base64,
-      });
-
-      const asset = await MediaLibrary.createAssetAsync(filePath);
-      await MediaLibrary.createAlbumAsync("PlannerDrawings", asset, false);
-
-      Alert.alert("Saved!", "Drawing saved to your camera roll.");
-    } catch (err) {
-      console.error(err);
-      Alert.alert("Error", "Failed to save the drawing.");
-    }
-  };
+    };
 
   return (
     <View style={styles.container}>

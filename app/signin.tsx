@@ -49,7 +49,7 @@ export default function SignIn() {
     },
     onSuccess: async (output) => {
       await saveSession(output.data, 1440);
-      router.push("/(tabs)/dashboard");
+      router.replace("/(tabs)/dashboard");
       setEmailErr("");
     },
     onError: (err: any) => {

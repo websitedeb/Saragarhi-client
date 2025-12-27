@@ -187,7 +187,7 @@ export function FormFactory({ schema }: { schema: any }) {
     });
 
     dataset["NumberOfDataSets"] = prev_connector;
-    router.push({ pathname: "/complete", params: { dataset: `${JSON.stringify(dataset)}` } });
+    router.replace({ pathname: "/complete", params: { dataset: `${JSON.stringify(dataset)}` } });
   }
 
   const renderField = (pageKey: string, fieldType: string, config: any) => {
