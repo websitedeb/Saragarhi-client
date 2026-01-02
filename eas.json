@@ -12,10 +12,7 @@
       "distribution": "internal"
     },
     "production": {
-      "autoIncrement": true,
-      "preInstall": [
-        "npm install --force"
-      ]
+      "autoIncrement": true
     }
   },
   "submit": {
