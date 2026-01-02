@@ -13,6 +13,11 @@ export default ({ config }: { config: ExpoConfig }) => ({
   newArchEnabled: true,
   ios: {
     supportsTablet: true,
+    bundleIdentifier: "com.reactive-nodes.saragarhi",
+    infoPlist: {
+      NSCameraUsageDescription: "Allow $(PRODUCT_NAME) to access your camera",
+      NSMicrophoneUsageDescription: "Allow $(PRODUCT_NAME) to access your microphone",
+    },
   },
   android: {
     adaptiveIcon: {
@@ -25,10 +30,12 @@ export default ({ config }: { config: ExpoConfig }) => ({
       color: "#dc2626",
     },
     permissions: ["android.permission.CAMERA", "android.permission.RECORD_AUDIO"],
+    package: "com.reactive_nodes.saragarhi",
   },
   web: {
     bundler: "metro",
     favicon: "./assets/images/icon.png",
+    output: "static"
   },
   splash: {
     image: "./assets/images/icon.png",

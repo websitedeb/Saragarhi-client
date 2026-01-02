@@ -2,7 +2,7 @@ import Constants from "expo-constants";
 
 const prod = false;
 
-export const Year : number = 2025;
+export const Year : number = 2026;
 const extra = Constants.expoConfig?.extra ?? {};
 
 export const AT = extra.AT || "Cs7SlKYcjtXTJeGskesduTVc44ensMcSSKBMUNsaydPa6GATv1EGH8tiAzUlaV6x";
