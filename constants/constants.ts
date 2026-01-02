@@ -5,7 +5,7 @@ const prod = false;
 export const Year : number = 2026;
 const extra = Constants.expoConfig?.extra ?? {};
 
-export const AT = extra.AT?.toString().replace(",", "")
+export const AT = extra.TBA?.toString().replace(",", "");
 export const DB_URL = prod ? extra.PROD?.toString().replace(",", "") : extra.TEST?.toString().replace(",", "");
 
 export const FormSchema : object = 
