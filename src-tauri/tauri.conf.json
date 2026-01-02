@@ -2,12 +2,12 @@
   "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
   "productName": "proj",
   "version": "0.1.0",
-  "identifier": "com.tauri.dev",
+  "identifier": "com.reactive-nodes.saragarhi",
   "build": {
     "beforeDevCommand": "npx expo start --web",
     "devUrl": "http://localhost:8081",             
     "beforeBuildCommand": "npx expo export -p web",
-    "frontendDist": "../dist/web"
+    "frontendDist": "../dist"
   },
   "app": {
     "windows": [

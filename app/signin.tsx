@@ -32,6 +32,7 @@ export default function SignIn() {
 
   const loginMutation = useMutation({
     mutationFn: async () => {
+      console.log(DB_URL)
       const res = await fetch(`${DB_URL}/getUser`, {
         method: "POST",
         headers: {
