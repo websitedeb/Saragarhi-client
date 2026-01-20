@@ -8,8 +8,10 @@ import { Link, router } from "expo-router";
 import { useEffect, useState } from "react";
 import { ActivityIndicator, Image, Text, View } from "react-native";
 import { DB_URL } from "../constants/constants";
+import { useSignStore } from '@/hooks/store';
 
 export default function SignIn() {
+  const { sign } = useSignStore() as { sign: string };
   const [emailErr, setEmailErr] = useState("");
   const [passErr, setPassErr] = useState("");
 
@@ -32,7 +34,7 @@ export default function SignIn() {
 
   const loginMutation = useMutation({
     mutationFn: async () => {
-      const res = await fetch(`${DB_URL}/getUser`, {
+      const res = await fetch(`${DB_URL}/getUser?sign=${sign}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -14,10 +14,12 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useSignStore } from '@/hooks/store';
 
 export default function Teams() {
   const [session, setSession] = useState<any | null>(null);
   const [search, setSearch] = useState("");
+  const { sign } = useSignStore();
 
   useEffect(() => {
     protectRoute();
@@ -33,7 +35,7 @@ export default function Teams() {
   }, []);
 
   const { data: members, isLoading, isError, error } = useMembers(
-    session?.TeamCode
+    session?.TeamCode, sign as string
   );
 
   const filteredMembers = useMemo(() => {

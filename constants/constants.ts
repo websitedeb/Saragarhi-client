@@ -1,3 +1,4 @@
+import { useSignStore } from "@/hooks/store";
 import Constants from "expo-constants";
 
 const prod = false;
@@ -5,8 +6,15 @@ const prod = false;
 export const Year : number = 2026;
 const extra = Constants.expoConfig?.extra ?? {};
 
-export const AT = extra.TBA?.toString().replace(",", "");
-export const DB_URL = prod ? extra.PROD?.toString().replace(",", "") || "https://saragarhi-api-database.sarthak22-ghoshal.workers.dev" : extra.TEST?.toString().replace(",", "") || "http://127.0.0.1:8787";
+export const AT = extra.TBA?.toString().replace(",", "") || "Cs7SlKYcjtXTJeGskesduTVc44ensMcSSKBMUNsaydPa6GATv1EGH8tiAzUlaV6x";
+export const DB_URL = prod ? extra.PROD?.toString().replace(",", "") || "https://saragarhi-api-database.sarthak22-ghoshal.workers.dev" : extra.TEST?.toString().replace(",", "") || "http://127.0.0.1:8787"; //https://saragarhi-api-database-test.sarthak22-ghoshal.workers.dev
+
+(async () => {
+  const { setSign } = useSignStore() as { setSign: (sign: any) => void };
+  const res = await fetch(`${DB_URL}/get-sign`);
+  const data = await res.json();
+  setSign(data.sign);
+})();
 
 export const FormSchema : object = 
 {

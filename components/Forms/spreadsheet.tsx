@@ -15,6 +15,7 @@ import {
 } from "react-native";
 import { DatePickerModal, TimePickerModal } from 'react-native-paper-dates';
 import { DB_URL } from "../../constants/constants";
+import { useSignStore } from "@/hooks/store";
 
 interface Item {
   id: string;
@@ -30,6 +31,7 @@ interface EditableListProps {
 }
 
 export default function EditableList({ data, onSave, targetName }: EditableListProps) {
+  const { sign } = useSignStore() as { sign: string };
   const [items, setItems] = useState<any>(data);
   const [showPicker, setShowPicker] = useState(false);
   const [showDatePicker, setShowDatePicker] = useState(false);
@@ -72,7 +74,7 @@ export default function EditableList({ data, onSave, targetName }: EditableListP
     }
     (async () => {
       const res = await fetch(
-        `${DB_URL}/updateTimeTable`,
+        `${DB_URL}/updateTimeTable?sign=${sign}`,
         {
           method: "POST",
           headers: {

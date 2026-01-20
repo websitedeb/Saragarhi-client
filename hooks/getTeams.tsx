@@ -83,11 +83,11 @@ export const useDistrictRankings = () => {
   });
 };
 
-const fetchTeamData = async (teamKey: string) => {
+const fetchTeamData = async (teamKey: string, sign: string) => {
   if (!teamKey) return null;
 
   try {
-    const url = `${DB_URL}/getStatsOfTeam`;
+    const url = `${DB_URL}/getStatsOfTeam?sign=${sign}`;
 
     const res = await fetch(url, {
       method: "POST",
@@ -113,10 +113,10 @@ const fetchTeamData = async (teamKey: string) => {
   }
 };
 
-export const useTeamData = (teamKey: string) => {
+export const useTeamData = (teamKey: string, sign: string) => {
   return useQuery({
     queryKey: ['team-data', teamKey],
-    queryFn: () => fetchTeamData(teamKey),
+    queryFn: () => fetchTeamData(teamKey, sign),
     enabled: !!teamKey,
     staleTime: 0,
   });

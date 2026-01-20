@@ -7,6 +7,14 @@ export const useShowStore = create((set) => {
     };
 });
 
+export const useSignStore = create<{
+  sign: string | null;
+  setSign: (sign: string) => void;
+}>((set) => ({
+  sign: null,
+  setSign: (sign) => set({ sign }),
+}));
+
 type TickedTeamStore = {
   teamsSelected: number[];
   updateTeamsSelected: (teamId: number) => void;

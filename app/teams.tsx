@@ -16,8 +16,10 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { DB_URL } from "../constants/constants";
+import { useSignStore } from "@/hooks/store";
 
 export default function TeamSignUp() {
+  const { sign } = useSignStore() as { sign: string };
   const [teamCodeErr, setTeamCodeErr] = useState("");
   const [teamNumErr, setTeamNumErr] = useState("");
   const [teamNameErr, setTeamNameErr] = useState("");
@@ -37,7 +39,7 @@ export default function TeamSignUp() {
   const createTeamMutation = useMutation({
     mutationFn: async () => {
       const checkRes = await fetch(
-        `${DB_URL}/getTeam`,
+        `${DB_URL}/getTeam?sign=${sign}`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

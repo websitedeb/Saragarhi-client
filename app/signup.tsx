@@ -16,8 +16,10 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { DB_URL } from "../constants/constants";
+import { useSignStore } from "@/hooks/store";
 
 export default function SignUn() {
+  const { sign } = useSignStore() as { sign: string };
   const [emailErr, setEmailErr] = useState("");
   const [passErr, setPassErr] = useState("");
   const [codeErr, setCodeErr] = useState("");
@@ -41,7 +43,7 @@ export default function SignUn() {
   const signupMutation = useMutation({
     mutationFn: async () => {
       const res = await fetch(
-        `${DB_URL}/addUser`,
+        `${DB_URL}/addUser?sign=${sign}`,
         {
           method: "PUT",
           headers: {

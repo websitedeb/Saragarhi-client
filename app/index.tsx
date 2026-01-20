@@ -6,7 +6,6 @@ import { useEffect } from 'react';
 import { Image, Text, TouchableOpacity, View } from "react-native";
 
 export default function SignIn() {
-
   useEffect(() => {
     (async () => {
       const token = await getSession();

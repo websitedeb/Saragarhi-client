@@ -15,6 +15,7 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useSignStore } from "@/hooks/store";
 
 const Colors = {
   primary: "#ed1c24", 
@@ -26,6 +27,7 @@ const Colors = {
 };
 
 export default function Settings() {
+  const { sign } = useSignStore() as { sign: string };
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
@@ -64,7 +66,7 @@ export default function Settings() {
       switch (key) {
         case "Name":
           res = await fetch(
-            `${DB_URL}/updateMemberName`,
+            `${DB_URL}/updateMemberName?sign=${sign}`,
             {
               method: "POST",
               headers: { "Content-Type": "application/json" },

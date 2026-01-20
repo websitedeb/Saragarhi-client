@@ -7,8 +7,10 @@ import { Text, View } from "react-native";
 import QRCode from "react-native-qrcode-svg";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { DB_URL } from "../constants/constants";
+import { useSignStore } from '@/hooks/store';
 
 export default function Complete() {
+  const { sign } = useSignStore() as { sign: string };
   const { dataset } = useLocalSearchParams();
   const [isOnline, setIsOnline] = useState<boolean | null>(null);
   const [sent, setSent] = useState(false);
@@ -39,7 +41,7 @@ export default function Complete() {
           }
         }
 
-        const res = await fetch(`${DB_URL}/addReport`, {
+        const res = await fetch(`${DB_URL}/addReport?sign=${sign}`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(parsedDataset),

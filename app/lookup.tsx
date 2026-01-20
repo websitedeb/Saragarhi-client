@@ -3,10 +3,12 @@ import { DisplaySchema } from "@/constants/constants";
 import { useTeamData } from "@/hooks/getTeams";
 import { useState } from "react";
 import { ScrollView, Text, TextInput, View } from "react-native";
+import { useSignStore } from '@/hooks/store';
 
 export default function Lookup() {
   const [teamNumber, setTeamNumber] = useState("");
-  const { data: teamData, isLoading, error } = useTeamData(teamNumber);
+  const { sign } = useSignStore();
+  const { data: teamData, isLoading, error } = useTeamData(teamNumber, sign || "");
 
   return (
     <View className="flex-1 bg-gray-900">
