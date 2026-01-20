@@ -4,6 +4,8 @@ import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 import { useEffect } from 'react';
 import { Image, Text, TouchableOpacity, View } from "react-native";
+import { useSignStore } from "@/hooks/store";
+import { DB_URL } from '@/constants/constants';
 
 export default function SignIn() {
   useEffect(() => {
@@ -12,6 +14,10 @@ export default function SignIn() {
       if (token) {
         router.push("/dashboard");
       }
+      const { setSign } = useSignStore() as { setSign: (sign: any) => void };
+      const res = await fetch(`${DB_URL}/get-sign`);
+      const data = await res.json();
+      setSign(data.sign);
     })();
   }, []);
 

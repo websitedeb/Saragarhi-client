@@ -6,6 +6,7 @@ node_modules/
 /web
 /android
 /ios
+/dist
 
 # Expo
 .expo/
