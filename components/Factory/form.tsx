@@ -187,6 +187,7 @@ export function FormFactory({ schema }: { schema: any }) {
     });
 
     dataset["NumberOfDataSets"] = prev_connector;
+    console.log(dataset);
     router.replace({ pathname: "/complete", params: { dataset: `${JSON.stringify(dataset)}` } });
   }
 
@@ -302,12 +303,16 @@ export function FormFactory({ schema }: { schema: any }) {
         );
 
       case "increment":
+        const value = formData[config.binding.uuid] || 0;
+
         return (
-          <View key={errorKey} className="flex-row items-center space-x-3 my-2">
+          <View key={config.binding.uuid} className="flex-row items-center space-x-3 my-2">
             <Text className="text-white font-medium mr-2 text-2xl">{config.name}</Text>
+            
             <Text className="text-red-500 font-extrabold text-3xl mr-2 border p-2 rounded-xl border-red-500">
               {formData[pageKey]?.[fieldKey] || 0}
             </Text>
+            
             <TouchableOpacity
               onPress={() =>
                 handleChange(pageKey, fieldKey, (formData[pageKey]?.[fieldKey] || 0) - 1)
@@ -316,7 +321,7 @@ export function FormFactory({ schema }: { schema: any }) {
             >
               <Text className="text-white font-bold text-2xl">-</Text>
             </TouchableOpacity>
-            <Text></Text>
+
             <TouchableOpacity
               onPress={() =>
                 handleChange(pageKey, fieldKey, (formData[pageKey]?.[fieldKey] || 0) + 1)
@@ -325,6 +330,7 @@ export function FormFactory({ schema }: { schema: any }) {
             >
               <Text className="text-white font-bold text-2xl">+</Text>
             </TouchableOpacity>
+
             {fieldError && <Text className="text-red-500 text-lg mt-1">{fieldError}</Text>}
           </View>
         );

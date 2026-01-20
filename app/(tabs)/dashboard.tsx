@@ -1,5 +1,4 @@
 import { BentoBox, BentoGrid } from "@/hooks/bento";
-import getRole from "@/hooks/getRole";
 import { getSession, protectRoute } from "@/hooks/session";
 import { Fonts, preloadIconFonts } from "@/hooks/useFont";
 import { requestNotificationPermission, useNotifs } from "@/hooks/useNotifs";
@@ -7,35 +6,31 @@ import { AntDesign, FontAwesome6, MaterialIcons } from '@expo/vector-icons';
 import { useCameraPermissions } from "expo-camera";
 import { router } from "expo-router";
 import { useEffect, useState } from "react";
-import { Platform, ScrollView, Text, TouchableOpacity } from "react-native";
+import { ScrollView, Text, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Dashboard() {
-  const [user, setUser] = useState<Record<string, any> | null>(null);
-  const [role, setRole] = useState<string | null>(null);
+  const [sess, setSess] = useState<any>(null);
   const [permission, requestPermission] = useCameraPermissions();
   const hasPerms = Boolean(permission?.granted);
 
   useEffect(() => {
-    protectRoute();
-    preloadIconFonts();
-    (async () => {
-      const n = await requestNotificationPermission();
-      const session = await getSession();
-      if (n) await useNotifs("Scouting in 5 MINUTES!", "Don't forget to fill out your scouting form for {team}'s match.");
-      if (!session) {
-        router.push("/signin");
-        return;
-      }
-      setUser(session);
-      const role = await getRole();
-      if (!role) {
-        router.push("/signin");
-        return;
-      }
-      setRole(role);
-    })();
-  }, []);
+  (async () => {
+    await preloadIconFonts();
+    await protectRoute();
+    const session = await getSession();
+    setSess(session);
+    const n = await requestNotificationPermission();
+    
+    if (n) {
+      await useNotifs(
+        "Scouting in 5 MINUTES!",
+        "Don't forget to fill out your scouting form for {team}'s match."
+      );
+    }
+  })();
+}, []);
+
 
   function qrcodefunc() {
     requestPermission();
@@ -47,7 +42,10 @@ export default function Dashboard() {
         <ScrollView className="flex-1" contentContainerStyle={{ paddingBottom: 20 }}>
             <Text className="text-white text-4xl mt-16 pl-5 mb-10">
               Welcome,{"\n"}
-              <Text className="mainColor" style={{ fontFamily: Fonts.Shrikhand}}>{user?.Name || "User"} / {role}</Text>{"\n"}
+              <Text className="mainColor" style={{ fontFamily: Fonts.Shrikhand }}>
+                {(sess?.Name)} / {(sess?.Role)}
+              </Text>{"\n"}
+
               <Text className="text-lg" style={{ fontFamily:Fonts.Inter }}>What are We Going to Do Today?</Text>
             </Text>
 
@@ -66,14 +64,12 @@ export default function Dashboard() {
                 </BentoBox>
               </TouchableOpacity>
 
-              {Platform.OS != "web" && (
                 <TouchableOpacity onPress={() => {router.push("/planner")}}>
                   <BentoBox size="small" className="border-cyan-400 w-48 h-40 rounded-3xl mb-5 web:!w-screen web:!h-28" style={{ backgroundColor: "rgba(6, 182, 212, 0.3)", borderWidth: 1 }}>
                     <MaterialIcons name="draw" size={30} color="white" />
                     <Text className="text-white mt-2 text-3xl" style={{ fontFamily:Fonts.Inter }}>Planner</Text>
                   </BentoBox>
                 </TouchableOpacity>
-              )}
 
               <TouchableOpacity onPress={() => {router.push("/rank")}}>
                 <BentoBox size="small" className="border-purple-400 w-48 h-40 rounded-3xl mb-5 web:!w-screen web:!h-28" style={{ backgroundColor: "rgba(168, 85, 247, 0.3)", borderWidth: 1 }}>
@@ -89,18 +85,13 @@ export default function Dashboard() {
                 </BentoBox>
               </TouchableOpacity>
 
-              {Platform.OS != "web" && (
                 <TouchableOpacity onPress={() => {qrcodefunc()}}>
                   <BentoBox size="small" className="border-fuchsia-400 w-48 h-40 rounded-3xl mb-5 web:!w-screen web:!h-28" style={{ backgroundColor: "rgba(217, 70, 239, 0.3)", borderWidth: 1 }}>
                     <FontAwesome6 name="qrcode" size={30} color="white" />
                     <Text className="text-white mt-2 text-3xl" style={{ fontFamily:Fonts.Inter }}>QR</Text>
                   </BentoBox>
                 </TouchableOpacity>
-              )}
             </BentoGrid>
-            
-            {Platform.OS == "web" && (<Text className="text-red-600 text-center text-2xl mb-5" style={{ fontFamily: Fonts.Inter }}>Want more features? Get the iOS or Android App!</Text>)}
-
         </ScrollView>
     </SafeAreaView>
   );
