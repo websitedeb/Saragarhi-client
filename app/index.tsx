@@ -1,25 +1,9 @@
-import { getSession } from '@/hooks/session';
 import MaskedView from '@react-native-masked-view/masked-view';
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
-import { useEffect } from 'react';
 import { Image, Text, TouchableOpacity, View } from "react-native";
-import { useSignStore } from "@/hooks/store";
-import { DB_URL } from '@/constants/constants';
 
 export default function SignIn() {
-  useEffect(() => {
-    (async () => {
-      const token = await getSession();
-      if (token) {
-        router.push("/dashboard");
-      }
-      const { setSign } = useSignStore() as { setSign: (sign: any) => void };
-      const res = await fetch(`${DB_URL}/get-sign`);
-      const data = await res.json();
-      setSign(data.sign);
-    })();
-  }, []);
 
   return (
     <View className="flex-1 bg-gray-900 justify-center items-center">

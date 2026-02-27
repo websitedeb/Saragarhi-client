@@ -138,6 +138,7 @@ export default function Settings() {
   };
 
   async function deleteSession() {
+    fetch(`${DB_URL}/delete-session?sign=${sign}`);
     await clearSession();
     router.replace("/");
   }

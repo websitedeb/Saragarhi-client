@@ -2,7 +2,7 @@ import { router } from "expo-router";
 import * as SecureStore from "expo-secure-store";
 import { Platform } from "react-native";
 
-const setItem = async (key: string, value: string) => {
+export const setItem = async (key: string, value: string) => {
   if (Platform.OS === "web") {
     localStorage.setItem(key, value);
   } else {
@@ -10,7 +10,7 @@ const setItem = async (key: string, value: string) => {
   }
 };
 
-const getItem = async (key: string): Promise<string | null> => {
+export const getItem = async (key: string): Promise<string | null> => {
   if (Platform.OS === "web") {
     return localStorage.getItem(key);
   } else {
@@ -18,7 +18,7 @@ const getItem = async (key: string): Promise<string | null> => {
   }
 };
 
-const deleteItem = async (key: string) => {
+export const deleteItem = async (key: string) => {
   if (Platform.OS === "web") {
     localStorage.removeItem(key);
   } else {

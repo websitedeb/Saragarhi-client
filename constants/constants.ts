@@ -1,12 +1,12 @@
 import Constants from "expo-constants";
 
-const prod = true;
+const prod = false;
 
 export const Year : number = 2026;
 const extra = Constants.expoConfig?.extra ?? {};
 
 export const AT = extra.TBA?.toString().replace(",", "") || "Cs7SlKYcjtXTJeGskesduTVc44ensMcSSKBMUNsaydPa6GATv1EGH8tiAzUlaV6x";
-export const DB_URL = prod ? extra.PROD?.toString().replace(",", "") || "https://saragarhi-api-database.sarthak22-ghoshal.workers.dev" : extra.TEST?.toString().replace(",", "") || "http://127.0.0.1:8787"; //https://saragarhi-api-database-test.sarthak22-ghoshal.workers.dev
+export const DB_URL = prod ? extra.PROD?.toString().replace(",", "") || "https://saragarhi-api-database.sarthak22-ghoshal.workers.dev" : extra.TEST?.toString().replace(",", "") || "https://saragarhi-api-database-test.sarthak22-ghoshal.workers.dev";
 
 export const FormSchema : object = 
 {

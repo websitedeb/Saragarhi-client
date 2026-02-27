@@ -16,7 +16,20 @@ export async function useNotifs(title: string, body: string) {
   const session = await getSession();
   if (!session) return;
 
-  const timetable: TimetableEntry[] = JSON.parse(session.timeTable);
+  if (!session.TimeTable) return;
+
+  let timetable: TimetableEntry[];
+
+  try {
+    timetable =
+      typeof session.TimeTable === "string"
+        ? JSON.parse(session.TimeTable)
+        : session.TimeTable;
+  } catch (e) {
+    console.error("Invalid timetable JSON:", session.TimeTable);
+    return;
+  }
+
   if (!Array.isArray(timetable)) return;
 
   const now = Date.now();
@@ -44,13 +57,13 @@ export async function useNotifs(title: string, body: string) {
         title,
         body: body.replace("{team}", entry.Team),
         data: {
-          url: `/scout`
-        }
+          url: `/scout`,
+        },
       },
       trigger: {
         type: SchedulableTriggerInputTypes.DATE,
         date: notifyAt,
-      }
+      },
     });
   }
 }

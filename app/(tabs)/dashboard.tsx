@@ -1,5 +1,5 @@
 import { BentoBox, BentoGrid } from "@/hooks/bento";
-import { getSession, protectRoute } from "@/hooks/session";
+import { getSession, protectRoute, saveSession } from "@/hooks/session";
 import { Fonts, preloadIconFonts } from "@/hooks/useFont";
 import { requestNotificationPermission, useNotifs } from "@/hooks/useNotifs";
 import { AntDesign, FontAwesome6, MaterialIcons } from '@expo/vector-icons';
@@ -8,10 +8,37 @@ import { router } from "expo-router";
 import { useEffect, useState } from "react";
 import { ScrollView, Text, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useSignStore } from "@/hooks/store";
+import { DB_URL } from "@/constants/constants";
 
 export default function Dashboard() {
   const [sess, setSess] = useState<any>(null);
   const [permission, requestPermission] = useCameraPermissions();
+  const { setSign } = useSignStore() as { setSign: (sign: any) => void };
+  
+    useEffect(() => {
+      (async () => {
+        const token = await getSession();
+        if (token?.sign) {
+          setSign(token.sign);
+          router.push("/dashboard");
+          return;
+        }
+        else{
+          const res = await fetch(`${DB_URL}/get-sign`);
+          const data = await res.json();
+  
+          setSign(data.sign);
+  
+          if (token) {
+            token.sign = data.sign;
+            await saveSession(token, 1440);
+            router.push("/dashboard");
+          }
+        }
+      })();
+    }, []);
+
   const hasPerms = Boolean(permission?.granted);
 
   useEffect(() => {
