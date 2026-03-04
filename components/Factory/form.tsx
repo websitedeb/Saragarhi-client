@@ -12,6 +12,7 @@ import {
   TouchableOpacity,
   View
 } from "react-native";
+import { useStopwatch } from 'react-timer-hook';
 
 const pageOrder = ["auto", "tele", "end"];
 
@@ -40,6 +41,15 @@ export function FormFactory({ schema }: { schema: any }) {
   const [pageIndex, setPageIndex] = useState(0);
   const [formData, setFormData] = useState<Record<string, any>>({});
   const [errors, setErrors] = useState<Record<string, string>>({});
+
+  const {
+    milliseconds,
+    seconds,
+    minutes,
+    start,
+    pause,
+    reset,
+  } = useStopwatch({ autoStart: false, interval: 20 });
 
   const currentPageKey = pageOrder[pageIndex];
   const currentPage = schema[currentPageKey];
@@ -332,6 +342,47 @@ export function FormFactory({ schema }: { schema: any }) {
             </TouchableOpacity>
 
             {fieldError && <Text className="text-red-500 text-lg mt-1">{fieldError}</Text>}
+          </View>
+        );
+
+      case "timer":
+        return(
+          <View className="flex">
+            <View className="flex-row items-center space-x-2">
+              <Text className="text-white font-medium mr-2 text-2xl">{config.name}</Text>
+
+              <Text className="text-red-600 text-2xl">{minutes}</Text>
+              <Text className="text-red-600 text-2xl">:</Text>
+              <Text className="text-red-600 text-2xl">{seconds}</Text>
+              <Text className="text-red-600 text-2xl">:</Text>
+              <Text className="text-red-600 text-2xl">{milliseconds}</Text>
+            </View>
+
+            <View className="mt-3 space-y-3 flex-row gap-x-3">
+              <TouchableOpacity
+                onPress={start}
+                className="bg-green-600 px-4 py-2 rounded-lg items-center w-28 h-fit flex-1 mt-3"
+              >
+                <Text className="text-white text-2xl font-semibold">Start</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                onPress={() => {
+                  pause();
+                  handleChange(pageKey, fieldKey, `${minutes}:${seconds}:${milliseconds}`);
+                }}
+                className="bg-yellow-500 px-4 py-2 rounded-lg items-center w-28 h-fit flex-1"
+              >
+                <Text className="text-white text-2xl font-semibold">Pause</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                onPress={() => reset(new Date())}
+                className="bg-red-600 px-4 py-2 rounded-lg items-center w-28 h-fit flex-1"
+              >
+                <Text className="text-white text-2xl font-semibold">Restart</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         );
 

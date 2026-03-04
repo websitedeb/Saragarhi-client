@@ -1,10 +1,38 @@
+import { getSession, saveSession } from '@/hooks/session';
+import { useSignStore } from '@/hooks/store';
 import MaskedView from '@react-native-masked-view/masked-view';
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
+import { useEffect } from 'react';
 import { Image, Text, TouchableOpacity, View } from "react-native";
+import { DB_URL } from '@/constants/constants';
 
 export default function SignIn() {
-
+  const { setSign } = useSignStore() as { setSign: (sign: any) => void };
+    
+  useEffect(() => {
+    (async () => {
+          const token = await getSession();
+          if (token?.sign) {
+            setSign(token.sign);
+            router.push("/dashboard");
+            return;
+          }
+          else{
+            const res = await fetch(`${DB_URL}/get-sign`);
+            const data = await res.json();
+    
+            setSign(data.sign);
+    
+            if (token) {
+              token.sign = data.sign;
+              await saveSession(token, 1440);
+              router.push("/dashboard");
+            }
+          }
+    })();
+  }, []);
+      
   return (
     <View className="flex-1 bg-gray-900 justify-center items-center">
       <Image 

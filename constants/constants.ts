@@ -108,6 +108,14 @@ export const FormSchema : object =
         type: "text",
         uuid: "val8"
       }
+    },
+    timer : {
+      name: "How long did the robot play defense for?",
+      binding: {
+        with: 10,
+        type: "text",
+        uuid: "val10"
+      }
     }
   },
 
@@ -125,11 +133,11 @@ export const FormSchema : object =
     check: {
       name: "What ranking points did they get?",
       options: {"Energized" : "Energized", "SuperCharged" : "SuperCharged", "Traversal" : "Traversal", "None":"None"},
-      binding:{
+      /*binding:{
         with: 10,
         type: "text",
         uuid: "val10"
-      }
+      }*/
     },
     input: {
       name: "Final Notes",
