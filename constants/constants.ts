@@ -20,23 +20,12 @@ export const FormSchema : object =
         uuid: "TEAM_NUMBER"
       }
     },
-    $radio: {
-      name: "Pre-filled with Fuel?",
-      options: {
-        "Yes": "Yes",
-        "No": "No"
-      },
-      binding: {
-        with: 1,
-        type: "text",
-        uuid: "val1"
-      }
-    },
     radio: {
-      name: "Moved?",
+      name: "Starting Position",
       options: {
-        "Yes": "Yes",
-        "No": "No"
+        "Blue/Red 1": "Blue/Red 1",
+        "Blue/Red 2": "Blue/Red 2",
+        "Blue/Red 3": "Blue/Red 3"
       },
       binding: {
         with: 2,
@@ -45,16 +34,20 @@ export const FormSchema : object =
       }
     },
     check: {
-      name: "Where does it go to collect more Fuel?",
-      options: {"Outpost" : "Outpost", "Center" : "Center", "Depot" : "Depot", "None" : "None"},
+      name: "Where do they travel?",
+      options: {
+        "Neutral Zone": "Neutral Zone",
+        "Depot": "Depot",
+        "Outpost": "Outpost"
+      },
       binding: {
         with: 3,
         type: "text",
         uuid: "val3"
       }
     },
-    $$$radio: {
-      name: "Human Player Threw Ball?",
+    $radio: {
+      name: "Do they use the human player?",
       options: {
         "Yes": "Yes",
         "No": "No"
@@ -66,7 +59,7 @@ export const FormSchema : object =
       }
     },
     $$radio: {
-      name: "Robot Climb T1?",
+      name: "Did they climb?",
       options: {
         "Yes": "Yes",
         "No": "No"
@@ -76,32 +69,36 @@ export const FormSchema : object =
         type: "text",
         uuid: "val5"
       }
-    },
+    }
   },
-
+  
   tele: {
-    increment: {
-      name: "Fuel Scored",
+    timer: {
+      name: "Time it takes to Shoot Fuel",
       binding: {
         with: 6,
-        type: "avg",
+        type: "text",
         uuid: "val6"
       }
     },
-    check: {
-      name: "What did it use to go into the neutral zone?",
-      options: {"Bumps" : "Bumps", "Trench" : "Trench" },
-      binding: {
+    radio: {
+      name: "Do they pass?",
+      options: {
+        "Passing, but not full field": "Passing, but not full field",
+        "Full Field Passing": "Full Field Passing",
+        "No Passing": "No Passing"
+      },
+      binding: { 
         with: 7,
         type: "text",
         uuid: "val7"
       }
     },
-    radio: {
-      name: "Can bot play defense?",
+    $radio: {
+      name: "Do they play defense?",
       options: {
-        "Yes" : "Yes",
-        "No" : "No"
+        "Yes": "Yes",
+        "No": "No"
       },
       binding: {
         with: 8,
@@ -109,36 +106,22 @@ export const FormSchema : object =
         uuid: "val8"
       }
     },
-    timer : {
-      name: "How long did the robot play defense for?",
-      binding: {
-        with: 10,
-        type: "text",
-        uuid: "val10"
-      }
-    }
-  },
-
-  end: {
-    dropdown: {
-      name: "Which Tier does the robot climb too?",
-      type: "one",
-      options: ["None", "T1", "T2", "T3"],
+    $$radio: {
+      name: "Do they climb?",
+      options: {
+        "None": "None",
+        "T1": "T1",
+        "T2": "T2",
+        "T3": "T3"
+      },
       binding: {
         with: 9,
         type: "text",
         uuid: "val9"
       }
-    },
-    check: {
-      name: "What ranking points did they get?",
-      options: {"Energized" : "Energized", "SuperCharged" : "SuperCharged", "Traversal" : "Traversal", "None":"None"},
-      /*binding:{
-        with: 10,
-        type: "text",
-        uuid: "val10"
-      }*/
-    },
+    }
+  },
+  end: {
     input: {
       name: "Final Notes",
       type: "text",
@@ -152,49 +135,41 @@ export const FormSchema : object =
 };
 
 export const DisplaySchema: Object = {
-  One: {
-    name: "Pre-filled with Fuel?",
-    type: "Ratio",
-    addons: {
-      left: "Pre-filled with Fuel?",
-      right: "$data"
-    }
-  },
   Two: {
-    name: "Moved?",
-    type: "line"
+    name: "Starting Position",
+    type: "Bento"
   },
   Three: {
-    name: "Where does it go to collect more Fuel?",
+    name: "Where does the robot go in auto?",
     type: "line"
   },
   Four: {
-    name: "Human Player Threw Ball?",
-    type: "line"
+    name: "Do they use the human player?",
+    type: "Ratio",
+    addons: {
+      left: "Do they use the human player?",
+      right: "$data"
+    }
   },
   Five: {
-    name: "Robot Climb T1?",
+    name: "Did they climb in auto?",
     type: "line"
   },
   Six: {
-    name: "Fuel Scored",
+    name: "Time to shoot fuel?",
     type: "Bento"
   },
   Seven: {
-    name: "Used to go into the neutral zone?",
+    name: "Do they pass?",
     type: "line"
   },
   Eight: {
-    name: "Defense?",
-    type: "line"
+    name: "Do they play defense?",
+    type: "Bento"
   },
   Nine: {
-    name: "Robot Climbed Tier",
-    type: "line"
-  },
-  Ten: {
-    name: "Ranking Points?",
-    type: "line"
+    name: "Do they climb in teleop?",
+    type: "Bento"
   },
   FinalNotes: {
     type: "$FinalNotes"
