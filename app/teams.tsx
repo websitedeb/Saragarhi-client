@@ -55,7 +55,7 @@ export default function TeamSignUp() {
       const parsedTN = parseInt(teamNum, 10);
 
       const teamRes = await fetch(
-        `${DB_URL}/addTeam`,
+        `${DB_URL}/addTeam?sign=${sign}`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -70,7 +70,7 @@ export default function TeamSignUp() {
       } 
 
       const userRes = await fetch(
-        `${DB_URL}/addUser`,
+        `${DB_URL}/addUser?sign=${sign}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
