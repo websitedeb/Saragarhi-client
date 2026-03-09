@@ -23,9 +23,12 @@ export const FormSchema : object =
     radio: {
       name: "Starting Position",
       options: {
-        "Blue/Red 1": "Blue/Red 1",
-        "Blue/Red 2": "Blue/Red 2",
-        "Blue/Red 3": "Blue/Red 3"
+        "Blue 1": "Blue 1",
+        "Blue 2": "Blue 2",
+        "Blue 3": "Blue 3",
+        "Red 1": "Red 1",
+        "Red 2": "Red 2",
+        "Red 3": "Red 3"
       },
       binding: {
         with: 2,

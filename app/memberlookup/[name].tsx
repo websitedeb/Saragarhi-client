@@ -1,5 +1,6 @@
 import EditableList from '@/components/Forms/spreadsheet';
 import { getSession } from '@/hooks/session';
+import { useSignStore } from '@/hooks/store';
 import { Picker } from "@react-native-picker/picker";
 import { Stack, useLocalSearchParams } from 'expo-router';
 import React, { useEffect, useState } from 'react';
@@ -7,6 +8,7 @@ import { Alert, ScrollView, Text, TextInput, TouchableOpacity, View } from 'reac
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function MemberPage() {
+  const { sign } = useSignStore() as { sign: string };
   const { name } = useLocalSearchParams();
   const item = name ? JSON.parse(decodeURIComponent(name as string)) : null;
   
@@ -30,21 +32,21 @@ export default function MemberPage() {
   const handleSaveField = async (key: string, value: any) => {
     switch (key) {
       case "Name":
-        await fetch(`https://saragarhi-api-database-test.sarthak22-ghoshal.workers.dev/updateMemberName`, {
+        await fetch(`https://saragarhi-api-database-test.sarthak22-ghoshal.workers.dev/updateMemberName?sign=${sign}`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ old: item?.Name, new: value, email: item?.Email  }),
         }).then((res) => Alert.alert("Success", "Username updated successfully!"));
         break;
       case "Email":
-        await fetch(`https://saragarhi-api-database-test.sarthak22-ghoshal.workers.dev/updateMemberEmail`, { 
+        await fetch(`https://saragarhi-api-database-test.sarthak22-ghoshal.workers.dev/updateMemberEmail?sign=${sign}`, { 
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ oldEmail: item?.Email, new: value, name: item?.Name  }),
         }).then((res) => Alert.alert("Success", "Username updated successfully!"));
         break;
       case "Role":
-        await fetch(`https://saragarhi-api-database-test.sarthak22-ghoshal.workers.dev/updateMemberRole`, {
+        await fetch(`https://saragarhi-api-database-test.sarthak22-ghoshal.workers.dev/updateMemberRole?sign=${sign}`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ name: item?.Name, new: value, email: item?.Email, old: item?.Role  }),

@@ -89,7 +89,7 @@ export default function Settings() {
 
         case "Email":
           res = await fetch(
-            `${DB_URL}/updateMemberEmail`,
+            `${DB_URL}/updateMemberEmail?sign=${sign}`,
             {
               method: "POST",
               headers: { "Content-Type": "application/json" },
@@ -112,7 +112,7 @@ export default function Settings() {
 
         case "Password":
           res = await fetch(
-            `${DB_URL}/updateMemberPass`,
+            `${DB_URL}/updateMemberPass?sign=${sign}`,
             {
               method: "POST",
               headers: { "Content-Type": "application/json" },
