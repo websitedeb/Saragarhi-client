@@ -50,10 +50,10 @@ export const FormSchema : object =
       }
     },
     slider: {
-      name: "How many fuel did they score?",
+      name: "How many fuel did they score? (10 fuel intervals)",
       min: 0,
-      max: 200,
-      step: 1,
+      max: 360,
+      step: 10,
       binding: {
         with: 10,
         type: "text",
@@ -88,10 +88,10 @@ export const FormSchema : object =
   
   tele: {
     slider: {
-      name: "How many fuel did they score?",
+      name: "How many fuel did they score? (10 fuel intervals)",
       min: 0,
-      max: 200,
-      step: 1,
+      max: 360,
+      step: 10,
       binding: {
         with: 6,
         type: "text",
