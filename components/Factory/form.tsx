@@ -13,6 +13,7 @@ import {
   View
 } from "react-native";
 import { useStopwatch } from 'react-timer-hook';
+import Slider from '@react-native-community/slider';
 
 const pageOrder = ["auto", "tele", "end"];
 
@@ -383,6 +384,25 @@ export function FormFactory({ schema }: { schema: any }) {
                 <Text className="text-white text-2xl font-semibold">Restart</Text>
               </TouchableOpacity>
             </View>
+          </View>
+        );
+      
+      case "slider":
+        return (
+          <View className="my-4" key={errorKey}>
+            <Text className="text-white text-2xl font-medium mb-1">{config.name}</Text>
+            <Slider
+              minimumValue={config.min}
+              maximumValue={config.max}
+              step={config.step}
+              value={formData[pageKey]?.[fieldKey] ?? config.min}
+              onValueChange={(value) => handleChange(pageKey, fieldKey, value)}
+              minimumTrackTintColor="#ef4444"
+              maximumTrackTintColor="#ffffff"
+              thumbTintColor="#ef4444"
+            />
+            <Text className="text-red-500 text-xl mt-1">{formData[pageKey]?.[fieldKey] ?? config.min}</Text>
+            {fieldError && <Text className="text-red-500 text-lg mt-1">{fieldError}</Text>}
           </View>
         );
 

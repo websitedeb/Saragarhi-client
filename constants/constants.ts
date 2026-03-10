@@ -122,6 +122,12 @@ export const FormSchema : object =
         type: "text",
         uuid: "val9"
       }
+    },
+    slider: {
+      name: "How many times do they climb?",
+      min: 0,
+      max: 3,
+      step: 1
     }
   },
   end: {
