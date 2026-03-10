@@ -6,12 +6,13 @@ import {
   Skia,
   Image as SkiaImage,
   useCanvasRef,
-  useImage
+  useImage,
 } from "@shopify/react-native-skia";
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
-import { Dimensions, StyleSheet, TouchableOpacity, View } from "react-native";
+import { Dimensions, StyleSheet, TouchableOpacity, useWindowDimensions, View } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
+import useAgent from "@/hooks/useAgent";
 
 const { width, height } = Dimensions.get("screen");
 
@@ -21,6 +22,8 @@ export default function Web() {
   );
   const canvasRef = useCanvasRef();
   const router = useRouter();
+
+  const { width : screen_width, height : screen_height } = useWindowDimensions();
 
   const [paths, setPaths] = useState<{ path: any; color: string }[]>([]);
   const [currentPath, setCurrentPath] = useState<any | null>(null);
@@ -79,16 +82,22 @@ export default function Web() {
             })}
         >
           <Canvas ref={canvasRef} style={styles.canvas}>
+          
             <Group
               transform={[
-                { translateX: width },
-                { rotate: Math.PI / 2 },
-                { scaleX: height / image.width() },
-                { scaleY: width / image.height() },
+              { rotate: 2 * Math.PI },
+              {scale: Math.min(screen_width / image.width(), screen_height / image.height())},
+              { translateX: (screen_width /
+                              Math.min(screen_width / image.width(), screen_height / image.height()) -
+                              image.width()) /
+                            2 
+              },
+              { translateY: image.height() / width },
               ]}
             >
               <SkiaImage image={image} x={0} y={0} width={image.width()} height={image.height()} />
             </Group>
+            
 
             {paths.map((p, i) => (
               <Path key={i} path={p.path} color={p.color} style="stroke" strokeWidth={3} />
