@@ -49,6 +49,17 @@ export const FormSchema : object =
         uuid: "val3"
       }
     },
+    slider: {
+      name: "How many fuel did they score?",
+      min: 0,
+      max: 200,
+      step: 1,
+      binding: {
+        with: 10,
+        type: "text",
+        uuid: "val6"
+      }
+    },
     $radio: {
       name: "Do they use the human player?",
       options: {
@@ -76,8 +87,11 @@ export const FormSchema : object =
   },
   
   tele: {
-    timer: {
-      name: "Time it takes to Shoot Fuel",
+    slider: {
+      name: "How many fuel did they score?",
+      min: 0,
+      max: 200,
+      step: 1,
       binding: {
         with: 6,
         type: "text",
@@ -122,12 +136,6 @@ export const FormSchema : object =
         type: "text",
         uuid: "val9"
       }
-    },
-    slider: {
-      name: "How many times do they climb?",
-      min: 0,
-      max: 3,
-      step: 1
     }
   },
   end: {
@@ -164,8 +172,12 @@ export const DisplaySchema: Object = {
     name: "Did they climb in auto?",
     type: "line"
   },
+  Ten: {
+    name: "How many fuel did they score in auto?",
+    type: "Bento"
+  },
   Six: {
-    name: "Time to shoot fuel?",
+    name: "Fuel scored in teleop?",
     type: "Bento"
   },
   Seven: {
