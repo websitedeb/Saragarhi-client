@@ -1,4 +1,5 @@
 import EditableList from '@/components/Forms/spreadsheet';
+import { DB_URL } from '@/constants/constants';
 import { getSession } from '@/hooks/session';
 import { useSignStore } from '@/hooks/store';
 import { Picker } from "@react-native-picker/picker";
@@ -32,21 +33,21 @@ export default function MemberPage() {
   const handleSaveField = async (key: string, value: any) => {
     switch (key) {
       case "Name":
-        await fetch(`https://saragarhi-api-database-test.sarthak22-ghoshal.workers.dev/updateMemberName?sign=${sign}`, {
+        await fetch(`${DB_URL}/updateMemberName?sign=${sign}`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ old: item?.Name, new: value, email: item?.Email  }),
         }).then((res) => Alert.alert("Success", "Username updated successfully!"));
         break;
       case "Email":
-        await fetch(`https://saragarhi-api-database-test.sarthak22-ghoshal.workers.dev/updateMemberEmail?sign=${sign}`, { 
+        await fetch(`${DB_URL}/updateMemberEmail?sign=${sign}`, { 
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ oldEmail: item?.Email, new: value, name: item?.Name  }),
         }).then((res) => Alert.alert("Success", "Username updated successfully!"));
         break;
       case "Role":
-        await fetch(`https://saragarhi-api-database-test.sarthak22-ghoshal.workers.dev/updateMemberRole?sign=${sign}`, {
+        await fetch(`${DB_URL}/updateMemberRole?sign=${sign}`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ name: item?.Name, new: value, email: item?.Email, old: item?.Role  }),

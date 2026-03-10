@@ -1,6 +1,6 @@
 import Constants from "expo-constants";
 
-const prod = false;
+const prod = true;
 
 export const Year : number = 2026;
 const extra = Constants.expoConfig?.extra ?? {};
