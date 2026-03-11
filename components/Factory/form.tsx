@@ -294,12 +294,12 @@ export function FormFactory({ schema }: { schema: any }) {
                 />
               ))
             ) : (
-              <View className="border border-white rounded-md">
+              <View className="rounded-md">
                 <Picker
                   selectedValue={formData[currentPageKey]?.[fieldKey]}
                   onValueChange={(val) => handleChange(pageKey, fieldKey, val)}
                   dropdownIconColor="white"
-                  style={{ color: "#ef4444" }}
+                  style={{ color: "#ef4444", borderColor: fieldError ? "#ef4444" : "#000000" }}
                   className="font-bold bg-gray-800 text-xl"
                 >
                   <Picker.Item label="Select an option..." value="N/A" key="def"/>
