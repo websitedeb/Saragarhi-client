@@ -57,7 +57,7 @@ export const FormSchema : object =
       step: 10,
       binding: {
         with: 10,
-        type: "text",
+        type: "avg",
         uuid: "val6"
       }
     },
@@ -95,7 +95,7 @@ export const FormSchema : object =
       step: 10,
       binding: {
         with: 6,
-        type: "text",
+        type: "avg",
         uuid: "val6"
       }
     },
