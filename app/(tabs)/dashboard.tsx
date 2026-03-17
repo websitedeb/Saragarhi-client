@@ -78,7 +78,7 @@ export default function Dashboard() {
 
             <BentoGrid className="web:!flex-col">
               <TouchableOpacity onPress={() => {router.push("/scout")}}>
-                <BentoBox size="small" className="border-yellow-400 w-48 h-40 rounded-3xl mb-5 web:!w-screen web:!h-28" style={{ backgroundColor: "rgba(253, 224, 71, 0.3)", borderWidth: 1 }}>
+                <BentoBox size="small" className="border-yellow-400 w-48 h-40 rounded-3xl mb-5 web:!w-screen web:!h-28 web:" style={{ backgroundColor: "rgba(253, 224, 71, 0.3)", borderWidth: 1 }}>
                   <AntDesign name="form" size={30} color="white" className=""/>
                   <Text className="text-white mt-2 text-3xl" style={{ fontFamily:Fonts.Inter }}>Scout</Text>
                 </BentoBox>
@@ -102,7 +102,7 @@ export default function Dashboard() {
                 <BentoBox size="small" className="border-purple-400 w-48 h-40 rounded-3xl mb-5 web:!w-screen web:!h-28" style={{ backgroundColor: "rgba(168, 85, 247, 0.3)", borderWidth: 1 }}>
                   <FontAwesome6 name="ranking-star" size={30} color="white" />
                   <Text className="text-white mt-2 text-3xl" style={{ fontFamily:Fonts.Inter }}>Ranks</Text>
-                </BentoBox>
+                </BentoBox>   
               </TouchableOpacity>
 
               <TouchableOpacity onPress={() => {router.push("/lookup")}}>
@@ -112,12 +112,19 @@ export default function Dashboard() {
                 </BentoBox>
               </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => {qrcodefunc()}}>
-                  <BentoBox size="small" className="border-fuchsia-400 w-48 h-40 rounded-3xl mb-5 web:!w-screen web:!h-28" style={{ backgroundColor: "rgba(217, 70, 239, 0.3)", borderWidth: 1 }}>
-                    <FontAwesome6 name="qrcode" size={30} color="white" />
-                    <Text className="text-white mt-2 text-3xl" style={{ fontFamily:Fonts.Inter }}>QR</Text>
+              <TouchableOpacity onPress={() => {router.push("/predict" as any)}}>
+                  <BentoBox size="small" className="border-lime-400 w-40 h-40 rounded-3xl mb-5 web:!w-screen web:!h-28" style={{ backgroundColor: "rgba(132, 204, 22, 0.3)", borderWidth: 1 }}>
+                    <FontAwesome6 name="wand-magic-sparkles" size={30} color="white" />
+                    <Text className="text-white mt-2 text-3xl" style={{ fontFamily:Fonts.Inter }}>Predict</Text>
                   </BentoBox>
-                </TouchableOpacity>
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => {qrcodefunc()}}>
+                <BentoBox size="small" className="border-fuchsia-400 w-48 h-40 rounded-3xl mb-5 web:!w-screen web:!h-28" style={{ backgroundColor: "rgba(217, 70, 239, 0.3)", borderWidth: 1 }}>
+                  <FontAwesome6 name="qrcode" size={30} color="white" />
+                  <Text className="text-white mt-2 text-3xl" style={{ fontFamily:Fonts.Inter }}>QR</Text>
+                </BentoBox>
+              </TouchableOpacity>
             </BentoGrid>
         </ScrollView>
     </SafeAreaView>

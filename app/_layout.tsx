@@ -99,6 +99,14 @@ export default function RootLayout() {
                   <Stack.Screen name="complete2" options={{
                     headerShown: false
                   }} />
+                  <Stack.Screen name="predict" options={{
+                    headerTitle: "Predict",
+                    headerTitleAlign: "center",
+                    headerTintColor: "#ed1c24",
+                    headerTitleStyle: { fontFamily: Fonts.Shrikhand},
+                    headerStyle: {backgroundColor: "#111827"},
+                    headerShadowVisible: true,
+                  }} />
             </Stack>
         </QueryClientProvider>
     );

@@ -124,7 +124,9 @@ export const FormSchema : object =
         uuid: "val8"
       }
     },
-    $$radio: {
+  },
+  end: {
+    radio: {
       name: "Do they climb?",
       options: {
         "None": "None",
@@ -137,9 +139,7 @@ export const FormSchema : object =
         type: "text",
         uuid: "val9"
       }
-    }
-  },
-  end: {
+    },
     input: {
       name: "Final Notes",
       type: "text",

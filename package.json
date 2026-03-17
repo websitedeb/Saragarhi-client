@@ -65,6 +65,7 @@
     "react-datetime-picker": "^7.0.1",
     "react-dom": "19.0.0",
     "react-native": "0.79.5",
+    "react-native-charts-wrapper": "^0.6.0",
     "react-native-gesture-handler": "~2.24.0",
     "react-native-paper-dates": "^0.22.51",
     "react-native-qrcode-svg": "^6.3.21",
@@ -74,6 +75,7 @@
     "react-native-web": "~0.20.0",
     "react-native-webview": "13.13.5",
     "react-timer-hook": "^4.0.5",
+    "recharts": "^3.8.0",
     "tailwindcss": "^3.4.17",
     "zustand": "^5.0.6"
   },
