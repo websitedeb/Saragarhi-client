@@ -3,7 +3,6 @@ import { getSession, protectRoute, saveSession } from "@/hooks/session";
 import { Fonts, preloadIconFonts } from "@/hooks/useFont";
 import { requestNotificationPermission, useNotifs } from "@/hooks/useNotifs";
 import { AntDesign, FontAwesome6, MaterialIcons } from '@expo/vector-icons';
-import { useCameraPermissions } from "expo-camera";
 import { router } from "expo-router";
 import { useEffect, useState } from "react";
 import { ScrollView, Text, TouchableOpacity } from "react-native";
@@ -13,7 +12,6 @@ import { DB_URL } from "@/constants/constants";
 
 export default function Dashboard() {
   const [sess, setSess] = useState<any>(null);
-  const [permission, requestPermission] = useCameraPermissions();
   const { setSign } = useSignStore() as { setSign: (sign: any) => void };
   
     useEffect(() => {
@@ -39,8 +37,6 @@ export default function Dashboard() {
       })();
     }, []);
 
-  const hasPerms = Boolean(permission?.granted);
-
   useEffect(() => {
   (async () => {
     await preloadIconFonts();
@@ -57,12 +53,6 @@ export default function Dashboard() {
     }
   })();
 }, []);
-
-
-  function qrcodefunc() {
-    requestPermission();
-    if (hasPerms) router.push("/qrcode" as any);
-  }
 
   return (
     <SafeAreaView style={{ flex: 1 }} className="bg-gray-900">
@@ -111,13 +101,6 @@ export default function Dashboard() {
                   <Text className="text-white mt-2 text-3xl" style={{ fontFamily:Fonts.Inter }}>Lookup</Text>
                 </BentoBox>
               </TouchableOpacity>
-
-                <TouchableOpacity onPress={() => {qrcodefunc()}}>
-                  <BentoBox size="small" className="border-fuchsia-400 w-48 h-40 rounded-3xl mb-5 web:!w-screen web:!h-28" style={{ backgroundColor: "rgba(217, 70, 239, 0.3)", borderWidth: 1 }}>
-                    <FontAwesome6 name="qrcode" size={30} color="white" />
-                    <Text className="text-white mt-2 text-3xl" style={{ fontFamily:Fonts.Inter }}>QR</Text>
-                  </BentoBox>
-                </TouchableOpacity>
             </BentoGrid>
         </ScrollView>
     </SafeAreaView>

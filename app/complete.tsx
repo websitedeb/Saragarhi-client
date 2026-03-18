@@ -82,7 +82,7 @@ export default function Complete() {
 
           <View style={{ justifyContent: "center", alignItems: "center" }}>
             <QRCode
-              value={typeof dataset === "string" ? dataset : JSON.stringify(dataset)}
+              value={`https://saragarhi.pages.dev/complete?dataset=${typeof dataset === "string" ? dataset : JSON.stringify(dataset)}`}
               size={200}
               color="black"
               backgroundColor="white"

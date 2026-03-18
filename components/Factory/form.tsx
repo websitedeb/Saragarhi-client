@@ -1,5 +1,5 @@
 import { getSession } from "@/hooks/session";
-import { DataSetsType } from "@/hooks/store";
+import { DataSetsType, useSignStore } from "@/hooks/store";
 import { Fonts } from "@/hooks/useFont";
 import { Picker } from "@react-native-picker/picker";
 import { CheckBox } from "@rneui/base";
@@ -15,33 +15,50 @@ import {
 import { useStopwatch } from 'react-timer-hook';
 import Slider from '@react-native-community/slider';
 
+import NetInfo from "@react-native-community/netinfo";
+import QRCode from "react-native-qrcode-svg";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { DB_URL } from "@/constants/constants";
+
 const pageOrder = ["auto", "tele", "end"];
+const OFFLINE_KEY = "offline_submissions";
+
+async function saveOffline(dataset: string) {
+  const existing = await AsyncStorage.getItem(OFFLINE_KEY);
+  const parsed = existing ? JSON.parse(existing) : [];
+  parsed.push(dataset);
+  await AsyncStorage.setItem(OFFLINE_KEY, JSON.stringify(parsed));
+}
+
+async function getOffline() {
+  const data = await AsyncStorage.getItem(OFFLINE_KEY);
+  return data ? JSON.parse(data) : [];
+}
+
+async function clearOffline() {
+  await AsyncStorage.removeItem(OFFLINE_KEY);
+}
 
 function isWithinFiveMinutesBefore(date: string, time: string) {
   const now = new Date();
-
   const [year, month, day] = date.split("-").map(Number);
   const [hours, minutes] = time.split(":").map(Number);
-
-  const match = new Date(
-    year,
-    month - 1,
-    day,
-    hours,
-    minutes,
-    0,
-    0
-  );
-
+  const match = new Date(year, month - 1, day, hours, minutes, 0, 0);
   const fiveMinutesBefore = new Date(match.getTime() - 5 * 60 * 1000);
-
   return now >= fiveMinutesBefore && now <= match;
 }
 
 export function FormFactory({ schema }: { schema: any }) {
+  const { sign } = useSignStore() as { sign: string };
+
   const [pageIndex, setPageIndex] = useState(0);
   const [formData, setFormData] = useState<Record<string, any>>({});
   const [errors, setErrors] = useState<Record<string, string>>({});
+
+  const [isOnline, setIsOnline] = useState<boolean | null>(null);
+  const [offlineCount, setOfflineCount] = useState(0);
+
+  const [debouncedData, setDebouncedData] = useState("{}");
 
   const {
     milliseconds,
@@ -55,40 +72,78 @@ export function FormFactory({ schema }: { schema: any }) {
   const currentPageKey = pageOrder[pageIndex];
   const currentPage = schema[currentPageKey];
 
-  useEffect(() => {(async () => {
-    const session = await getSession();
-    if (!session?.TimeTable) return;
+  // NETWORK SYNC
+  useEffect(() => {
+    const unsubscribe = NetInfo.addEventListener(async (state) => {
+      setIsOnline(state.isConnected);
 
-    if (formData?.auto?.TEAM_NUMBER) return;
+      if (state.isConnected) {
+        const offlineData = await getOffline();
+        setOfflineCount(offlineData.length);
 
-    let timetable;
-    try {
-      timetable =
-        typeof session.TimeTable === "string"
-          ? JSON.parse(session.TimeTable)
-          : session.TimeTable;
-    } catch {
-      return;
-    }
+        if (offlineData.length === 0) return;
 
-    const today = new Date().toISOString().split("T")[0];
+        for (const datasetString of offlineData) {
+          try {
+            const parsed = JSON.parse(datasetString);
 
-    const upcoming = timetable.find((entry: any) =>
-      entry.Date === today &&
-      isWithinFiveMinutesBefore(entry.Date, entry.Time)
-    );
+            await fetch(`${DB_URL}/addReport?sign=${sign}`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(parsed),
+            });
+          } catch (err) {
+            console.error("Failed to resend:", err);
+            return;
+          }
+        }
 
-    if (!upcoming) return;
+        await clearOffline();
+        setOfflineCount(0);
+      }
+    });
 
-    setFormData((prev) => ({
-      ...prev,
-      auto: {
-        ...prev.auto,
-        TEAM_NUMBER: upcoming.Team,
-      },
-    }));
-  })()}, []);
+    return () => unsubscribe();
+  }, []);
 
+  // AUTO TEAM FILL
+  useEffect(() => {
+    (async () => {
+      const session = await getSession();
+      if (!session?.TimeTable) return;
+
+      if (formData?.auto?.TEAM_NUMBER) return;
+
+      let timetable;
+      try {
+        timetable =
+          typeof session.TimeTable === "string"
+            ? JSON.parse(session.TimeTable)
+            : session.TimeTable;
+      } catch {
+        return;
+      }
+
+      const today = new Date().toISOString().split("T")[0];
+
+      const upcoming = timetable.find((entry: any) =>
+        entry.Date === today &&
+        isWithinFiveMinutesBefore(entry.Date, entry.Time)
+      );
+
+      if (!upcoming) return;
+
+      setFormData((prev) => ({
+        ...prev,
+        auto: {
+          ...prev.auto,
+          TEAM_NUMBER: upcoming.Team,
+        },
+      }));
+    })();
+  }, []);
+
+  // BINDERS
   const binders = useMemo(() => {
     const list: Array<[string, string, number, string]> = [];
     pageOrder.forEach((pageKey) => {
@@ -96,19 +151,24 @@ export function FormFactory({ schema }: { schema: any }) {
       if (!page) return;
       Object.entries(page).forEach(([fieldKey, config]: any) => {
         if (config?.binding) {
-          list.push([`${pageKey}.${config.binding.uuid}`, `${config.binding.uuid}`, config.binding.with, `${config.binding.type}`]);
+          list.push([
+            `${pageKey}.${config.binding.uuid}`,
+            `${config.binding.uuid}`,
+            config.binding.with,
+            `${config.binding.type}`
+          ]);
         }
       });
     });
     return list;
   }, [schema]);
 
+  function getByPath(obj: any, path: string) {
+    return path.split(".").reduce((acc: any, key: any) => acc?.[key], obj);
+  }
+
   const getFieldKey = (config: any, fallback: string) =>
     config?.binding?.uuid ?? fallback;
-
-  function getByPath(obj : Object, path : string) {
-    return path.split(".").reduce((acc : any, key : any) => acc?.[key], obj);
-  }
 
   const handleChange = (pageKey: string, field: string, value: any) => {
     setFormData((prev: any) => ({
@@ -118,61 +178,20 @@ export function FormFactory({ schema }: { schema: any }) {
         [field]: value,
       },
     }));
-    const errorKey = `${pageKey}.${field}`;
-    if (errors[errorKey]) {
-      setErrors((prev) => ({ ...prev, [errorKey]: "" }));
-    }
   };
 
-  function handleSubmit() {
-    const newErrors: Record<string, string> = {};
-
-    pageOrder.forEach((pageKey) => {
-      const page = schema[pageKey];
-      if (!page) return;
-
-      Object.entries(page).forEach(([key, config]: any) => {
-        const fieldKey = getFieldKey(config, key);
-        const value = formData[pageKey]?.[fieldKey];
-
-        if (
-          value === undefined ||
-          value === null ||
-          (typeof value === "string" && value.trim() === "") ||
-          (typeof value === "object" && Object.keys(value).length === 0)
-        ) {
-          newErrors[`${pageKey}.${fieldKey}`] = "This field is required";
-        }
-      });
-    });
-
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
-      return;
-    }
-
-    setErrors({});
-
+  // 🔥 LIVE DATASET (updates constantly)
+  const liveDatasetString = useMemo(() => {
     let dataset: DataSetsType & { [key: string]: any } = {
       TeamNumber: 0,
       NumberOfDataSets: 1,
       FinalNotes: "",
       One: []
-    }; 
+    };
 
-    function convert(number : any) : string | undefined {
-      switch (number) {
-        case 1: return "One";
-        case 2: return "Two";
-        case 3: return "Three";
-        case 4: return "Four";
-        case 5: return "Five";
-        case 6: return "Six";
-        case 7: return "Seven";
-        case 8: return "Eight";
-        case 9: return "Nine";
-        case 10: return "Ten";
-      }
+    function convert(number: any): string | undefined {
+      const words = ["One","Two","Three","Four","Five","Six","Seven","Eight","Nine","Ten"];
+      return words[number - 1];
     }
 
     let prev_connector = 0;
@@ -185,21 +204,38 @@ export function FormFactory({ schema }: { schema: any }) {
 
       switch (name) {
         case "FINAL_NOTES":
-          dataset["FinalNotes"] = `${value}`;
+          dataset["FinalNotes"] = `${value ?? ""}`;
           break;
         case "TEAM_NUMBER":
-          dataset["TeamNumber"] = value;
+          dataset["TeamNumber"] = value ?? 0;
           break;
         default:
           const key = convert(connector);
-          if (key !== undefined) dataset[key] = [typ, value];
-          break;
+          if (key) dataset[key] = [typ, value ?? 0];
       }
     });
 
     dataset["NumberOfDataSets"] = prev_connector;
-    console.log(dataset);
-    router.replace({ pathname: "/complete", params: { dataset: `${JSON.stringify(dataset)}` } });
+    return JSON.stringify(dataset);
+  }, [formData, binders]);
+
+  // 🔥 debounce QR updates
+  useEffect(() => {
+    const t = setTimeout(() => setDebouncedData(liveDatasetString), 200);
+    return () => clearTimeout(t);
+  }, [liveDatasetString]);
+
+  async function handleSubmit() {
+    if (!isOnline) {
+      await saveOffline(debouncedData);
+      setOfflineCount((c) => c + 1);
+      return;
+    }
+
+    router.replace({
+      pathname: "/complete",
+      params: { dataset: debouncedData },
+    });
   }
 
   const renderField = (pageKey: string, fieldType: string, config: any) => {
@@ -412,40 +448,45 @@ export function FormFactory({ schema }: { schema: any }) {
   };
 
   return (
-    <ScrollView className="p-4 space-y-4 bg-gray-900">
-      <Text
-        className="text-center text-3xl text-red-600 border-b-2 border-b-red-600"
-        style={{ fontFamily: Fonts.Shrikhand }}
-      >
+    <ScrollView className="p-4 bg-gray-900">
+      <Text className="text-center text-3xl text-red-600 mb-3" style={{ fontFamily: Fonts.Shrikhand }}>
         {currentPageKey.toUpperCase()}
       </Text>
+
+      {/* 🔥 ALWAYS VISIBLE QR */}
+      <View className="items-center my-4">
+        <Text className="text-white mb-2">Live QR</Text>
+        <QRCode value={`https://saragarhi.pages.dev/complete?dataset=${typeof debouncedData === "string" ? debouncedData : JSON.stringify(debouncedData)}`} size={250} />
+        {!isOnline && (
+          <Text className="text-yellow-400 mt-2">
+            Offline — scan this instead
+          </Text>
+        )}
+      </View>
+
+      {offlineCount > 0 && (
+        <Text className="text-yellow-400 text-center">
+          {offlineCount} waiting to sync
+        </Text>
+      )}
 
       {Object.entries(currentPage).map(([key, value]) =>
         renderField(currentPageKey, key, value)
       )}
 
-      <View className="flex-row justify-between pt-6">
+      <View className="flex-row justify-between mt-6">
         {pageIndex > 0 && (
-          <TouchableOpacity
-            onPress={() => setPageIndex((i) => i - 1)}
-            className="bg-gray-700 px-4 py-2 rounded"
-          >
+          <TouchableOpacity onPress={() => setPageIndex(i => i - 1)} className="bg-gray-700 px-4 py-2 rounded">
             <Text className="text-white font-medium">Back</Text>
           </TouchableOpacity>
         )}
 
         {pageIndex < pageOrder.length - 1 ? (
-          <TouchableOpacity
-            onPress={() => setPageIndex((i) => i + 1)}
-            className="bg-red-600 px-4 py-2 rounded ml-auto"
-          >
+          <TouchableOpacity onPress={() => setPageIndex(i => i + 1)} className="bg-red-600 px-4 py-2 rounded ml-auto">
             <Text className="text-white font-medium">Next</Text>
           </TouchableOpacity>
         ) : (
-          <TouchableOpacity
-            onPress={handleSubmit}
-            className="bg-green-600 px-4 py-2 rounded ml-auto"
-          >
+          <TouchableOpacity onPress={handleSubmit} className="bg-green-600 px-4 py-2 rounded ml-auto">
             <Text className="text-white font-medium">Submit</Text>
           </TouchableOpacity>
         )}
