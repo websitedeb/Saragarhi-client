@@ -1,5 +1,6 @@
 import { DB_URL } from "@/constants/constants";
 import { protectRoute } from "@/hooks/session";
+import { useSignStore } from "@/hooks/store";
 import { router } from "expo-router";
 //@ts-ignore
 import qrcodeReaderPkg from "qrcode-reader";
@@ -11,6 +12,7 @@ export default function QRWeb() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [error, setError] = useState<string | null>(null);
   const [scanned, setScanned] = useState(false);
+  const { sign } = useSignStore() as { sign: string };
 
   useEffect(() => {
     protectRoute();
@@ -23,7 +25,7 @@ export default function QRWeb() {
         setScanned(true);
         console.log("Scanned QR Code:", result); 
 
-        fetch(`${DB_URL}/addReport`, {
+        fetch(`${DB_URL}/addReport?sign=${sign}`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ data: result }),

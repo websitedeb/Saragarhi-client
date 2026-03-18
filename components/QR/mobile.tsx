@@ -1,5 +1,6 @@
 import { DB_URL } from "@/constants/constants";
 import { protectRoute } from "@/hooks/session";
+import { useSignStore } from "@/hooks/store";
 import { router } from "expo-router";
 import { useEffect, useState } from "react";
 import { Platform, StatusBar, StyleSheet, Text, View } from "react-native";
@@ -8,6 +9,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 export default function QR() {
   const [CameraView, setCameraView] = useState<any>(null);
   const [Overlay, setOverlay] = useState<null | (() => React.ReactElement)>(null);
+  const { sign } = useSignStore() as { sign: string };
 
   useEffect(() => {
     protectRoute();
@@ -43,7 +45,7 @@ export default function QR() {
         onBarcodeScanned={({ data }: { data: string }) => {
           console.log("Scanned QR Code:", data);
           fetch(
-            `${DB_URL}/addReport`,
+            `${DB_URL}/addReport?sign=${sign}`,
             {
               method: "POST",
               headers: { "Content-Type": "application/json" },

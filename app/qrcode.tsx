@@ -10,5 +10,5 @@ if (Platform.OS === "web") {
 }
 
 export default function QRCodeWrapper() {
-  return <PlannerComponent />; 
+  return <PlannerComponent />;
 }
