@@ -1,6 +1,6 @@
 import Constants from "expo-constants";
 
-const prod = true;
+const prod = false;
 
 export const Year : number = 2026;
 const extra = Constants.expoConfig?.extra ?? {};
@@ -36,6 +36,12 @@ export const FormSchema : object =
         type: "text",
         uuid: "val2"
       }
+    },
+    image: {
+      name: "Ref for Above",
+      url: "https://raw.githubusercontent.com/websitedeb/imagehoster/main/Show.png",
+      width: 500,
+      height: 500,
     },
     check: {
       name: "Where do they travel?",

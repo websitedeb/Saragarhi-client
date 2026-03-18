@@ -14,6 +14,7 @@ import {
 } from "react-native";
 import { useStopwatch } from 'react-timer-hook';
 import Slider from '@react-native-community/slider';
+import { Image } from "react-native";
 
 import NetInfo from "@react-native-community/netinfo";
 import QRCode from "react-native-qrcode-svg";
@@ -439,6 +440,20 @@ export function FormFactory({ schema }: { schema: any }) {
             />
             <Text className="text-red-500 text-xl mt-1">{formData[pageKey]?.[fieldKey] ?? config.min}</Text>
             {fieldError && <Text className="text-red-500 text-lg mt-1">{fieldError}</Text>}
+          </View>
+        );
+
+      case "image":
+        return (
+          <View key={fieldType} className="my-4 items-center">
+            <Text className="text-white text-2xl font-medium mb-2">{config.name}</Text>
+            <Image
+              source={
+                { uri: config.url }
+              }
+              style={{ width: config.width, height: config.height, borderRadius: 12 }}
+              resizeMode="contain"
+            />
           </View>
         );
 
