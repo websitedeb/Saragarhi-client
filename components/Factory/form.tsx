@@ -454,7 +454,7 @@ export function FormFactory({ schema }: { schema: any }) {
               source={
                 { uri: config.url }
               }
-              style={{ width: width * 0.8, height: width * 0.5, borderRadius: 12 }}
+              style={{ width: width * config.scale.widthScale, height: width * config.scale.heightScale, borderRadius: 12 }}
               resizeMode="contain"
             />
           </View>

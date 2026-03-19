@@ -40,9 +40,10 @@ export const FormSchema : object =
     image: {
       name: "Ref for Above",
       url: "https://raw.githubusercontent.com/websitedeb/imagehoster/main/Show.png",
-      width: 500,
-      height: 500,
-      scale: 0.8
+      scale: {
+        widthScale: 0.8,
+        heightScale: 0.5
+      }
     },
     check: {
       name: "Where do they travel?",
