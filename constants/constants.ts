@@ -42,6 +42,7 @@ export const FormSchema : object =
       url: "https://raw.githubusercontent.com/websitedeb/imagehoster/main/Show.png",
       width: 500,
       height: 500,
+      scale: 0.8
     },
     check: {
       name: "Where do they travel?",

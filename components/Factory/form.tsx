@@ -15,6 +15,7 @@ import {
 import { useStopwatch } from 'react-timer-hook';
 import Slider from '@react-native-community/slider';
 import { Image } from "react-native";
+import { useWindowDimensions } from "react-native";
 
 import NetInfo from "@react-native-community/netinfo";
 import QRCode from "react-native-qrcode-svg";
@@ -60,6 +61,8 @@ export function FormFactory({ schema }: { schema: any }) {
   const [offlineCount, setOfflineCount] = useState(0);
 
   const [debouncedData, setDebouncedData] = useState("{}");
+
+  const { width } = useWindowDimensions();
 
   const {
     milliseconds,
@@ -451,7 +454,7 @@ export function FormFactory({ schema }: { schema: any }) {
               source={
                 { uri: config.url }
               }
-              style={{ width: config.width, height: config.height, borderRadius: 12 }}
+              style={{ width: width * 0.8, height: width * 0.5, borderRadius: 12 }}
               resizeMode="contain"
             />
           </View>
