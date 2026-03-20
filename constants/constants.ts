@@ -1,12 +1,13 @@
 import Constants from "expo-constants";
 
 const prod = false;
+const local = true;
 
 export const Year : number = 2026;
 const extra = Constants.expoConfig?.extra ?? {};
 
 export const AT = extra.TBA?.toString().replace(",", "") || "Cs7SlKYcjtXTJeGskesduTVc44ensMcSSKBMUNsaydPa6GATv1EGH8tiAzUlaV6x";
-export const DB_URL = prod ? extra.PROD?.toString().replace(",", "") || "https://saragarhi-api-database.sarthak22-ghoshal.workers.dev" : extra.TEST?.toString().replace(",", "") || "https://saragarhi-api-database-test.sarthak22-ghoshal.workers.dev";
+export const DB_URL = prod ? extra.PROD?.toString().replace(",", "") || "https://saragarhi-api-database.sarthak22-ghoshal.workers.dev" : !local ? extra.TEST?.toString().replace(",", "") || "https://saragarhi-api-database-test.sarthak22-ghoshal.workers.dev" : "http://localhost:8787";
 
 export const FormSchema : object = 
 {
@@ -33,7 +34,7 @@ export const FormSchema : object =
       ],
       binding: {
         with: 2,
-        type: "text",
+        type: "multi",
         uuid: "val2"
       }
     },
@@ -54,7 +55,7 @@ export const FormSchema : object =
       },
       binding: {
         with: 3,
-        type: "text",
+        type: "multi",
         uuid: "val3"
       }
     },
@@ -77,7 +78,7 @@ export const FormSchema : object =
       },
       binding: {
         with: 4,
-        type: "text",
+        type: "multi",
         uuid: "val4"
       }
     },
@@ -89,7 +90,7 @@ export const FormSchema : object =
       },
       binding: {
         with: 5,
-        type: "text",
+        type: "multi",
         uuid: "val5"
       }
     }
@@ -116,7 +117,7 @@ export const FormSchema : object =
       },
       binding: { 
         with: 7,
-        type: "text",
+        type: "multi",
         uuid: "val7"
       }
     },
@@ -128,7 +129,7 @@ export const FormSchema : object =
       },
       binding: {
         with: 8,
-        type: "text",
+        type: "multi",
         uuid: "val8"
       }
     },
@@ -142,7 +143,7 @@ export const FormSchema : object =
       },
       binding: {
         with: 9,
-        type: "text",
+        type: "multi",
         uuid: "val9"
       }
     }
@@ -163,23 +164,19 @@ export const FormSchema : object =
 export const DisplaySchema: Object = {
   Two: {
     name: "Starting Position",
-    type: "Bento"
+    type: "MultiBento"
   },
   Three: {
     name: "Where does the robot go in auto?",
-    type: "line"
+    type: "MultiBento"
   },
   Four: {
     name: "Do they use the human player?",
-    type: "Ratio",
-    addons: {
-      left: "Do they use the human player?",
-      right: "$data"
-    }
+    type: "MultiBento"
   },
   Five: {
     name: "Did they climb in auto?",
-    type: "line"
+    type: "MultiBento"
   },
   Ten: {
     name: "How many fuel did they score in auto?",
@@ -191,15 +188,15 @@ export const DisplaySchema: Object = {
   },
   Seven: {
     name: "Do they pass?",
-    type: "line"
+    type: "MultiBento"
   },
   Eight: {
     name: "Do they play defense?",
-    type: "Bento"
+    type: "MultiBento"
   },
   Nine: {
     name: "Do they climb in teleop?",
-    type: "Bento"
+    type: "MultiBento"
   },
   FinalNotes: {
     type: "$FinalNotes"

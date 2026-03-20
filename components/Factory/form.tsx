@@ -220,6 +220,7 @@ export function FormFactory({ schema }: { schema: any }) {
     });
 
     dataset["NumberOfDataSets"] = prev_connector;
+    console.log("Live dataset:", JSON.stringify(dataset));
     return JSON.stringify(dataset);
   }, [formData, binders]);
 
