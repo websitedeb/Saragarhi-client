@@ -1,7 +1,7 @@
 import Constants from "expo-constants";
 
 const prod = false;
-const local = true;
+const local = false;
 
 export const Year : number = 2026;
 const extra = Constants.expoConfig?.extra ?? {};
@@ -19,6 +19,15 @@ export const FormSchema : object =
         with: 0,
         type: "number",
         uuid: "TEAM_NUMBER"
+      }
+    },
+    $input: {
+      name: "Match Number",
+      type: "number",
+      binding: {
+        with: 1,
+        type: "multi",
+        uuid: "val1"
       }
     },
     dropdown: {
@@ -162,6 +171,10 @@ export const FormSchema : object =
 };
 
 export const DisplaySchema: Object = {
+  One: {
+    name: "Match Number",
+    type: "MultiBento"
+  },
   Two: {
     name: "Starting Position",
     type: "MultiBento"
